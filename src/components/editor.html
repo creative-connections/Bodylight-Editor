@@ -1,4 +1,42 @@
 <template>
-  <h1>Editor</h1>
-  <div id="editorref"></div>
+  <div class="w3-row">
+    <div class="w3-half">
+      <div class="w3-clear"></div>
+      <div>
+        <h2 click.delegate="showHelp()" class="w3-hover-blue w3-center">Help </h2>
+        <markdownaurelia src.bind="helpsrc"></markdownaurelia>
+      </div>
+    </div>
+    <div class="w3-half">
+      <h2 class="w3-center">Editor</h2>
+      <div class="w3-border w3-theme-l5">
+        <span class="w3-small"><pre style="display:inline">bodylight tools:</pre></span>
+      <span repeat.for="item of items" class="w3-padding-4 w3-border w3-round w3-theme-l4" style="margin-right:4px">
+        <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
+        <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
+      </span>
+      </div>
+      <div class="w3-clear"></div>
+      <div class="w3-border w3-theme-l5 w3-margin-bottom">
+        <span class="w3-small"><pre style="display:inline">     edit tools:</pre></span>
+        <span click.delegate="undo()" title="undo"><i class="fa fa-undo"></i></span>
+        <span click.delegate="redo()" title="redo"><i class="fa fa-repeat"></i></span>
+        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        <span click.delegate="bold()" title="bold"><i class="fa fa-bold"></i></span>
+        <span click.delegate="italic()" title="italic"><i class="fa fa-italic"></i></span>
+        <span click.delegate="h1()" title="header 1" class="w3-large">H1</span>
+        <span click.delegate="h2()" title="header 2" class="w3-medium">H2</span>
+        <span click.delegate="h3()" title="header 3" class="w3-small">H3</span>
+        <span click.delegate="h4()" title="header 4" class="w3-tiny">H4</span>
+        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        <span click.delegate="code()" title="programming code"><i class="fa fa-code"></i></span>
+        <span click.delegate="equation()" title="equation"><i class="fa fa-superscript"></i></span>
+        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        <span class="w3-theme-l2" click.delegate="save()" title="save file"><i class="fa fa-save"></i></span>
+        <span click.delegate="download()" title="download file"><i class="fa fa-download"></i></span>
+        <span click.delegate="upload()" title="upload file"><i class="fa fa-upload"></i></span>
+      </div>
+      <div id="editorref"></div>
+    </div>
+  </div>
 </template>
