@@ -12,7 +12,9 @@
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bodylight-plugin": "github:creative-connections/aurelia-bodylight-plugin",
     "aurelia-bootstrapper": "^2.3.3",
+    "file-saver": "^2.0.2",
     "jquery": "^3.5.1",
+    "localforage": "^1.9.0",
     "w3-css": "^4.1.0"
   },
   "devDependencies": {

@@ -113,7 +113,7 @@ export class BodylightEditorItems {
         "  labels=\"ECG I (mV)\"\n" +
         "  width=\"300\"\n" +
         "  height=\"50\"></bdl-ecg>\n"
-    },{
+    }/* this is for webapp project type,{
     name:"bdl-markdown",
       doc:"markdown.md",
       def:"<bdl-markdown src=\"[filename.md]\" watchhash=\"true|false\"></bdl-markdown>"
@@ -123,7 +123,7 @@ export class BodylightEditorItems {
       def:"    <bdl-markdown-book index=\"doc/index.md\" summary=\"doc/summary.md\">\n" +
         "      <img src=\"loading.gif\"/>\n" +
         "    </bdl-markdown-book>\n"
-    }
+    }*/
   ]
 
 }

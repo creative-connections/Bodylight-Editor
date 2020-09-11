@@ -1,7 +1,11 @@
 <template>
+  <require from="./project"></require>
   <div class="w3-row">
     <div class="w3-half">
-      <div class="w3-clear"></div>
+      <div>
+        <h2>Project</h2>
+        <project></project>
+      </div>
       <div>
         <h2 click.delegate="showHelp()" class="w3-hover-blue w3-center">Help </h2>
         <markdownaurelia src.bind="helpsrc"></markdownaurelia>
@@ -32,9 +36,20 @@
         <span click.delegate="code()" title="programming code"><i class="fa fa-code"></i></span>
         <span click.delegate="equation()" title="equation"><i class="fa fa-superscript"></i></span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
-        <span class="w3-theme-l2" click.delegate="save()" title="save file"><i class="fa fa-save"></i></span>
+        <!--span class="w3-theme-l2" click.delegate="save()" title="save file"><i class="fa fa-save"></i></span-->
         <span click.delegate="download()" title="download file"><i class="fa fa-download"></i></span>
         <span click.delegate="upload()" title="upload file"><i class="fa fa-upload"></i></span>
+        <div show.bind="uploaddialog"
+
+             dragenter.delegate="drag($event)"
+             dragover.delegate="drag($event)"
+             drop.delegate="drop($event)"
+             style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
+             class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+          <p>Drag your files here or click on this area</p>
+          <input type="file" change.trigger="dragNdrop($event)"/>
+        </div>
+        <span click.delegate="preview()" title="preview"><i class="fa fa-eye"></i></span>
       </div>
       <div id="editorref"></div>
     </div>
