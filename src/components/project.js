@@ -22,6 +22,6 @@ export class Project {
     let name = prompt('Project name :', 'WebApplication'+projlen);
     this.projects.push({name:name,type:'multi'})
   }
-  
+
   exportAsZip(){}
 }
