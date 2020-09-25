@@ -45,9 +45,8 @@ export class Toolbar extends BodylightEditorItems {
   exportAsZip() {}
 
   addItem(item) {
-    this.api.editor.insert(item.def);
-    //document.getElementById('editorref').focus();
-    this.api.editor.focus();
+    //delegate to api
+    this.api.addItem(item);
   }
 
 

@@ -1,0 +1,16 @@
+<template>
+  <div show.bind="api.askAttributes" class="w3-card-2 w3-margin">
+    <div class="w3-center"><b>${api.askAttributesItem.name}</b></div>
+    <table>
+    <tr repeat.for="item of api.askAttributesItemsArray">
+      <td><label>${item.title}</label></td>
+      <td><input value.bind="item.value" /></td>
+    </tr>
+    </table>
+    <div class="w3-center w3-padding">
+    <button class="w3-button w3-theme-l4">Submit</button>
+    <button class="w3-button w3-theme-l4">Reset</button>
+    <button class="w3-button w3-theme-l4">Cancel</button>
+    </div>
+  </div>
+</template>

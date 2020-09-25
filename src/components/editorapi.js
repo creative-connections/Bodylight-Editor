@@ -8,6 +8,7 @@ import '../acemode/mode-markdown';
 //import {ContentUpdated} from './messages';
 
 export class Editorapi {
+  askAttributes=false;
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     ace.require('ace/ext/language_tools');
@@ -45,5 +46,15 @@ export class Editorapi {
     //console.log('sending content update')
     document.getElementById('editorref').dispatchEvent(event);
     //that.ea.publish(new ContentUpdated(content));
+  }
+
+  addItem(item) {
+    //shows atribute dialog
+    this.askAttributes = true;
+    this.askAttributesItem = item;
+    //inserts default definition
+    this.editor.insert(item.def);
+    //document.getElementById('editorref').focus();
+    this.editor.focus();
   }
 }
