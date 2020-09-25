@@ -1,10 +1,18 @@
 <template>
+  <require from="./components/toolbar"></require>
+  <require from="./components/help"></require>
   <require from="./components/editor"></require>
   <require from="./components/viewer"></require>
   <require from="w3-css/w3.css"></require>
   <require from="./w3-theme-bodylight.css"></require>
+  <div>
+    <toolbar></toolbar>
+  </div>
   <div class="w3-row">
-    <div class="w3-twothird">
+    <div class="w3-third">
+      <help></help>
+    </div>
+    <div class="w3-third">
       <editor></editor>
     </div>
     <div class="w3-third">

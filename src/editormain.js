@@ -9,6 +9,7 @@ export function configure(aurelia) {
     .standardConfiguration()
     .plugin(PLATFORM.moduleName('aurelia-bodylight-plugin'))
     .plugin(PLATFORM.moduleName('aurelia-dynamic-html'))
+    .plugin(PLATFORM.moduleName('aurelia-animator-css'))
     .feature(PLATFORM.moduleName('resources/index'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');

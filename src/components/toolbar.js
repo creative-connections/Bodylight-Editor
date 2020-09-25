@@ -1,0 +1,160 @@
+import {saveAs} from 'file-saver';
+import {Editorapi} from './editorapi';
+import {inject} from 'aurelia-framework';
+import localForage from 'localforage';
+import {BodylightEditorItems} from './bodylightEditorItems';
+
+@inject(Editorapi)
+
+export class Toolbar extends BodylightEditorItems {
+  showButtons =false;
+  uploaddialog = false;
+  filename='webapplication.md'
+  isDragging=false;
+
+  constructor(api) {
+    super()
+    this.api = api;
+  }
+
+  attached() {
+    localForage.getItem('bodylight-projects')
+      .then(projects =>{
+        this.projects = projects;
+      })
+      .catch(error=>{
+        console.log('Projects localforage:', error);
+      });
+  }
+
+  toggleMenu() {
+    this.showButtons = ! this.showButtons;
+  }
+
+  newSinglePageProject() {
+    const projlen = this.projects ? this.projects.length : 0;
+    let name = prompt('Project name :', 'WebApplication' + projlen);
+    this.projects.push({name: name, type: 'single'});
+  }
+  newMultiPageProject() {
+    const projlen = this.projects ? this.projects.length : 0;
+    let name = prompt('Project name :', 'WebApplication' + projlen);
+    this.projects.push({name: name, type: 'multi'});
+  }
+
+  exportAsZip() {}
+
+  addItem(item) {
+    this.api.editor.insert(item.def);
+    //document.getElementById('editorref').focus();
+    this.api.editor.focus();
+  }
+
+
+  showHelp(item) {
+    //console.log("changing help",item);
+    this.api.helpsrc = item.doc;
+  }
+
+  undo() {
+    this.api.editor.undo();
+  }
+
+  redo() {
+    this.api.editor.redo();
+  }
+
+  bold() {
+    this.api.editor.insert('****');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.moveCursorTo(p.row, p.column - 2);
+    this.api.editor.focus();
+  }
+
+  italic() {
+    this.api.editor.insert('__');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.moveCursorTo(p.row, p.column - 1);
+    this.api.editor.focus();
+  }
+
+  code() {
+    this.api.editor.insert('``');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.moveCursorTo(p.row, p.column - 1);
+    this.api.editor.focus();
+  }
+  equation() {
+    this.api.editor.insert('$$');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.moveCursorTo(p.row, p.column - 1);
+    this.api.editor.focus();
+  }
+
+
+  h1() {
+    this.api.editor.insert('# ');
+    this.api.editor.focus();
+  }
+  h2() {
+    this.api.editor.insert('## ');
+    this.api.editor.focus();
+  }
+  h3() {
+    this.api.editor.insert('### ');
+    this.api.editor.focus();
+  }
+  h4() {
+    this.api.editor.insert('#### ');
+    this.api.editor.focus();
+  }
+
+  //handles download button click, asks for filename and use file-saver.saveAs package to save the blob
+  download() {
+    let filename = prompt('File name (*.md):', this.filename);
+    if (filename) {
+      if (!filename.endsWith('.md')) filename = filename.concat('.md');
+      let content = this.api.editor.getValue();
+      let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+      saveAs(blob, filename);
+    }
+  }
+  //opens upload dialog with button/area to dragndrop file
+  upload() {
+    this.uploaddialog = ! this.uloaddialog;
+  }
+
+  //handles after file is loaded
+  handleFileLoad(event) {
+    console.log('handlefileload event:', event);
+    let data = event.target.result;
+    console.log('handlefile data:', data);
+    window.editor.editor.setValue(data);
+    window.editor.editor.focus();
+  }
+
+  drag(event) {
+    this.isDragging = true;
+    event.preventDefault();
+  }
+
+
+  drop(event) {
+    this.isDragging = false;
+    event.preventDefault();
+    this.dragNdrop(event);
+  }
+
+  //starts file loading
+  dragNdrop(event) {
+    const reader = new FileReader();
+    //sets global variable to this instance
+    window.editor = this;
+    reader.onload = this.handleFileLoad;
+    let files = event.target.files || event.dataTransfer.files;
+    console.log(files);
+    this.filename = files[0].name;
+    reader.readAsText(files[0]);
+    this.uploaddialog = false;
+  }
+}
