@@ -1,8 +1,11 @@
 <template>
   <require from="./animations.css"></require>
-
-
+  <div class="w3-row">
+    <div class="w3-third">
       <button class="w3-left w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> Project menu</button>
+
+    </div>
+    <div class="w3-twothird">
       <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block" style="position:absolute;margin-top:2em;margin-left:2em">
         <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newSinglePageProject()"><i class="fa fa-plus"> single page app</i></button>
         <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newMultiPageProject()"><i class="fa fa-plus"> multi page app</i></button>
@@ -14,27 +17,27 @@
 
       <div class="w3-border w3-theme-l5 w3-block">
         <span class="w3-small"><pre style="display:inline">bodylight tools:</pre></span>
-        <span repeat.for="item of items" class="w3-padding-4 w3-border w3-round w3-theme-l4" style="margin-right:4px">
-        <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
-        <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
+        <span repeat.for="item of items" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+          <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
+          <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
         </span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
-        <span click.delegate="undo()" title="undo"><i class="fa fa-undo"></i></span>
-        <span click.delegate="redo()" title="redo"><i class="fa fa-repeat"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="undo()" title="undo"><i class="fa fa-undo"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="redo()" title="redo"><i class="fa fa-repeat"></i></span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
-        <span click.delegate="bold()" title="bold"><i class="fa fa-bold"></i></span>
-        <span click.delegate="italic()" title="italic"><i class="fa fa-italic"></i></span>
-        <span click.delegate="h1()" title="header 1" class="w3-large">H1</span>
-        <span click.delegate="h2()" title="header 2" class="w3-medium">H2</span>
-        <span click.delegate="h3()" title="header 3" class="w3-small">H3</span>
-        <span click.delegate="h4()" title="header 4" class="w3-tiny">H4</span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="bold()" title="bold"><i class="fa fa-bold"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="italic()" title="italic"><i class="fa fa-italic"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="h1()" title="header 1" class="w3-large">H1</span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="h2()" title="header 2" class="w3-medium">H2</span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="h3()" title="header 3" class="w3-small">H3</span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="h4()" title="header 4" class="w3-tiny">H4</span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
-        <span click.delegate="code()" title="programming code"><i class="fa fa-code"></i></span>
-        <span click.delegate="equation()" title="equation"><i class="fa fa-superscript"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="code()" title="programming code"><i class="fa fa-code"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="equation()" title="equation"><i class="fa fa-superscript"></i></span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
         <!--span class="w3-theme-l2" click.delegate="save()" title="save file"><i class="fa fa-save"></i></span-->
-        <span click.delegate="download()" title="download file"><i class="fa fa-download"></i></span>
-        <span click.delegate="upload()" title="upload file"><i class="fa fa-upload"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="download()" title="download file"><i class="fa fa-download"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="upload()" title="upload file"><i class="fa fa-upload"></i></span>
         <div show.bind="uploaddialog"
 
              dragenter.delegate="drag($event)"
@@ -45,7 +48,10 @@
           <p>Drag your files here or click on this area</p>
           <input type="file" change.trigger="dragNdrop($event)"/>
         </div>
-        <span click.delegate="preview()" title="preview"><i class="fa fa-eye"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="preview()" title="preview"><i class="fa fa-eye"></i></span
       </div>
+
+    </div>
+  </div>
 
 </template>

@@ -9,6 +9,7 @@ import '../acemode/mode-markdown';
 
 export class Editorapi {
   askAttributes=false;
+  attrDialog=null;
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     ace.require('ace/ext/language_tools');
@@ -52,9 +53,41 @@ export class Editorapi {
     //shows atribute dialog
     this.askAttributes = true;
     this.askAttributesItem = item;
+    //TODO do xml parsing
+    this.askAttributesItemsArray = this.convertXmlToAttributesItems(item.def);
+    //[{title: 'min', value: 10}, {title: 'max', value: 100}, {title: 'default', value: 10}, {title: 'step', value: 1}];
+    //from reference
+    //focus on first input in attr dialog
+    if (this.attrDialog) this.attrDialog.getElementsByTagName('input')[0].focus();
     //inserts default definition
-    this.editor.insert(item.def);
+    //this.editor.insert(item.def);
     //document.getElementById('editorref').focus();
+    //this.editor.focus();
+  }
+
+  convertXmlToAttributesItems(itemdef) {
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(itemdef, 'text/xml');
+    let itemsarray = [];
+    let firstelement = xmlDoc.documentElement;
+    for (let child of firstelement.attributes) {
+      itemsarray.push({title: child.nodeName, value: child.nodeValue});
+    }
+    return itemsarray;
+  }
+
+  submit() {
+    //in askAttributesItemsArray is values = reconstruct XML def
+    let d = document.implementation.createDocument('', '', null);
+    let e = d.createElement(this.askAttributesItem.name);
+    for (let attr of this.askAttributesItemsArray) e.setAttribute(attr.title, attr.value);
+    d.appendChild(e);
+    const serializer = new XMLSerializer();
+    let xmlStr = serializer.serializeToString(d);
+    //console.log('submit() serialized xml');
+    if (xmlStr.endsWith('/>')) xmlStr = xmlStr.slice(0, -2) + '></' + this.askAttributesItem.name + '>';
+    this.editor.insert(xmlStr + '\n');
     this.editor.focus();
+    //return xmlStr;
   }
 }
