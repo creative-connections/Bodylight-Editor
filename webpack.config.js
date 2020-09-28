@@ -33,7 +33,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     alias: {
       // https://github.com/aurelia/dialog/issues/387
       // Uncomment next line if you had trouble to run aurelia-dialog on IE11
-      // 'aurelia-dialog': path.resolve(__dirname, 'node_modules/aurelia-dialog/dist/umd/aurelia-dialog.js'),
+      // 'aurelia-dialog': path.resolve(__dirname, 'node_modules/aurelia-dialog/dist/umd/aurelia-a-dialog.js'),
 
       // https://github.com/aurelia/binding/issues/702
       // Enforce single aurelia-binding, to avoid v1/v2 duplication due to
