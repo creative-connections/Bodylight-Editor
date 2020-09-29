@@ -110,9 +110,12 @@ export class Project {
    * @param file
    */
   delete(file) {
-    let i = this.files.indexOf(file);
-    this.files.splice(i, 1);
-    this.updatelf();
+    this.deleteDoc(file.name)
+      .then(result=>{
+        let i = this.files.indexOf(file);
+        this.files.splice(i, 1);
+        this.updatelf();
+      });
   }
 
   /**
@@ -126,9 +129,10 @@ export class Project {
       let nameclash = this.files.find(element => element.name === filename);
       while (nameclash) {
         filename = this.add1toname(filename);
+        // eslint-disable-next-line no-loop-func
         nameclash = this.files.find(element => element.name === filename);
       }
-      let newfile = {name: filename, type: FTYPE.MDFILE}
+      let newfile = {name: filename, type: FTYPE.MDFILE};
       this.files.push(newfile);
       this.updatelf();
 
@@ -141,7 +145,6 @@ export class Project {
       this.currentfile.active = true;
       this.api.editor.setValue(content);
       this.api.editor.focus();
-
 
 
       //let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
@@ -179,6 +182,10 @@ export class Project {
 
   saveBlobContent(filename, blob) {
     localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, blob);
+  }
+
+  deleteDoc(filename) {
+    return localForage.removeItem(LFKEYS.FILECONTENT + '.' + filename);
   }
 
   toggleMenu() {
