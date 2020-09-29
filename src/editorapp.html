@@ -7,20 +7,20 @@
   <require from="./components/project"></require>
   <require from="w3-css/w3.css"></require>
   <require from="./w3-theme-bodylight.css"></require>
-  <div>
-    <toolbar></toolbar>
-  </div>
   <div class="w3-row">
     <div class="w3-third">
       <project></project>
       <a-dialog></a-dialog>
       <help></help>
     </div>
-    <div class="w3-third">
-      <editor></editor>
-    </div>
-    <div class="w3-third">
-      <viewer></viewer>
+    <div class="w3-twothird">
+      <toolbar></toolbar>
+      <div class="w3-half">
+        <editor></editor>
+      </div>
+      <div class="w3-half">
+        <viewer></viewer>
+      </div>
     </div>
   </div>
 </template>

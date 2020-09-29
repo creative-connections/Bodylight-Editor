@@ -26,10 +26,6 @@ export class Toolbar extends BodylightEditorItems {
       });
   }
 
-  toggleMenu() {
-    this.showButtons = ! this.showButtons;
-  }
-
   newSinglePageProject() {
     const projlen = this.projects ? this.projects.length : 0;
     let name = prompt('Project name :', 'WebApplication' + projlen);
