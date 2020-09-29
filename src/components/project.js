@@ -14,10 +14,10 @@ const LFKEYS = {
   FILECONTENT: 'BodylightEditor.Content'
 };
 const DEMOFILES = [
-  {name: 'index.md', type: FTYPE.MDFILE},
-  {name: 'BurkhoffFMI.js', type: FTYPE.MODELFILE},
-  {name: 'SrdceCelek.js', type: FTYPE.ADOBEANIMATE},
-  {name: 'heart.gif', type: FTYPE.ANIMATEDGIF}
+  {name: 'index.md', type: FTYPE.MDFILE, active: false},
+  {name: 'BurkhoffFMI.js', type: FTYPE.MODELFILE, active: false},
+  {name: 'SrdceCelek.js', type: FTYPE.ADOBEANIMATE, active: false},
+  {name: 'heart.gif', type: FTYPE.ANIMATEDGIF, active: false}
 ];
 
 const DEMOCONTENT = '# Introduction \n' +
@@ -84,11 +84,15 @@ export class Project {
    * @param file
    */
   open(file) {
+    //no action needed when opening same file
+    if (this.currentfile === file) return;
     //save-content of previous file and open content of selected file
     if (this.currentfile) {
+      this.currentfile.active = false;
       if (this.currentfile.type.value === FTYPE.MDFILE.value) {this.saveDocContent(this.currentfile.name, this.api.editor.getValue());}
     }
     this.currentfile = file;
+    this.currentfile.active = true;
     if (this.currentfile.type.value === FTYPE.MDFILE.value) {
       this.loadDocContent(this.currentfile.name)
         .then(content =>{
@@ -124,12 +128,21 @@ export class Project {
         filename = this.add1toname(filename);
         nameclash = this.files.find(element => element.name === filename);
       }
-
-      this.files.push({name: filename, type: FTYPE.MDFILE});
+      let newfile = {name: filename, type: FTYPE.MDFILE}
+      this.files.push(newfile);
       this.updatelf();
+
       let content = DEMOCONTENT;
+      if (this.currentfile) {
+        this.currentfile.active = false;
+        if (this.currentfile.type.value === FTYPE.MDFILE.value) {this.saveDocContent(this.currentfile.name, this.api.editor.getValue());}
+      }
+      this.currentfile = newfile;
+      this.currentfile.active = true;
       this.api.editor.setValue(content);
       this.api.editor.focus();
+
+
 
       //let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
       //saveAs(blob, filename);

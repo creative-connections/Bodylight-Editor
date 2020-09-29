@@ -15,7 +15,7 @@
 
 <table>
   <tr><th colspan="2">Project file structure</th></tr>
-  <tr repeat.for="file of files" class="w3-hover-blue">
+  <tr repeat.for="file of files" class.bind="file.active ? 'w3-blue w3-hover-grey': 'w3-hover-blue'">
     <td title="${file.type.title}"><span click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}</span></td>
     <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
   </tr>
