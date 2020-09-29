@@ -1,3 +1,4 @@
+import {saveAs} from 'file-saver';
 import jQuery from 'jquery';
 import 'ace-builds';
 import 'ace-builds/webpack-resolver';
@@ -11,6 +12,7 @@ export class Editorapi {
   askAttributes=false;
   attrDialog=null;
   dialogclass='./attribute-dialog';
+
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     ace.require('ace/ext/language_tools');
@@ -106,4 +108,18 @@ export class Editorapi {
     this.editor.insert(xmlStr + '\n');
     this.editor.focus();
   }
+
+  /** shared utility to download currently edited file as MD file
+   * prompts for filename, adds MD extension
+   */
+  download() {
+    let filename = prompt('File name (*.md):', this.filename);
+    if (filename) {
+      if (!filename.endsWith('.md')) filename = filename.concat('.md');
+      let content = this.editor.getValue();
+      let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+      saveAs(blob, filename);
+    }
+  }
+
 }

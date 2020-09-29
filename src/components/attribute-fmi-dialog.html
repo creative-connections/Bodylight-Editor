@@ -6,7 +6,9 @@
       </tr>
       <tr>
         <td><label>src</label></td>
-        <td><input value.bind="attr.src" /></td>
+        <td><select value.bind="attr.src">
+          <option repeat.for="item of sources" value="${item}">${item}</option>
+        </select></td>
       </tr>
       <tr>
         <td><label>fminame</label></td>

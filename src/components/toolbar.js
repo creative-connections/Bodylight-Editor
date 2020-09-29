@@ -1,4 +1,3 @@
-import {saveAs} from 'file-saver';
 import {Editorapi} from './editorapi';
 import {inject} from 'aurelia-framework';
 import localForage from 'localforage';
@@ -13,7 +12,7 @@ export class Toolbar extends BodylightEditorItems {
   isDragging=false;
 
   constructor(api) {
-    super()
+    super();
     this.api = api;
   }
 
@@ -110,17 +109,11 @@ export class Toolbar extends BodylightEditorItems {
 
   //handles download button click, asks for filename and use file-saver.saveAs package to save the blob
   download() {
-    let filename = prompt('File name (*.md):', this.filename);
-    if (filename) {
-      if (!filename.endsWith('.md')) filename = filename.concat('.md');
-      let content = this.api.editor.getValue();
-      let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
-      saveAs(blob, filename);
-    }
+    this.api.download();
   }
   //opens upload dialog with button/area to dragndrop file
   upload() {
-    this.uploaddialog = ! this.uloaddialog;
+    this.uploaddialog = ! this.uploaddialog;
   }
 
   //handles after file is loaded
@@ -155,5 +148,12 @@ export class Toolbar extends BodylightEditorItems {
     this.filename = files[0].name;
     reader.readAsText(files[0]);
     this.uploaddialog = false;
+  }
+
+  save() {
+
+  }
+  load() {
+
   }
 }

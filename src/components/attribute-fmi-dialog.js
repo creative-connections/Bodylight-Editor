@@ -15,6 +15,15 @@ export class AttributeFmiDialog extends AttributeDialog {
       inputs: 'id1,16777313,1,60' };
   }
 
+  attached() {
+    console.log('attributefmidialog attached');
+  }
+
+  activate() {
+    console.log('attributefmidialog activated');
+    this.sources = ['MeursFMI2.js', 'BurkhoffFMI.js', 'IronMetabolism.js'];
+  }
+
   submit() {
     this.api.submitattr(this.api.askAttributesItem.name, this.attr);
   }

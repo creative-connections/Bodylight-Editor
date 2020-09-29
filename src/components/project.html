@@ -1,3 +1,15 @@
 <template>
+  <div class="w3-margin w3-card-2">
 
+<table>
+  <tr><th colspan="2">Project file structure</th></tr>
+  <tr repeat.for="file of files" class="w3-hover-blue">
+    <td title="${file.type.title}"><span click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}</span></td>
+    <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
+  </tr>
+  <tr><td colspan="2">  <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i class="fa fa-plus"></i> Create new file</span>
+    <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i class="fa fa-plus"></i> Upload file</span></td>
+  </tr>
+</table>
+  </div>
 </template>
