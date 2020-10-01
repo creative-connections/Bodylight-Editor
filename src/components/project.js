@@ -1,14 +1,15 @@
 import * as localForage from 'localforage';
 import {Editorapi} from './editorapi';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 
 const FTYPE = {
-  MDFILE: {value: 0, title: 'Web simulator document file in Markdown syntax using Bodylight components', faclass: 'fa fa-file-text'},
-  MODELFILE: {value: 1, title: 'Model exported from Modelica to FMU and JS', faclass: 'fa fa-file-code-o'},
-  ADOBEANIMATE: {value: 2, title: 'Interactive animation from Adobe Animate exported with CreateJS API', faclass: 'fa fa-file-image-o'},
-  OTHERJS: {value: 5, title: 'Other javascript ', faclass: 'fa fa-file-o'},
-  ANIMATEDGIF: {value: 3, title: 'Animated GIF', faclass: 'fa fa-file-movie-o'},
-  IMAGE: {value: 4, title: 'Common image', faclass: 'fa fa-file-image-o'}
+  MDFILE: {name: 'MDFILE', value: 0, title: 'Web simulator (markdown)', faclass: 'fa fa-file-text'},
+  MODELFILE: {name: 'MODELFILE', value: 1, title: 'Model FMU/JS(js)', faclass: 'fa fa-file-code-o'},
+  ADOBEANIMATE: {name: 'ADOBEANIMATE', value: 2, title: 'Adobe Animate CreateJS(js)', faclass: 'fa fa-file-image-o'},
+  OTHERJS: {name: 'OTHERJS', value: 5, title: 'Other Javascript(js) ', faclass: 'fa fa-file-o'},
+  ANIMATEDGIF: {name: 'ANIMATEDGIF', value: 3, title: 'Animated GIF(gif)', faclass: 'fa fa-file-movie-o'},
+  IMAGE: {name: 'IMAGE', value: 4, title: 'Common image(png,jpg)', faclass: 'fa fa-file-image-o'}
 };
 const LFKEYS = {
   FILELIST: 'BodylightEditor.Filelist',
@@ -36,14 +37,15 @@ const DEMOCONTENT = '# Introduction \n' +
   '## Animated GIF\n' +
   'Animated GIF can be imported, component `bdl-animate-gif` can handle animation and controls animation per each frame.';
 
-@inject(Editorapi)
+@inject(Editorapi, EventAggregator)
 export class Project {
   showButtons = false;
   uploaddialog = false;
   currentfile=null;
   askFile=false;
-  constructor(api) {
+  constructor(api, ea) {
     this.api = api;
+    this.ea = ea;
   }
 
   /**
@@ -65,6 +67,11 @@ export class Project {
         //set demo files
         this.files = DEMOFILES;
       });
+
+    this.ea.subscribe('file-dialog', fileitems =>{
+      //assign type in fileitems[0].value will be name of the FTYPE in string
+      this.currentfile.type = FTYPE[fileitems[0].value];
+    });
   }
 
   /**
@@ -109,7 +116,8 @@ export class Project {
     } else {
       //opening js file or gif file
       this.api.askFile = true;
-      this.api.askFileItems = [{title: 'File Type', value: '', options: ['Model (FMU/JS)', 'Adobe Animate (CreateJS)', 'other javascript']}];
+      this.api.askFileRef = this.currentfile;
+      this.api.askFileItems = [{title: 'File Type', value: '', options: [FTYPE.MODELFILE, FTYPE.ADOBEANIMATE, FTYPE.OTHERJS]}];
       /*this.loadDocContent(this.currentfile.name)
         .then(result =>{
           let reader = new FileReader();

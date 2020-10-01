@@ -1,16 +1,19 @@
 import {Editorapi} from './editorapi';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 
-@inject(Editorapi)
+@inject(Editorapi, EventAggregator)
 export class FileDialog {
-  constructor(api) {
+  constructor(api, ea) {
     this.api = api;
+    this.ea = ea;
   }
 
-  submit() {
-
+  update() {
+    this.ea.publish('file-dialog', this.api.askFileItems);
+    this.api.askFile = false;
   }
   cancel() {
-
+    this.api.askFile = false;
   }
 }

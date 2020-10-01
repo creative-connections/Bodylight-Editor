@@ -1,16 +1,17 @@
 <template>
   <div show.bind="api.askFile">
   <table>
+    <tr><th colspan="2">properties of file: ${api.askFileRef.name}</th></tr>
     <tr repeat.for="item of api.askFileItems">
       <td><label>${item.title}</label></td>
       <td><span show.bind="item.options"><select value.bind="item.value">
-          <option repeat.for="option of item.options" value="${option}">${option}</option>
+          <option repeat.for="option of item.options" value="${option.name}">${option.title}</option>
         </select></span>
           <span show.bind="!item.options"><input value.bind="item.value" /></span></td>
     </tr>
   </table>
   <div class="w3-center w3-padding">
-    <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
+    <button class="w3-button w3-theme-l4" click.delegate="update()">Update</button>
     <!--button class="w3-button w3-theme-l4" click.delegate="reset()">Reset</button-->
     <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
   </div>
