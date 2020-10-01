@@ -6,6 +6,7 @@ const FTYPE = {
   MDFILE: {value: 0, title: 'Web simulator document file in Markdown syntax using Bodylight components', faclass: 'fa fa-file-text'},
   MODELFILE: {value: 1, title: 'Model exported from Modelica to FMU and JS', faclass: 'fa fa-file-code-o'},
   ADOBEANIMATE: {value: 2, title: 'Interactive animation from Adobe Animate exported with CreateJS API', faclass: 'fa fa-file-image-o'},
+  OTHERJS: {value: 5, title: 'Other javascript ', faclass: 'fa fa-file-o'},
   ANIMATEDGIF: {value: 3, title: 'Animated GIF', faclass: 'fa fa-file-movie-o'},
   IMAGE: {value: 4, title: 'Common image', faclass: 'fa fa-file-image-o'}
 };
@@ -38,7 +39,9 @@ const DEMOCONTENT = '# Introduction \n' +
 @inject(Editorapi)
 export class Project {
   showButtons = false;
+  uploaddialog = false;
   currentfile=null;
+  askFile=false;
   constructor(api) {
     this.api = api;
   }
@@ -94,6 +97,7 @@ export class Project {
     this.currentfile = file;
     this.currentfile.active = true;
     if (this.currentfile.type.value === FTYPE.MDFILE.value) {
+      //opening md file
       this.loadDocContent(this.currentfile.name)
         .then(content =>{
           //if (content)
@@ -102,6 +106,23 @@ export class Project {
           else this.api.editor.setValue('');
         })
         .catch(err=>console.log('project open file error', err));
+    } else {
+      //opening js file or gif file
+      this.api.askFile = true;
+      this.api.askFileItems = [{title: 'File Type', value: '', options: ['Model (FMU/JS)', 'Adobe Animate (CreateJS)', 'other javascript']}];
+      /*this.loadDocContent(this.currentfile.name)
+        .then(result =>{
+          let reader = new FileReader();
+          window.api = this.api;
+          reader.onload = function(evt) {
+            let data = evt.target.result;
+            window.api.editor.setValue(data);
+          };
+          reader.readAsText(result);
+        })
+        .catch(error =>{
+          console.log(error);
+        });*/
     }
   }
 
@@ -181,7 +202,7 @@ export class Project {
   }
 
   saveBlobContent(filename, blob) {
-    localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, blob);
+    return localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, blob);
   }
 
   deleteDoc(filename) {
@@ -190,5 +211,56 @@ export class Project {
 
   toggleMenu() {
     this.showButtons = ! this.showButtons;
+  }
+
+  //opens upload dialog with button/area to dragndrop file
+  upload() {
+    this.uploaddialog = ! this.uploaddialog;
+  }
+  //handles after file is loaded
+  handleFileLoad(event) {
+    console.log('handlefileload event:', event);
+    let data = event.target.result;
+    //console.log('handlefile data:', data);
+    //window.editor.editor.setValue(data);
+    //window.editor.editor.focus();
+  }
+
+  drag(event) {
+    this.isDragging = true;
+    event.preventDefault();
+  }
+
+
+  drop(event) {
+    this.isDragging = false;
+    event.preventDefault();
+    this.dragNdrop(event);
+  }
+
+  //starts file loading
+  dragNdrop(event) {
+    const reader = new FileReader();
+    //sets global variable to this instance
+    window.editor = this;
+    reader.onload = this.handleFileLoad;
+    let files = event.target.files || event.dataTransfer.files;
+    console.log(files);
+    let filename = files[0].name;
+    this.saveBlobContent(filename, files[0].slice(0, files[0].size, files[0].type))
+      .then(result =>{
+        let newfile = {name: filename, type: FTYPE.MODELFILE};
+        this.files.push(newfile);
+        this.updatelf();
+        console.log('result saveing blob', result);
+        this.uploaddialog = false;
+      })
+      .catch(error =>{
+        console.log('error saving blob', error);
+        this.uploaddialog = false;
+      });
+    //this.filename = files[0].name;
+    //reader.readAsText(files[0]);
+    //this.uploaddialog = false;
   }
 }

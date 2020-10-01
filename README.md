@@ -1,5 +1,14 @@
-# `bodylight-editor`
 
+# Bodylight Editor
+ [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
+
+[project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
+[project-stage-page]: https://blog.pother.ca/project-stages/
+
+Web editor to facilitate creation of web simulators. Employs ACE editor using markdown/xml mode and generates preview using markdown-it and bodylight web components.
+ 
+
+## Development
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
 For more information, go to https://aurelia.io/docs/cli/webpack

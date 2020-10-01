@@ -20,7 +20,19 @@
     <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
   </tr>
   <tr><td colspan="2">  <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i class="fa fa-plus"></i> Create new file</span>
-    <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i class="fa fa-plus"></i> Upload file</span></td>
+    <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i class="fa fa-plus"></i> Upload file</span>
+    <div show.bind="uploaddialog"
+
+         dragenter.delegate="drag($event)"
+         dragover.delegate="drag($event)"
+         drop.delegate="drop($event)"
+         style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
+         class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+      <p>Drag your files here or click on this area</p>
+      <input type="file" change.trigger="dragNdrop($event)"/>
+    </div>
+
+  </td>
   </tr>
 </table>
   </div>

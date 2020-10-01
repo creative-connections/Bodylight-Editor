@@ -71,6 +71,13 @@ export class Toolbar extends BodylightEditorItems {
     this.api.editor.moveCursorTo(p.row, p.column - 1);
     this.api.editor.focus();
   }
+  underline() {
+    this.api.editor.insert('<u></u>');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.moveCursorTo(p.row, p.column - 4);
+    this.api.editor.focus();
+  }
+
 
   code() {
     this.api.editor.insert('``');
@@ -107,11 +114,11 @@ export class Toolbar extends BodylightEditorItems {
   download() {
     this.api.download();
   }
+
   //opens upload dialog with button/area to dragndrop file
   upload() {
     this.uploaddialog = ! this.uploaddialog;
   }
-
   //handles after file is loaded
   handleFileLoad(event) {
     console.log('handlefileload event:', event);
