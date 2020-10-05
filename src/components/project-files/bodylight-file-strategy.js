@@ -1,6 +1,6 @@
 export class BodylightFileStrategy {
 
-  constructor(api){
+  constructor(api) {
     this.api = api;
   }
   /**

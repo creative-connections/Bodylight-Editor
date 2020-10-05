@@ -43,4 +43,12 @@ export class BodylightStorage {
   deleteDoc(filename) {
     return localForage.removeItem(LFKEYS.FILECONTENT + '.' + filename);
   }
+
+  clearStorage() {
+    return localForage.clear();
+  }
+
+  getBlob(filename){
+    return localForage.getI
+  }
 }

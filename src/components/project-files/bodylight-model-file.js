@@ -1,8 +1,8 @@
-import {BodylightFile} from './bodylight-file';
-import {BodylightFileStrategy} from "./bodylight-file-strategy";
+//import {BodylightFile} from './bodylight-file';
+import {BodylightFileStrategy} from './bodylight-file-strategy';
+import {FTYPE} from './bodylight-struct';
 
 export class BodylightModelFile extends BodylightFileStrategy {
-
   activate(file, newcontent) {
     super.activate(file, newcontent);
     //opening other file will open only dialog

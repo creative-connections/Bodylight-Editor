@@ -27,14 +27,20 @@ export class Project {
   attached() {
     this.api.bs.getFileList()
       .then(value=>{
-        if (value) this.files = value;
-        else {
+        if (value) {
+          //convert aray of struct to array of objects
+          this.files = [];
+          for (let fileitem of value) {
+            this.files.push(new BodylightFile(fileitem.name, fileitem.type));
+          }
+        } else {
           this.files = DEMOFILES;
           this.updatelf();
         }
       })
       .catch(error=>{
         //set demo files
+        console.log('error', error);
         this.files = DEMOFILES;
       });
     //if the file dialog change some properties of the file - update it
@@ -112,10 +118,10 @@ export class Project {
       //make some demo content
       let content = DEMOCONTENT;
       //create file object
-      let blob = new Blob([content], {
+      /*let blob = new Blob([content], {
         type: 'text/plain'
-      });
-      let newfile = new BodylightFile(filename, FTYPE.MDFILE, this.api);
+      });*/
+      let newfile = new BodylightFile(filename, FTYPE.MDFILE);
       //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
 
       //push to file array - update localstorage
@@ -195,7 +201,7 @@ export class Project {
       //extract zip and save blob of extracted files
       this.extractZipFile(files);
     } else {// save blob of any other file
-      let newfile = new BodylightFile(filename, FTYPE.ADOBEANIMATE, this.api);
+      let newfile = new BodylightFile(filename, FTYPE.ADOBEANIMATE, this.api, files[0]);
       //BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
       this.files.push(newfile);
       this.updatelf();
@@ -210,7 +216,7 @@ export class Project {
           let entryname = zipEntry.name;
           zipEntry.async('blob').then(blob => {
             //let newfile= new BodylightFile()
-            let newfile = new BodylightFile(entryname, FTYPE.MODELFILE, this.api);
+            let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, this.api, blob);
             //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
             this.files.push(newfile);
             this.updatelf();
@@ -218,5 +224,82 @@ export class Project {
           });
         });
       });
+  }
+
+  extractProjectZipFile(files) {
+    JSZip.loadAsync(files[0])
+      .then(zip => {
+        zip.forEach((relativePath, zipEntry) => {
+          let entryname = zipEntry.name;
+          if (entryname === 'bodylight-project.json') {
+            zipEntry.async('text').then(value => {
+              this.files = [];
+              let myfiles = JSON.parse(value);
+              for (let fileitem of myfiles) {
+                this.files.push(new BodylightFile(fileitem.name, fileitem.type));
+              }
+            })
+          } else
+          {
+            zipEntry.async('blob').then(blob => {
+              //let newfile= new BodylightFile()
+              //will store content in blob
+              let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, this.api, blob);
+              //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
+              //this.files.push(newfile);
+              //this.updatelf();
+            });
+          }
+        });
+      });
+  }
+
+  /**
+   * Creates new empty project
+   */
+  newProject() {
+    this.showButtons = false;
+    if (confirm('Create new empty project?')) {
+      this.api.bs.clearStorage()
+        .then(()=>{
+          this.files = [];
+          this.updatelf();
+        });
+    }
+  }
+
+  /**
+   * Saves project as ZIP file
+   */
+  save() {
+    this.showButtons = false;
+    let zip = new JSZip();
+    zip.file('bodylight-project.json', JSON.stringify(this.files));
+    for (let file of this.files) {
+      //'blob' or 'string' content are zipped as entries
+      zip.file(file.name, this.api.bs.loadDocContent(file.name));
+    }
+    zip.generateAsync({type: 'blob'})
+      .then(function(blob) {
+        saveAs(blob, 'project.zip');
+      });
+  }
+
+  /**
+   * Uploads ZIP as project file
+   */
+  load(event) {
+    this.showButtons = false;
+    const reader = new FileReader();
+    //sets global variable to this instance
+    //window.editor = this;
+    reader.onload = this.handleFileLoad;
+    let files = event.target.files || event.dataTransfer.files;
+    console.log(files);
+    let filename = files[0].name;
+    if (filename.endsWith('.zip')) {
+      //extract zip and save blob of extracted files
+      this.extractProjectZipFile(files);
+    }
   }
 }

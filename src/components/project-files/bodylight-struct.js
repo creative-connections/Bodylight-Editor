@@ -22,8 +22,8 @@ export function createStrategyMap(api) {
   mymap.set('ADOBEANIMATE', new BodylightAnimateFile(api));
   mymap.set('ANIMATEDGIF', new BodylightAnimateFile(api));
   mymap.set('IMAGE', new BodylightAnimateFile(api));
-  mymap.set('OTHERJS', new BodylightJsFile());
-  mymap.set('DESCRIPTIONFILE', new BodylightXmlFile());
+  mymap.set('OTHERJS', new BodylightJsFile(api));
+  mymap.set('DESCRIPTIONFILE', new BodylightXmlFile(api));
   return mymap;
 }
 

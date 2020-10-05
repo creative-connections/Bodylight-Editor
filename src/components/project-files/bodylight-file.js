@@ -5,12 +5,26 @@ export class BodylightFile {
   type=FTYPE.MDFILE;
   active=false;
 
-  constructor(name, type, api) {
+  constructor(name, type, api, blob) {
     this.name = name;
     this.type = type;
     //do not serialize api and strategymap
     //instantiates the class in strategy field
     //this.strategy = window[this.type.strategy](this);
+    if (api && blob) {
+      //store blob
+      //api.bs.saveBlobContent(name, blob);
+      api.bs.saveBlobContent(name, blob)
+        .then(result => {
+          console.log('result saving blob', result);
+          //this.uploaddialog = false;
+        })
+        .catch(error => {
+          console.log('error saving blob', error);
+          //this.uploaddialog = false;
+        });
+
+    }
   }
 
   changetype(type) {
