@@ -6,9 +6,7 @@
       </tr>
       <tr>
         <td><label>src</label></td>
-        <td><select value.bind="attr.src">
-          <option repeat.for="item of sources" value="${item}">${item}</option>
-        </select></td>
+        <td><input value.bind="attr.src" /></td>
       </tr>
       <tr>
         <td><label>fminame</label></td>
@@ -40,7 +38,7 @@
       </tr>
     </table>
     <div class="w3-center w3-padding">
-      <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
       <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
+      <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit <i class="fa fa-arrow-right"></i></button>
     </div>
 </template>

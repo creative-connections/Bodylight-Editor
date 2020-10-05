@@ -5,13 +5,17 @@ import 'ace-builds/webpack-resolver';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/src-noconflict/snippets/text.js';
 import '../acemode/mode-markdown';
-
+//import {EventAggregator} from 'aurelia-event-aggregator';
+import {BodylightStorage} from './project-files/bodylight-storage';
 //import {ContentUpdated} from './messages';
 
 export class Editorapi {
   askAttributes=false;
   attrDialog=null;
   dialogclass='./attribute-dialog';
+  idindex=1;
+  globstr ={}
+  bs = new BodylightStorage();
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -93,6 +97,10 @@ export class Editorapi {
     if (xmlStr.endsWith('/>')) xmlStr = xmlStr.slice(0, -2) + '></' + this.askAttributesItem.name + '>';
     this.editor.insert(xmlStr + '\n');
     this.editor.focus();
+    //inserts tag and attributes into globalstructure - for further use
+    if (! this.globstr[this.askAttributesItem.name]) this.globstr[this.askAttributesItem] = [];
+    this.globstr[this.askAttributesItem.name].push({tag: this.askAttributesItem.name, attr: this.askAttributesItemsArray});
+    this.idindex++;
     //return xmlStr;
   }
 
@@ -107,6 +115,11 @@ export class Editorapi {
     if (xmlStr.endsWith('/>')) xmlStr = xmlStr.slice(0, -2) + '></' + elementname + '>';
     this.editor.insert(xmlStr + '\n');
     this.editor.focus();
+    //inserts tag and attributes into globalstructure - for further use
+    if (! this.globstr[elementname]) this.globstr[elementname] = [];
+    this.globstr[this.askAttributesItem.name].push({tag: elementname, attr: this.askAttributesItemsArray});
+    this.idindex++;
+    //return xmlStr;
   }
 
   /** shared utility to download currently edited file as MD file
@@ -121,5 +134,4 @@ export class Editorapi {
       saveAs(blob, filename);
     }
   }
-
 }

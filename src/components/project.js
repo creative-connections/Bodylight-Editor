@@ -1,41 +1,12 @@
-import * as localForage from 'localforage';
+//import * as localForage from 'localforage';
 import {Editorapi} from './editorapi';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
-
-const FTYPE = {
-  MDFILE: {name: 'MDFILE', value: 0, title: 'Web simulator (markdown)', faclass: 'fa fa-file-text'},
-  MODELFILE: {name: 'MODELFILE', value: 1, title: 'Model FMU/JS(js)', faclass: 'fa fa-file-code-o'},
-  ADOBEANIMATE: {name: 'ADOBEANIMATE', value: 2, title: 'Adobe Animate CreateJS(js)', faclass: 'fa fa-file-image-o'},
-  OTHERJS: {name: 'OTHERJS', value: 5, title: 'Other Javascript(js) ', faclass: 'fa fa-file-o'},
-  ANIMATEDGIF: {name: 'ANIMATEDGIF', value: 3, title: 'Animated GIF(gif)', faclass: 'fa fa-file-movie-o'},
-  IMAGE: {name: 'IMAGE', value: 4, title: 'Common image(png,jpg)', faclass: 'fa fa-file-image-o'}
-};
-const LFKEYS = {
-  FILELIST: 'BodylightEditor.Filelist',
-  FILECONTENT: 'BodylightEditor.Content'
-};
-const DEMOFILES = [
-  {name: 'index.md', type: FTYPE.MDFILE, active: false},
-  {name: 'BurkhoffFMI.js', type: FTYPE.MODELFILE, active: false},
-  {name: 'SrdceCelek.js', type: FTYPE.ADOBEANIMATE, active: false},
-  {name: 'heart.gif', type: FTYPE.ANIMATEDGIF, active: false}
-];
-
-const DEMOCONTENT = '# Introduction \n' +
-  'you may use markdown to tag **bold** or __italic__ \n' +
-  '## Sections\n' +
-  'sections can be added using one or multipla hash symbols `#`. \n' +
-  '## Mathematics\n' +
-  'katex is supported thus writing LATEX like syntax between `$` symbol will render the math.\n' +
-  'E.g. Dirichlet integral  $\\int_{0}^\\infty\\frac{\\sin(x)}{x}dx = \\frac{\\pi}{2}$\n' +
-  '## Bodylight components\n' +
-  'Bodylight web components can be rendered directly, use full xml-tags with closing tags not self-closing.\n' +
-  '<bdl-range min="10" max="20" step="2" default="15"></bdl-range>\n' +
-  '## Animation\n' +
-  'Adobe Animate can be exported into CreateJS components, these can be imported.\n' +
-  '## Animated GIF\n' +
-  'Animated GIF can be imported, component `bdl-animate-gif` can handle animation and controls animation per each frame.';
+import JSZip from 'jszip';
+import './project-files/bodylight-struct';
+//import {BodylightFileFactory} from './project-files/bodylight-file-factory';
+import {BodylightFile} from "./project-files/bodylight-file";
+import {FTYPE,DEMOCONTENT} from "./project-files/bodylight-struct";
 
 @inject(Editorapi, EventAggregator)
 export class Project {
@@ -46,6 +17,7 @@ export class Project {
   constructor(api, ea) {
     this.api = api;
     this.ea = ea;
+    //this.bs = bs;
   }
 
   /**
@@ -53,21 +25,19 @@ export class Project {
    * get file list from the local storage
    */
   attached() {
-    localForage.getItem(LFKEYS.FILELIST)
+    this.api.bs.getFileList()
       .then(value=>{
         if (value) this.files = value;
         else {
-          console.log('localforage value', value);
           this.files = DEMOFILES;
           this.updatelf();
         }
       })
       .catch(error=>{
-        console.log('Project.attached() localforage error:', error);
         //set demo files
         this.files = DEMOFILES;
       });
-
+    //if the file dialog change some properties of the file - update it
     this.ea.subscribe('file-dialog', fileitems =>{
       //assign type in fileitems[0].value will be name of the FTYPE in string
       this.currentfile.type = FTYPE[fileitems[0].value];
@@ -86,52 +56,25 @@ export class Project {
    * stores files in localforage
    */
   updatelf() {
-    localForage.setItem(LFKEYS.FILELIST, this.files);
+    this.api.bs.setFileList(this.files);
   }
 
   /**
-   * Opens file content in editor
+   * Opens file content in editor,
+   * if it is binary file, it opens just property dialog
    * @param file
    */
   open(file) {
-    //no action needed when opening same file
-    if (this.currentfile === file) return;
+    //close file dialog
+    this.api.askFile = false;
+    //no action needed when opening same MD file
+    if (this.currentfile === file && this.currentfile.type.value === FTYPE.MDFILE.value) return;
     //save-content of previous file and open content of selected file
-    if (this.currentfile) {
-      this.currentfile.active = false;
-      if (this.currentfile.type.value === FTYPE.MDFILE.value) {this.saveDocContent(this.currentfile.name, this.api.editor.getValue());}
-    }
+    if (this.currentfile) this.currentfile.deactivate();
+    //switch to file
     this.currentfile = file;
-    this.currentfile.active = true;
-    if (this.currentfile.type.value === FTYPE.MDFILE.value) {
-      //opening md file
-      this.loadDocContent(this.currentfile.name)
-        .then(content =>{
-          //if (content)
-          console.log('content of the file ' + this.currentfile.name, content);
-          if (content) this.api.editor.setValue(content);
-          else this.api.editor.setValue('');
-        })
-        .catch(err=>console.log('project open file error', err));
-    } else {
-      //opening js file or gif file
-      this.api.askFile = true;
-      this.api.askFileRef = this.currentfile;
-      this.api.askFileItems = [{title: 'File Type', value: '', options: [FTYPE.MODELFILE, FTYPE.ADOBEANIMATE, FTYPE.OTHERJS]}];
-      /*this.loadDocContent(this.currentfile.name)
-        .then(result =>{
-          let reader = new FileReader();
-          window.api = this.api;
-          reader.onload = function(evt) {
-            let data = evt.target.result;
-            window.api.editor.setValue(data);
-          };
-          reader.readAsText(result);
-        })
-        .catch(error =>{
-          console.log(error);
-        });*/
-    }
+    //activate it
+    this.currentfile.activate();
   }
 
   /**
@@ -139,7 +82,8 @@ export class Project {
    * @param file
    */
   delete(file) {
-    this.deleteDoc(file.name)
+    this.api.askFile = false;
+    this.api.bs.deleteDoc(file.name)
       .then(result=>{
         let i = this.files.indexOf(file);
         this.files.splice(i, 1);
@@ -151,6 +95,8 @@ export class Project {
    * Creates new empty document file
    */
   create() {
+    this.api.askFile = false;
+    //get file name - unique
     let filename = prompt('Web simulator document file name (*.md):', 'index.md');
     if (filename) {
       if (!filename.endsWith('.md')) filename = filename.concat('.md');
@@ -161,23 +107,26 @@ export class Project {
         // eslint-disable-next-line no-loop-func
         nameclash = this.files.find(element => element.name === filename);
       }
-      let newfile = {name: filename, type: FTYPE.MDFILE};
+      //make some demo content
+      let content = DEMOCONTENT;
+      //create file object
+      let blob = new Blob([content], {
+        type: 'text/plain'
+      });
+      let newfile = new BodylightFile(filename,FTYPE.MDFILE,this.api);
+        //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
+
+      //push to file array - update localstorage
       this.files.push(newfile);
       this.updatelf();
 
-      let content = DEMOCONTENT;
+      //if currentfile is some other file - then save content an deactivate
       if (this.currentfile) {
-        this.currentfile.active = false;
-        if (this.currentfile.type.value === FTYPE.MDFILE.value) {this.saveDocContent(this.currentfile.name, this.api.editor.getValue());}
+        this.currentfile.deactivate();
       }
+      //activate new file
       this.currentfile = newfile;
-      this.currentfile.active = true;
-      this.api.editor.setValue(content);
-      this.api.editor.focus();
-
-
-      //let blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
-      //saveAs(blob, filename);
+      this.currentfile.activate(content);
     }
   }
 
@@ -201,21 +150,6 @@ export class Project {
     return newname;
   }
 
-  saveDocContent(filename, content) {
-    return localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, content);
-  }
-
-  loadDocContent(filename) {
-    return localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
-  }
-
-  saveBlobContent(filename, blob) {
-    return localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, blob);
-  }
-
-  deleteDoc(filename) {
-    return localForage.removeItem(LFKEYS.FILECONTENT + '.' + filename);
-  }
 
   toggleMenu() {
     this.showButtons = ! this.showButtons;
@@ -250,25 +184,37 @@ export class Project {
   dragNdrop(event) {
     const reader = new FileReader();
     //sets global variable to this instance
-    window.editor = this;
+    //window.editor = this;
     reader.onload = this.handleFileLoad;
     let files = event.target.files || event.dataTransfer.files;
     console.log(files);
     let filename = files[0].name;
-    this.saveBlobContent(filename, files[0].slice(0, files[0].size, files[0].type))
-      .then(result =>{
-        let newfile = {name: filename, type: FTYPE.MODELFILE};
-        this.files.push(newfile);
-        this.updatelf();
-        console.log('result saveing blob', result);
-        this.uploaddialog = false;
-      })
-      .catch(error =>{
-        console.log('error saving blob', error);
-        this.uploaddialog = false;
+    if (filename.endsWith('.zip')) {
+      //extract zip and save blob of extracted files
+      this.extractZipFile(files);
+    } else {// save blob of any other file
+      let newfile = new BodylightFile(filename, FTYPE.ADOBEANIMATE, this.api);
+        //BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
+      this.files.push(newfile);
+      this.updatelf();
+      this.uploaddialog = false;
+    }
+  }
+
+  extractZipFile(files) {
+    JSZip.loadAsync(files[0])
+      .then(zip => {
+        zip.forEach((relativePath, zipEntry) => {
+          let entryname = zipEntry.name;
+          zipEntry.async('blob').then(blob => {
+            //let newfile= new BodylightFile()
+            let newfile = new BodylightFile(entryname, FTYPE.MODELFILE, this.api);
+              //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
+            this.files.push(newfile);
+            this.updatelf();
+            this.uploaddialog = false;
+          });
+        });
       });
-    //this.filename = files[0].name;
-    //reader.readAsText(files[0]);
-    //this.uploaddialog = false;
   }
 }

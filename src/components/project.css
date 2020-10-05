@@ -1,0 +1,5 @@
+td:first-child {
+  max-width:20em;
+  overflow:hidden;
+  word-break: break-all;
+}

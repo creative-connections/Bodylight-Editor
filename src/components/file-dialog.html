@@ -1,4 +1,5 @@
 <template>
+  <require from="./attribute-fmi-dialog"></require>
   <div show.bind="api.askFile">
   <table>
     <tr><th colspan="2">properties of file: ${api.askFileRef.name}</th></tr>
@@ -15,5 +16,14 @@
     <!--button class="w3-button w3-theme-l4" click.delegate="reset()">Reset</button-->
     <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
   </div>
+    <div if.bind="api.askFileRef.type.value === 1">
+      <attribute-fmi-dialog src.two-way="api.askFileRef.name"></attribute-fmi-dialog>
+    </div>
+    <div show.bind="api.askFileRef.type.value === 2">
+      ADOBE Animate
+    </div>
+    <div show.bind="api.askFileRef.type.value === 3">
+      Animated GIF
+    </div>
   </div>
 </template>
