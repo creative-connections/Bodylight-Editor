@@ -238,9 +238,8 @@ export class Project {
               for (let fileitem of myfiles) {
                 this.files.push(new BodylightFile(fileitem.name, fileitem.type));
               }
-            })
-          } else
-          {
+            });
+          } else {
             zipEntry.async('blob').then(blob => {
               //let newfile= new BodylightFile()
               //will store content in blob
@@ -301,5 +300,56 @@ export class Project {
       //extract zip and save blob of extracted files
       this.extractProjectZipFile(files);
     }
+  }
+
+  /**
+   * exports as HTML and related files, which can be published in web server or served locally
+   */
+  exportAsHtml() {
+    this.showButtons = false;
+    let indexhtmlcontent = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bodylight Web Components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
+  </head>
+  <body aurelia-app="webcomponents">
+
+    <bdl-markdown-book index="index.md" summary="summary.md">
+      <img src="loading.gif"/>
+    </bdl-markdown-book>
+  </body>
+</html>
+    `;
+
+    //let indexhtml = new BodylightFile('index.html', FTYPE.MDFILE, this.api, indexhtmlblob);
+    //htmlfiles.push(indexhtml);
+    let bundleurl = 'https://cdn.jsdelivr.net/npm/bodylight-components@2.0.1/dist/bodylight.bundle.js';
+    fetch(bundleurl)
+      .then(res => res.blob())
+      .then(bodylightblob => {
+        //let bodylightjs = new BodylightFile('bodylight.bundle.js', FTYPE.OTHERJS, this.api, bodylightblob);
+        //htmlfiles.push(bodylightjs);
+
+        //now save as zip
+        let zip = new JSZip();
+        //zip.file('bodylight-project.json', JSON.stringify(this.files));
+        //adds index.html with content
+        zip.file('index.html', indexhtmlcontent);
+        //adds bodylight.bundle.js
+        zip.file('bodylight.bundle.js', bodylightblob);
+        //adds all project files
+        for (let file of this.files) {
+          //'blob' or 'string' content are zipped as entries
+          zip.file(file.name, this.api.bs.loadDocContent(file.name));
+        }
+        //and generates ZIP and save it
+        zip.generateAsync({type: 'blob'})
+          .then(function(blob) {
+            saveAs(blob, 'project-export.zip');
+          });
+      });
   }
 }
