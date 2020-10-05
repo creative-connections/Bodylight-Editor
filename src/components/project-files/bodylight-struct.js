@@ -5,14 +5,27 @@ import {BodylightJsFile} from './bodylight-js-file';
 import {BodylightXmlFile} from './bodylight-xml-file';
 
 export const FTYPE = {
-  MDFILE: {name: 'MDFILE', value: 0, title: 'Web simulator (markdown)', faclass: 'fa fa-file-text', strategy: new BodylightMdFile()},
-  MODELFILE: {name: 'MODELFILE', value: 1, title: 'Model FMU/JS(js)', faclass: 'fa fa-file-code-o', strategy: new BodylightModelFile()},
-  ADOBEANIMATE: {name: 'ADOBEANIMATE', value: 2, title: 'Adobe Animate CreateJS(js)', faclass: 'fa fa-file-image-o', strategy: new BodylightAnimateFile()},
-  ANIMATEDGIF: {name: 'ANIMATEDGIF', value: 3, title: 'Animated GIF(gif)', faclass: 'fa fa-file-movie-o', strategy: new BodylightAnimateFile()},
-  IMAGE: {name: 'IMAGE', value: 4, title: 'Common image(png,jpg)', faclass: 'fa fa-file-image-o', strategy: new BodylightAnimateFile()},
-  OTHERJS: {name: 'OTHERJS', value: 5, title: 'Other Javascript(js) ', faclass: 'fa fa-file-o', strategy: new BodylightJsFile()},
-  DESCRIPTIONFILE: {name: 'DESCRIPTIONFILE', value: 6, title: 'description of FMU file(xml)', faclass: 'fa fa-file-excel-o', strategy: new BodylightXmlFile()}
+  MDFILE: {name: 'MDFILE', value: 0, title: 'Web simulator (markdown)', faclass: 'fa fa-file-text'},
+  MODELFILE: {name: 'MODELFILE', value: 1, title: 'Model FMU/JS(js)', faclass: 'fa fa-file-code-o'},
+  ADOBEANIMATE: {name: 'ADOBEANIMATE', value: 2, title: 'Adobe Animate CreateJS(js)', faclass: 'fa fa-file-image-o'},
+  ANIMATEDGIF: {name: 'ANIMATEDGIF', value: 3, title: 'Animated GIF(gif)', faclass: 'fa fa-file-movie-o'},
+  IMAGE: {name: 'IMAGE', value: 4, title: 'Common image(png,jpg)', faclass: 'fa fa-file-image-o'},
+  OTHERJS: {name: 'OTHERJS', value: 5, title: 'Other Javascript(js) ', faclass: 'fa fa-file-o'},
+  DESCRIPTIONFILE: {name: 'DESCRIPTIONFILE', value: 6, title: 'description of FMU file(xml)', faclass: 'fa fa-file-excel-o'}
 };
+
+//call it once when the api is known - e.g. when project is attached
+export function createStrategyMap(api) {
+  let mymap = new Map();
+  mymap.set('MDFILE', new BodylightMdFile(api));
+  mymap.set('MODELFILE', new BodylightModelFile(api));
+  mymap.set('ADOBEANIMATE', new BodylightAnimateFile(api));
+  mymap.set('ANIMATEDGIF', new BodylightAnimateFile(api));
+  mymap.set('IMAGE', new BodylightAnimateFile(api));
+  mymap.set('OTHERJS', new BodylightJsFile());
+  mymap.set('DESCRIPTIONFILE', new BodylightXmlFile());
+  return mymap;
+}
 
 export const DEMOFILES = [
   {name: 'index.md', type: FTYPE.MDFILE, active: false},

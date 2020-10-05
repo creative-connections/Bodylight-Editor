@@ -1,6 +1,6 @@
 export class BodylightFileStrategy {
 
-  setApi(api) {
+  constructor(api){
     this.api = api;
   }
   /**

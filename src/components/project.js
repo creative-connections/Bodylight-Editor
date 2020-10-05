@@ -5,8 +5,8 @@ import {inject} from 'aurelia-framework';
 import JSZip from 'jszip';
 import './project-files/bodylight-struct';
 //import {BodylightFileFactory} from './project-files/bodylight-file-factory';
-import {BodylightFile} from "./project-files/bodylight-file";
-import {FTYPE,DEMOCONTENT} from "./project-files/bodylight-struct";
+import {BodylightFile} from './project-files/bodylight-file';
+import {FTYPE, DEMOCONTENT, createStrategyMap} from './project-files/bodylight-struct';
 
 @inject(Editorapi, EventAggregator)
 export class Project {
@@ -42,6 +42,8 @@ export class Project {
       //assign type in fileitems[0].value will be name of the FTYPE in string
       this.currentfile.type = FTYPE[fileitems[0].value];
     });
+    //this.api = api;
+    this.strategymap = createStrategyMap(this.api);
   }
 
   /**
@@ -70,11 +72,11 @@ export class Project {
     //no action needed when opening same MD file
     if (this.currentfile === file && this.currentfile.type.value === FTYPE.MDFILE.value) return;
     //save-content of previous file and open content of selected file
-    if (this.currentfile) this.currentfile.deactivate();
+    if (this.currentfile) this.currentfile.deactivate(this.strategymap);
     //switch to file
     this.currentfile = file;
     //activate it
-    this.currentfile.activate();
+    this.currentfile.activate(this.strategymap);
   }
 
   /**
@@ -113,8 +115,8 @@ export class Project {
       let blob = new Blob([content], {
         type: 'text/plain'
       });
-      let newfile = new BodylightFile(filename,FTYPE.MDFILE,this.api);
-        //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
+      let newfile = new BodylightFile(filename, FTYPE.MDFILE, this.api);
+      //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
 
       //push to file array - update localstorage
       this.files.push(newfile);
@@ -122,11 +124,11 @@ export class Project {
 
       //if currentfile is some other file - then save content an deactivate
       if (this.currentfile) {
-        this.currentfile.deactivate();
+        this.currentfile.deactivate(this.strategymap);
       }
       //activate new file
       this.currentfile = newfile;
-      this.currentfile.activate(content);
+      this.currentfile.activate(this.strategymap, content);
     }
   }
 
@@ -194,7 +196,7 @@ export class Project {
       this.extractZipFile(files);
     } else {// save blob of any other file
       let newfile = new BodylightFile(filename, FTYPE.ADOBEANIMATE, this.api);
-        //BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
+      //BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
       this.files.push(newfile);
       this.updatelf();
       this.uploaddialog = false;
@@ -209,7 +211,7 @@ export class Project {
           zipEntry.async('blob').then(blob => {
             //let newfile= new BodylightFile()
             let newfile = new BodylightFile(entryname, FTYPE.MODELFILE, this.api);
-              //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
+            //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
             this.files.push(newfile);
             this.updatelf();
             this.uploaddialog = false;
