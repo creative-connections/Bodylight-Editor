@@ -34,7 +34,7 @@ export class Project {
             this.files.push(new BodylightFile(fileitem.name, fileitem.type));
           }
         } else {
-          this.files = []//DEMOFILES;
+          this.files = [];//DEMOFILES;
           this.updatelf();
         }
       })
@@ -243,10 +243,14 @@ export class Project {
           if (entryname === 'bodylight-project.json') {
             zipEntry.async('text').then(value => {
               this.files = [];
-              let myfiles = JSON.parse(value);
-              for (let fileitem of myfiles) {
+              let myproject = JSON.parse(value);
+              //project files needs to be instantiated
+              for (let fileitem of myproject.files) {
                 this.files.push(new BodylightFile(fileitem.name, fileitem.type));
               }
+              //fmientries stored in project file
+              this.api.fmientries = myproject.fmientries;
+              this.api.fmientriessrc = myproject.fmientriessrc;
             });
           } else {
             zipEntry.async('blob').then(blob => {
@@ -282,7 +286,7 @@ export class Project {
   save() {
     this.showButtons = false;
     let zip = new JSZip();
-    zip.file('bodylight-project.json', JSON.stringify(this.files));
+    zip.file('bodylight-project.json', JSON.stringify({files: this.files, fmientries: this.api.fmientries, fmientriessrc: this.api.fmientriessrc}));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
       zip.file(file.name, this.api.bs.loadDocContent(file.name));
