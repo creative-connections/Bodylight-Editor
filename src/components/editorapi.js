@@ -145,10 +145,37 @@ export class Editorapi {
     if (! this.fmientriessrc) this.fmientriessrc = [];
     this.currentfmientry = {src: 'FILL src of JS file', fminame: 'FILL fminame from modeldescription.xml', guid: '', valuereferences: '', valuelabels: '', inputs: ''};
     this.currentfmientryindex = this.fmientries.push(this.currentfmientry);
+    console.log('editorapi newfmientry() fmientryindex', this.currentfmientryindex);
   }
 
+  /**
+   * reads modeldescription.xml from blob
+   * @param blob
+   */
   setFmiEntryDescription(blob) {
+    const reader = new FileReader();
+    //sets global variable to this instance
+    //window.editor = this;
+    reader.onload = this.handleModelDescription;
+    //handler do not know 'this', must set global variable
+    window.editorapi = this;
+    reader.readAsText(blob);
+  }
 
+  handleModelDescription(event) {
+    console.log('handlefileload event:', event);
+    let data = event.target.result;
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(data, 'text/xml');
+    console.log('handleModelDescription xmldoc:', xmlDoc);
+    //handler do not know 'this', must set global variable
+    editorapi.currentfmientry.fminame = xmlDoc.documentElement.getAttribute('modelName');
+    editorapi.currentfmientry.guid = xmlDoc.documentElement.getAttribute('guid');
+    editorapi.currentfmientry.modelvariables = [];
+    for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
+      console.log('parsing varnode:', varnode);
+      editorapi.currentfmientry.modelvariables.push({name: varnode.getAttribute('name'), reference: varnode.getAttribute('valueReference'), description: varnode.getAttribute('description')});
+    }
   }
 
   /**

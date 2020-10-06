@@ -211,9 +211,9 @@ export class Project {
   }
 
   extractZipFile(files) {
-    this.api.newFmiEntry();
     JSZip.loadAsync(files[0])
       .then(zip => {
+        this.api.newFmiEntry();
         zip.forEach((relativePath, zipEntry) => {
           let entryname = zipEntry.name;
           zipEntry.async('blob').then(blob => {
