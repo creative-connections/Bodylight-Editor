@@ -34,14 +34,14 @@ export class Project {
             this.files.push(new BodylightFile(fileitem.name, fileitem.type));
           }
         } else {
-          this.files = DEMOFILES;
+          this.files = []//DEMOFILES;
           this.updatelf();
         }
       })
       .catch(error=>{
         //set demo files
         console.log('error', error);
-        this.files = DEMOFILES;
+        this.files = [];//DEMOFILES;
       });
     //if the file dialog change some properties of the file - update it
     this.ea.subscribe('file-dialog', fileitems =>{
@@ -210,6 +210,7 @@ export class Project {
   }
 
   extractZipFile(files) {
+    this.api.newFmiEntry();
     JSZip.loadAsync(files[0])
       .then(zip => {
         zip.forEach((relativePath, zipEntry) => {
@@ -217,6 +218,13 @@ export class Project {
           zipEntry.async('blob').then(blob => {
             //let newfile= new BodylightFile()
             let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, this.api, blob);
+            if (entryname.endsWith('.xml')) {
+              //parse modeldescription.file
+              this.api.setFmiEntryDescription(blob);
+            } else {
+              //fill src of model
+              this.api.setFmiEntrySrc(entryname);
+            }
             //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
             this.files.push(newfile);
             this.updatelf();

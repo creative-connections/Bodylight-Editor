@@ -6,7 +6,10 @@
       </tr>
       <tr>
         <td><label>src</label></td>
-        <td><input value.bind="attr.src" /></td>
+        <td><select value.bind="attr.src" class="w3-select">
+          <option repeat.for="js of api.fmientriessrc" value.bind="js.src">${js.src}</option>
+        </select>
+        </td>
       </tr>
       <tr>
         <td><label>fminame</label></td>

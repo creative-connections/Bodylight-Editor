@@ -134,4 +134,29 @@ export class Editorapi {
       saveAs(blob, filename);
     }
   }
+
+  /**
+   * increment index of fmi entries
+   */
+  fmientries = [];
+  fmientriessrc = [];
+  newFmiEntry() {
+    //if (! this.fmientries) this.fmientries = [];
+    this.currentfmientry = {src: 'FILL src of JS file', fminame: 'FILL fminame from modeldescription.xml', guid: '', valuereferences: '', valuelabels: '', inputs: ''};
+    this.currentfmientryindex = this.fmientries.push(this.currentfmientry);
+  }
+
+  setFmiEntryDescription(blob) {
+
+  }
+
+  /**
+   * sets src of current fmientry and adds the src with index into fmientriessrc array
+   * @param src
+   */
+  setFmiEntrySrc(src) {
+    this.currentfmientry.src = src;
+    //if (! this.fmientriessrc) this.fmientriessrc = [];
+    this.fmientriessrc.push({index: this.currentfmientryindex, src: src});
+  }
 }
