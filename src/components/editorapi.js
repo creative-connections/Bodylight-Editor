@@ -16,6 +16,8 @@ export class Editorapi {
   idindex=1;
   globstr ={}
   bs = new BodylightStorage();
+  fmientries = [];
+  fmientriessrc = [];
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -138,10 +140,9 @@ export class Editorapi {
   /**
    * increment index of fmi entries
    */
-  fmientries = [];
-  fmientriessrc = [];
   newFmiEntry() {
-    //if (! this.fmientries) this.fmientries = [];
+    if (! this.fmientries) this.fmientries = [];
+    if (! this.fmientriessrc) this.fmientriessrc = [];
     this.currentfmientry = {src: 'FILL src of JS file', fminame: 'FILL fminame from modeldescription.xml', guid: '', valuereferences: '', valuelabels: '', inputs: ''};
     this.currentfmientryindex = this.fmientries.push(this.currentfmientry);
   }
@@ -158,5 +159,14 @@ export class Editorapi {
     this.currentfmientry.src = src;
     //if (! this.fmientriessrc) this.fmientriessrc = [];
     this.fmientriessrc.push({index: this.currentfmientryindex, src: src});
+    //store in localstorage
+    this.bs.setFmiListEntries(this.fmientries);
+    this.bs.setFmiListSrcs(this.fmientriessrc);
+  }
+  getFmiEntries() {
+    this.bs.getFMIListEntries()
+      .then(value=> this.fmientries = value);
+    this.bs.getFMIListSrcs()
+      .then(value2=> this.fmientriessrc = value2);
   }
 }

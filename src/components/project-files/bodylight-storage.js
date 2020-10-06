@@ -4,7 +4,9 @@ import './bodylight-struct';
 
 export const LFKEYS = {
   FILELIST: 'BodylightEditor.Filelist',
-  FILECONTENT: 'BodylightEditor.Content'
+  FILECONTENT: 'BodylightEditor.Content',
+  FMIENTRIES: 'BodylightEditor.FMIEntries',
+  FMISRCS: 'BodylightEditor.FMISrcs'
 };
 
 /**
@@ -48,7 +50,33 @@ export class BodylightStorage {
     return localForage.clear();
   }
 
-  getBlob(filename){
-    return localForage.getI
+  getBlob(filename) {
+    return localForage.getI;
+  }
+  setFmiListEntries(entries) {
+    return localForage.setItem(LFKEYS.FMIENTRIES, entries);
+  }
+  setFmiListSrcs(srcentries) {
+    return localForage.setItem(LFKEYS.FMISRCS, srcentries);
+  }
+  getFMIListEntries() {
+    return localForage.getItem(LFKEYS.FMIENTRIES)
+      .then(value=> {
+        return value;
+      })
+      .catch(error=>{
+        console.log('BodylightStorage getEntries error:', error);
+        return error;
+      });
+  }
+  getFMIListSrcs() {
+    return localForage.getItem(LFKEYS.FMISRCS)
+      .then(value=> {
+        return value;
+      })
+      .catch(error=>{
+        console.log('BodylightStorage getSrcs error:', error);
+        return error;
+      });
   }
 }
