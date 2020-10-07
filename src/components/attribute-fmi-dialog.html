@@ -1,4 +1,5 @@
 <template>
+  <require from="./referencearray"></require>
     <table>
       <tr>
         <td><label>id</label></td>
@@ -29,7 +30,7 @@
       </tr>
       <tr>
         <td><label>valuereferences</label></td>
-        <td><input value.bind="attr.valuereferences" /></td>
+        <td><referencearray></referencearray></td>
       </tr>
       <tr>
         <td><label>valuelabels</label></td>

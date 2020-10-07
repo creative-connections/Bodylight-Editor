@@ -21,13 +21,13 @@ const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '';
 
 const cssRules = [
-  { loader: 'css-loader' },
+  { loader: 'css-loader' }
 ];
 
 
 module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, host } = {}) => ({
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.ts', '.js'],
     modules: [srcDir, 'node_modules'],
 
     alias: {
@@ -66,7 +66,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     // https://webpack.js.org/plugins/split-chunks-plugin/
     splitChunks: {
       hidePathInfo: true, // prevents the path from being used in the filename when using maxSize
-      chunks: "initial",
+      chunks: 'initial',
       // sizes are compared against source before minification
       maxSize: 200000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
       cacheGroups: {
@@ -144,6 +144,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         use: cssRules
       },
       { test: /\.html$/i, loader: 'html-loader' },
+      { test: /\.ts$/i, loader: 'ts-loader'},
       {
         test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir,
         options: tests ? { sourceMap: 'inline', plugins: ['istanbul'] } : {}
@@ -155,8 +156,8 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       // load these fonts normally, as files:
       { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
       { test: /environment\.json$/i, use: [
-        {loader: "app-settings-loader", options: {env: production ? 'production' : 'development' }},
-      ]},
+        {loader: 'app-settings-loader', options: {env: production ? 'production' : 'development' }}
+      ]}
     ]
   },
   plugins: [
@@ -180,7 +181,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       filename: production ? 'css/[name].[contenthash].bundle.css' : 'css/[name].[hash].bundle.css',
       chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
     })),
-    ...when(!tests, new CopyWebpackPlugin({patterns:[
+    ...when(!tests, new CopyWebpackPlugin({patterns: [
       { from: 'static', to: outDir }]})), // ignore dot (hidden) files
     ...when(analyze, new BundleAnalyzerPlugin()),
     /**

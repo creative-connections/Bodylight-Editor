@@ -1,0 +1,19 @@
+<template>
+  <require from="./autocomplete/good-auto-complete"></require>
+  <require from="./autocomplete/good-auto-complete.css"></require>
+  <ul class="w3-tiny">
+    <li repeat.for="item of references">
+      ${item.reference} - ${item.name} <button class="w3-button" click.delegate="remove(item)"><i class="fa fa-trash"></i></button>
+    </li>
+  </ul>
+  <good-auto-complete view-model.ref="goodautocomplete"
+                      additional-class-input="form-control"
+                      selected-item.bind="valuereference"
+                      _value.bind="valuereferenceraw"
+                      suggestions-provider.bind="getSuggestions"
+                      suggestions-debounce="1000"
+                      min-search-value-length="3"
+                      placeholder="Type-in to select a variable for reference.">
+  </good-auto-complete>
+  <button class="w3-button"><i class="fa fa-plus" click.trigger="add()"></i> Add</button>
+</template>

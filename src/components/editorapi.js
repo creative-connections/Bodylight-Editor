@@ -173,7 +173,7 @@ export class Editorapi {
     editorapi.currentfmientry.guid = xmlDoc.documentElement.getAttribute('guid');
     editorapi.currentfmientry.modelvariables = [];
     for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
-      console.log('parsing varnode:', varnode);
+      //console.log('parsing varnode:', varnode);
       editorapi.currentfmientry.modelvariables.push({name: varnode.getAttribute('name'), reference: varnode.getAttribute('valueReference'), description: varnode.getAttribute('description')});
     }
   }
@@ -195,5 +195,8 @@ export class Editorapi {
       .then(value=> this.fmientries = value);
     this.bs.getFMIListSrcs()
       .then(value2=> this.fmientriessrc = value2);
+    //set to first entry in list
+    this.currentfmientry = this.fmientries[0];
+    this.currentfmientryindex = 1;
   }
 }
