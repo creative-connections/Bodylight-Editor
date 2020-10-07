@@ -97,6 +97,8 @@ export class Project {
         let i = this.files.indexOf(file);
         this.files.splice(i, 1);
         this.updatelf();
+        //delete if in fmi entries
+        this.api.deleteFmiEntry(file);
       });
   }
 

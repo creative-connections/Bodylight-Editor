@@ -178,6 +178,21 @@ export class Editorapi {
     }
   }
 
+  deleteFmiEntry(file) {
+    let entry = this.fmientries.find(entryitem => file.name === entryitem.src);
+    if (entry) {
+      let entryindex = this.fmientries.indexOf(entry);
+      this.fmientries.splice(entryindex, 1);
+      let srcentry = this.fmientriessrc.find(entryitem => entryitem.src === file.name);
+      if (srcentry) {
+        let srcindex = this.fmientriessrc.indexOf(srcentry);
+        this.fmientriessrc.splice(srcindex, 1);
+      }
+      this.bs.setFmiListEntries(this.fmientries);
+      this.bs.setFmiListSrcs(this.fmientriessrc);
+    }
+  }
+
   /**
    * sets src of current fmientry and adds the src with index into fmientriessrc array
    * @param src
@@ -191,12 +206,20 @@ export class Editorapi {
     this.bs.setFmiListSrcs(this.fmientriessrc);
   }
   getFmiEntries() {
+    let that = this;
     this.bs.getFMIListEntries()
-      .then(value=> this.fmientries = value);
-    this.bs.getFMIListSrcs()
-      .then(value2=> this.fmientriessrc = value2);
+      .then(value=> {
+        that.fmientries = value;
+        if (that.fmientries && that.fmientries.length > 0) {
+          that.currentfmientry = that.fmientries[0];
+          that.currentfmientryindex = 1;
+        } else {
+          that.currentfmientry = {};
+          that.currentfmientryindex = 0;
+        }
+        this.bs.getFMIListSrcs()
+          .then(value2=> that.fmientriessrc = value2);
+      });
     //set to first entry in list
-    this.currentfmientry = this.fmientries[0];
-    this.currentfmientryindex = 1;
   }
 }

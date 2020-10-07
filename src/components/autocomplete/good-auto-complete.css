@@ -7,8 +7,16 @@
     height: auto;
     z-index: 999;
     overflow-y: auto;
+  background-color: white;
+  border-color:grey;
+  border-style:solid;
+  border-width:1px;
 }
 
 .gac-suggestion-item {
     cursor: default;
+}
+
+.gac-input {
+  width:100%
 }
