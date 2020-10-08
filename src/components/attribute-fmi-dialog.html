@@ -29,16 +29,12 @@
         <td><input value.bind="attr.guid" /></td>
       </tr>
       <tr>
-        <td><label>valuereferences</label></td>
-        <td><referencearray></referencearray></td>
+        <td><label>model output variables: </label></td>
+        <td><referencearray value.two-way="outputreferences"></referencearray></td>
       </tr>
       <tr>
-        <td><label>valuelabels</label></td>
-        <td><input value.bind="attr.valuelabels" /></td>
-      </tr>
-      <tr>
-        <td><label>inputs</label></td>
-        <td><input value.bind="attr.inputs" /></td>
+        <td><label>model input variables</label></td>
+        <td><referencearray value.two-way="inputreferences" askids="true"></referencearray></td>
       </tr>
     </table>
     <div class="w3-center w3-padding">

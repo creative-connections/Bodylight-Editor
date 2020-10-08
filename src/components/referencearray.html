@@ -1,11 +1,12 @@
 <template>
   <require from="./autocomplete/good-auto-complete"></require>
   <require from="./autocomplete/good-auto-complete.css"></require>
-  <ul class="w3-tiny">
-    <li repeat.for="item of references">
-      ${item.reference} - ${item.name} <button class="w3-button" click.delegate="remove(item)"><i class="fa fa-trash"></i></button>
-    </li>
-  </ul>
+  <table>
+    <tr repeat.for="item of value">
+      <td>${item.reference}</td><td>${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
+    </tr>
+  </table>
+  <div><i>Select variables of model that will be used for visualisation.</i></div>
   <good-auto-complete view-model.ref="goodautocomplete"
                       additional-class-input="form-control"
                       selected-item.bind="valuereference"
@@ -15,5 +16,11 @@
                       min-search-value-length="3"
                       placeholder="Type-in to select a variable for reference.">
   </good-auto-complete>
-  <button class="w3-button"><i class="fa fa-plus" click.trigger="add()"></i> Add</button>
+  <div show.bind="askids">
+    <table>
+      <th>id</th><th>numerator</th><th>denominator</th>
+      <tr><td><input value.bind="inputid" size="5"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td></tr>
+    </table>
+  </div>
+  <button class="w3-button w3-theme-l4" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>
 </template>

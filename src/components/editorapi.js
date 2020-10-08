@@ -174,7 +174,13 @@ export class Editorapi {
     editorapi.currentfmientry.modelvariables = [];
     for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
       //console.log('parsing varnode:', varnode);
-      editorapi.currentfmientry.modelvariables.push({name: varnode.getAttribute('name'), reference: varnode.getAttribute('valueReference'), description: varnode.getAttribute('description')});
+      editorapi.currentfmientry.modelvariables.push( {
+        name: varnode.getAttribute('name'),
+        reference: varnode.getAttribute('valueReference'),
+        description: varnode.getAttribute('description'),
+        tunable: (varnode.getAttribute('variability') === 'tunable'),
+        start: (varnode.children.length > 0 ? varnode.children[0].getAttribute('start') : 0)
+      });
     }
   }
 
