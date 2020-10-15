@@ -6,6 +6,7 @@ import {bindable} from 'aurelia-templating';
 export class Referencearray {
   @bindable value;
   @bindable askids;
+  @bindable title;
   numerator = 1;
   denominator = 1;
   inputid='id1'
@@ -61,7 +62,9 @@ export class Referencearray {
     if (!this.value) this.value = [];
     if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator});
     else this.value.push({reference: reference, name: name});
+    this.goodautocomplete._value = "";
   }
+
   removeReference(item) {
     let i = this.value.indexOf(item);
     this.value.splice(i, 1);

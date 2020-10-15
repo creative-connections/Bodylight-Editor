@@ -7,7 +7,7 @@
       <td>${item.reference}</td><td>${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
     </tr>
   </table>
-  <div><i>Select variables of model that will be used for visualisation.</i></div>
+  <div></div>
   <good-auto-complete view-model.ref="goodautocomplete"
                       additional-class-input="form-control"
                       selected-item.bind="valuereference"
@@ -15,7 +15,7 @@
                       suggestions-provider.bind="getSuggestions"
                       suggestions-debounce="1000"
                       min-search-value-length="1"
-                      placeholder="Type-in to select a variable for reference.">
+                      placeholder="type first 1-4 letters and select ...">
   </good-auto-complete>
   <div show.bind="askids">
     <table>
