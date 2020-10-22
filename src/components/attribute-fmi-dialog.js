@@ -7,6 +7,8 @@ import {bindable} from 'aurelia-templating';
 @inject(Editorapi)
 export class AttributeFmiDialog extends AttributeDialog {
   @bindable src;
+  showfmiinput=true;
+  showfmicontrol=false;
 
   constructor(api) {
     super(api);
@@ -56,28 +58,51 @@ export class AttributeFmiDialog extends AttributeDialog {
     this.attr.inputs = inputs;
     this.attr.inputlabels = inputlabels;
     //insert script of the fmi model into DOM, so editor preview can simulate it
-    this.insertScript(txtvalue,)
+    this.api.submitattr1 = 'bdl-fmi';
+    this.api.submitattr2 = this.attr;
+    //load script content and insert it into current DOM so it can be interpretted and previewed
+    this.api.bs.loadDocContent(this.attr.src)
+      .then(blob => blob.text())
+      .then(txtvalue => {
+        //console.log('content of script "' + this.attr.src + '" is:', txtvalue);
+        //insert script into current window context - so it can be previewed
+        window.apicallback = this.api.submitattr;
+        this.insertScript(txtvalue);
+        this.api.submitattr('bdl-fmi', this.attr);
+      });
     //now call inherited method to convert attr to xml
-    this.api.submitattr('bdl-fmi', this.attr);
   }
 
   //get script element and registers 'onload' callback to be called when the script is loaded
   insertScript(txt, callback) {
-    console.log('fmi getscript()');
+    console.log('insertscript');
     let script = document.createElement('script');
     let prior = document.getElementsByTagName('script')[0];
     script.async = 1;
-
+    /*
     script.onload = script.onreadystatechange = function( _, isAbort ) {
       if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
         script.onload = script.onreadystatechange = null;
         script = undefined;
+        console.log('script inserted, onload ...');
 
-        if (!isAbort && callback) setTimeout(callback, 0);
+        if (!isAbort && callback) {
+          console.log('script inserted, calling callback');
+          setTimeout(callback, 0);
+        }
       }
     };
-
-    script.src = window.bdlBaseHref ? window.bdlBaseHref + source : source;
+*/
+    let inlinescript = document.createTextNode(txt);
+    script.appendChild(inlinescript);
     prior.parentNode.insertBefore(script, prior);
+  }
+
+  showhidefmicontrol() {
+    this.showfmicontrol = ! this.showfmicontrol;
+  }
+
+  showhidefmiinput() {
+    this.showfmiinput = ! this.showfmiinput;
   }
 }

@@ -1,38 +1,56 @@
 <template>
   <require from="./referencearray"></require>
     <table>
+      <thead>
       <tr>
+        <th style="width:6em;">attribute</th>
+        <th>value</th>
+      </tr>
+      </thead>
+      <tr>
+        <td colspan="2">
+          <button class="w3-button w3-theme-l4 w3-block w3-left-align" click.delegate="showhidefmicontrol()">FMI control options <i class="fa fa-arrow-down"></i></button>
+        </td>
+      </tr>
+      <tr show.bind="showfmicontrol">
         <td><label>id</label></td>
         <td><input value.bind="attr.id" /></td>
       </tr>
-      <tr>
+      <tr show.bind="showfmicontrol">
         <td><label>src</label></td>
-        <td><select value.bind="attr.src" class="w3-select">
+        <td><select value.bind="attr.src" class="w3-select" style="width:80%;max-width:100%">
           <option repeat.for="js of api.fmientriessrc" value.bind="js.src">${js.src}</option>
         </select>
         </td>
       </tr>
-      <tr>
+      <tr show.bind="showfmicontrol">
         <td><label>fminame</label></td>
         <td><input value.bind="attr.fminame" /></td>
       </tr>
-      <tr>
+      <tr show.bind="showfmicontrol">
         <td><label>tolerance</label></td>
         <td><input value.bind="attr.tolerance" /></td>
       </tr>
-      <tr>
+      <tr show.bind="showfmicontrol">
         <td><label>starttime</label></td>
         <td><input value.bind="attr.starttime" /></td>
       </tr>
-      <tr>
+      <tr show.bind="showfmicontrol">
         <td><label>guid</label></td>
         <td><input value.bind="attr.guid" /></td>
       </tr>
+
       <tr>
+        <td colspan="2">
+          <button class="w3-button w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Input/Output variables <i class="fa fa-arrow-down"></i></button>
+        </td>
+      </tr>
+
+      <tr show.bind="showfmiinput">
         <td><label>model output variables: </label></td>
         <td><referencearray value.two-way="outputreferences"></referencearray></td>
       </tr>
-      <tr>
+      <tr show.bind="showfmiinput">
         <td><label>model input variables</label></td>
         <td><referencearray value.two-way="inputreferences" askids="true"></referencearray></td>
       </tr>

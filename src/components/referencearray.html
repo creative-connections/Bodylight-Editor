@@ -1,7 +1,7 @@
 <template>
   <require from="./autocomplete/good-auto-complete"></require>
   <require from="./autocomplete/good-auto-complete.css"></require>
-  <div class="w3-border w3-border-theme w3-margin-top w3-margin-bottom">
+  <div class="w3-theme-l4 w3-margin-top w3-margin-bottom">
   <table>
     <tr repeat.for="item of value">
       <td>${item.reference}</td><td>${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
@@ -23,6 +23,6 @@
       <tr><td><input value.bind="inputid" size="5"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td></tr>
     </table>
   </div>
-  <button class="w3-button w3-theme-l4" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>
+  <button class="w3-button w3-theme-l1 w3-round" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>
   </div>
 </template>

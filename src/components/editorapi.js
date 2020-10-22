@@ -107,6 +107,11 @@ export class Editorapi {
   }
 
   submitattr(elementname, attributes) {
+    if (!elementname) { //args are not set - take them from variables submitattr1 adn submitattr2 (set by callback)
+      elementname = this.submitattr1;
+      attributes = this.submitattr2;
+    }
+
     let d = document.implementation.createDocument('', '', null);
     let e = d.createElement(elementname);
     for (let attr of Object.keys(attributes)) e.setAttribute(attr, attributes[attr]);
