@@ -3,7 +3,6 @@ import {BodylightFileStrategy} from './bodylight-file-strategy';
 import './bodylight-struct';
 
 export class BodylightMdFile extends BodylightFileStrategy {
-
   loadFile(file) {
     return super.loadFile(file)
       .then(content =>{
@@ -29,7 +28,7 @@ export class BodylightMdFile extends BodylightFileStrategy {
           console.log('error saving blob', error);
           //this.uploaddialog = false;
         });
-      this.api.editor.setValue(newcontent);
+      this.api.editor.setValue(newcontent, 1);
       this.api.editor.focus();
     } else {
       //opening md file
@@ -37,20 +36,20 @@ export class BodylightMdFile extends BodylightFileStrategy {
         .then(content =>{
           //if (content)
           console.log('content of the file ' + file.name, content);
-          if (content)
-          {
-            if (typeof(content) === 'string') this.api.editor.setValue(content);
-            if (content instanceof Blob){
+          if (content) {
+            //set editor value - 1 cursor at the end
+            if (typeof(content) === 'string') this.api.editor.setValue(content, 1);
+            if (content instanceof Blob) {
               //read content of blob
               const reader = new FileReader();
               reader.addEventListener('loadend', () => {
                 // reader.result contains the contents of blob as a typed array
-                this.api.editor.setValue(reader.result);
+                //set editor value - 1 cursor at the end
+                this.api.editor.setValue(reader.result, 1);
               });
               reader.readAsText(content);
             }
-          }
-          else this.api.editor.setValue('');
+          } else this.api.editor.setValue('');
           this.api.editor.focus();
         })
         .catch(err=>console.log('project open file error', err));

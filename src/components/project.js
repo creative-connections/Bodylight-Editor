@@ -14,6 +14,7 @@ export class Project {
   uploaddialog = false;
   currentfile=null;
   askFile=false;
+  firstmdfile=false;
   constructor(api, ea) {
     this.api = api;
     this.ea = ea;
@@ -25,13 +26,23 @@ export class Project {
    * get file list from the local storage
    */
   attached() {
+    //get filelist from storage
     this.api.bs.getFileList()
       .then(value=>{
+        //adds every file from storage to the visible list
         if (value) {
-          //convert aray of struct to array of objects
+          //convert array of struct to array of objects
           this.files = [];
           for (let fileitem of value) {
-            this.files.push(new BodylightFile(fileitem.name, fileitem.type));
+            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
+            this.files.push(bodylightfile);
+            //first MD file - read content and put it into editor
+            console.log('adding file from local storage', fileitem);
+            if (!this.firstmdfile && fileitem.type.value === FTYPE.MDFILE.value) {
+              console.log('opening first md file', fileitem);
+              this.firstmdfile = true;
+              this.open(bodylightfile);
+            }
           }
         } else {
           this.files = [];//DEMOFILES;
