@@ -174,7 +174,7 @@ export class Editorapi {
     let xmlDoc = parser.parseFromString(data, 'text/xml');
     console.log('handleModelDescription xmldoc:', xmlDoc);
     //handler do not know 'this', must set global variable
-    editorapi.currentfmientry.fminame = xmlDoc.documentElement.getAttribute('modelName');
+    editorapi.currentfmientry.fminame = xmlDoc.documentElement.getElementsByTagName('CoSimulation')[0].getAttribute('modelIdentifier');
     editorapi.currentfmientry.guid = xmlDoc.documentElement.getAttribute('guid');
     editorapi.currentfmientry.modelvariables = [];
     for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
