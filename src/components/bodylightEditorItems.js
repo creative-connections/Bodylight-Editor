@@ -37,7 +37,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-value',
       doc: 'value.md',
-      def: '<bdl-value fromid="id4" refindex="8"></bdl-value>'
+      def: '<bdl-value fromid="idfmi" refindex="8"></bdl-value>'
     },
     {
       name: 'bdl-bind2previous',
@@ -52,12 +52,12 @@ export class BodylightEditorItems {
     {
       name: 'bdl-animate-gif',
       doc: 'animate.md',
-      def: '<bdl-animate-gif fromid="id4" src="doc/heart.gif"></bdl-animate-gif>'
+      def: '<bdl-animate-gif fromid="idfmi" src="doc/heart.gif"></bdl-animate-gif>'
     },
     {
       name: 'bdl-animate-control',
       doc: 'animate.md',
-      def: '<bdl-animate-control id="id4" speedfactor="50"></bdl-animate-control>\n'
+      def: '<bdl-animate-control id="idanimate" speedfactor="50"></bdl-animate-control>\n'
     },
     {
       name: 'bdl-animate-control S',
@@ -70,24 +70,24 @@ export class BodylightEditorItems {
     }, {
       name: 'bdl-audio-on-increase',
       doc: 'audio.md',
-      def: '<bdl-audio-on-increase src="doc/monitor-beep.mp3" thresholdvalue="1e+7" fromid="id4" refindex="8">\n' +
+      def: '<bdl-audio-on-increase src="doc/monitor-beep.mp3" thresholdvalue="1e+7" fromid="idfmi" refindex="8">\n' +
         '</bdl-audio-on-increase>\n'
     }, {
       name: 'bdl-audio-on-decrease',
       doc: 'audio.md',
-      def: '<bdl-audio-on-decrease src="doc/monitor-beep.mp3" thresholdvalue="1e+7" fromid="id4" refindex="8">\n' +
+      def: '<bdl-audio-on-decrease src="doc/monitor-beep.mp3" thresholdvalue="1e+7" fromid="idfmi" refindex="8">\n' +
         '</bdl-audio-on-decrease>'
     }, {
       name: 'bdl-sound-on-increase',
       doc: 'audio.md',
       def: '<bdl-sound-on-increase \n' +
-        '  thresholdvalue="1e+7" fromid="id4" refindex="8" freq="440" volume="0.3">\n' +
+        '  thresholdvalue="1e+7" fromid="idfmi" refindex="8" freq="440" volume="0.3">\n' +
         '</bdl-sound-on-increase> \n'
     }, {
       name: 'bdl-sound-on-decrease',
       doc: 'audio.md',
       def: '<bdl-sound-on-decrease \n' +
-        '  thresholdvalue="1e+7" fromid="id4" refindex="8" freq="440" volume="0.3">\n' +
+        '  thresholdvalue="1e+7" fromid="idfmi" refindex="8" freq="440" volume="0.3">\n' +
         '</bdl-sound-on-decrease> \n'
     }, {
       name: 'bdl-beaker',
@@ -103,8 +103,8 @@ export class BodylightEditorItems {
       def: '<bdl-chartjs-time  \n' +
         '  id="id10" \n' +
         '  width="300" \n' +
-        '  height="500" \n' +
-        '  fromid="id4" \n' +
+        '  height="200" \n' +
+        '  fromid="idfmi" \n' +
         '  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"\n' +
         '  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" \n' +
         '  refindex="2"   \n' +
@@ -116,7 +116,7 @@ export class BodylightEditorItems {
         '  id="id9" \n' +
         '  width="300" \n' +
         '  height="500" \n' +
-        '  fromid="id4" \n' +
+        '  fromid="idfmi" \n' +
         '  type="doughnut" \n' +
         '  labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins"\n' +
         '  initialdata="0,4,2,3" \n' +
@@ -125,7 +125,7 @@ export class BodylightEditorItems {
     }, {
       name: 'bdl-chartjs-xy',
       doc: 'chartjs.md',
-      def: '<bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" \n' +
+      def: '<bdl-chartjs-xy id="id10" width="400" height="400" fromid="idfmi" \n' +
         'labels="Pressure in Left Ventricle, Left Ventricle Volume" \n' +
         'initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" \n' +
         'refindex="0" refvalues="2"></bdl-chartjs-xy>\n'
@@ -134,7 +134,7 @@ export class BodylightEditorItems {
       doc: 'ecg.md',
       def: '<bdl-ecg \n' +
         '  id="id11" \n' +
-        '  fromid="id4"\n' +
+        '  fromid="idfmi"\n' +
         '  labels="ECG I (mV)"\n' +
         '  width="300"\n' +
         '  height="50"></bdl-ecg>\n'

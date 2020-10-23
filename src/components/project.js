@@ -152,6 +152,10 @@ export class Project {
     }
   }
 
+  saveChanges() {
+    if (this.currentfile) this.currentfile.deactivate(this.strategymap);
+  }
+
   add1toname(name) {
     let endswith08 = /[0-8]$/g;
     let endswith09 = /9$/g;

@@ -17,7 +17,7 @@ export class AttributeFmiDialog extends AttributeDialog {
 
   attached() {
     this.attr = {
-      id: 'id' + this.api.idindex, src: this.api.currentfmientry.src,
+      id: 'idfmi' , src: this.api.currentfmientry.src,
       fminame: this.api.currentfmientry.fminame,
       tolerance: '0.000001', starttime: '0', guid: this.api.currentfmientry.guid,
       valuereferences: '637534281,637534272,33554436, 33554437, 33554432, 33554436, 33554437, 33554433, 16777313',
