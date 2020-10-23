@@ -1,5 +1,5 @@
 export class BodylightEditorItems {
-  items = [
+  basicitems = [
     {
       name: 'bdl-fmi',
       doc: 'fmi.md',
@@ -7,9 +7,9 @@ export class BodylightEditorItems {
       dialog: './attribute-fmi-dialog'
     },
     {
-      name:'bdl-animate-adobe',
-      doc:'adobe.md',
-      def:'<bdl-animate-adobe \n' +
+      name: 'bdl-animate-adobe',
+      doc: 'adobe.md',
+      def: '<bdl-animate-adobe \n' +
         '    src="ZelezoCelek.js" \n' +
         '    width="800"\n' +
         '    height="600"\n' +
@@ -17,9 +17,9 @@ export class BodylightEditorItems {
         '    fromid="id4" ></bdl-animate-adobe> \n'
     },
     {
-      name:'bdl-bind2a',
-      doc:'adobe.md',
-      def:'<bdl-bind2a \n' +
+      name: 'bdl-bind2a',
+      doc: 'adobe.md',
+      def: '<bdl-bind2a \n' +
         'findex="0" \n' +
         'aname="ventricles.ventriclesTotal.VentricleLeft_anim" \n' +
         'amin="100" \n' +
@@ -27,7 +27,8 @@ export class BodylightEditorItems {
         'fmin="0.00007" \n' +
         'fmax="0.00015"\n' +
         '></bdl-bind2a>'
-    },
+    }];
+  advanceditems=[
     {
       name: 'bdl-range',
       doc: 'range.md',

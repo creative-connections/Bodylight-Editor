@@ -2,12 +2,17 @@
   <require from="./animations.css"></require>
 
       <div class="w3-border w3-theme-l5 w3-block">
-        <span class="w3-small"><pre style="display:inline">bodylight tools:</pre></span>
-        <span repeat.for="item of items" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+        <span class="w3-small"><pre style="display:inline" title="basic bodylight components">basic:   </pre></span>
+        <span repeat.for="item of basicitems" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
           <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
           <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
-        </span>
-        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        </span><br/>
+        <span class="w3-small"><pre style="display:inline" title="advanced bodylight components">advanced:</pre></span>
+        <span repeat.for="item of advanceditems" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+          <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
+          <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
+        </span><br/>
+        <span class="w3-small"><pre style="display:inline" titke="basic editor tools">editor:  </pre></span>
         <span class="w3-padding-4 w3-hover-blue"  click.delegate="undo()" title="undo"><i class="fa fa-undo"></i></span>
         <span class="w3-padding-4 w3-hover-blue"  click.delegate="redo()" title="redo"><i class="fa fa-repeat"></i></span>
         <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
