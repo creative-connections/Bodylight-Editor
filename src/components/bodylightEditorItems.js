@@ -9,12 +9,12 @@ export class BodylightEditorItems {
     {
       name: 'bdl-animate-adobe',
       doc: 'adobe.md',
-      def: '<bdl-animate-adobe \n' +
-        '    src="ZelezoCelek.js" \n' +
-        '    width="800"\n' +
-        '    height="600"\n' +
-        '    name="ZelezoCelek"\n' +
-        '    fromid="id4" ></bdl-animate-adobe> \n',
+      def: '<bdl-animate-adobe' +
+        '    src="ZelezoCelek.js"' +
+        '    width="800"' +
+        '    height="600"' +
+        '    name="ZelezoCelek"' +
+        '    fromid="idfmi" ></bdl-animate-adobe> \n',
       dialog: './attribute-adobe-dialog'
     },
     {

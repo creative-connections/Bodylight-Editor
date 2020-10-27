@@ -1,15 +1,14 @@
 <template>
-  <p>adobe animate dialog</p>
   <table>
     <!--tr repeat.for="item of api.askAttributesItemsArray">
       <td><label>${item.title}</label></td>
       <td><input value.bind="item.value" /></td>
     </tr-->
-    <tr><td><label>${api.askAttributesItemsArray[1].title}</label></td><td><input value.bind="api.askAttributesItemsArray[1].value" /></td></tr>
     <tr>  <td><label>${api.askAttributesItemsArray[0].title}</label></td>
           <td><select value.bind="api.askAttributesItemsArray[0].value" class="w3-select" style="width:80%;max-width:100%">
             <option repeat.for="js of api.adobeentries" value.bind="js.name">${js.name}</option>
           </select></td></tr>
+    <tr><td><label>${api.askAttributesItemsArray[1].title}</label></td><td><input value.bind="api.askAttributesItemsArray[1].value" /></td></tr>
     <tr>  <td><label>${api.askAttributesItemsArray[2].title}</label></td><td><input value.bind="api.askAttributesItemsArray[2].value" /></td></tr>
     <tr>  <td><label>${api.askAttributesItemsArray[3].title}</label></td><td><input value.bind="api.askAttributesItemsArray[3].value" /></td></tr>
     <tr>  <td><label>${api.askAttributesItemsArray[4].title}</label></td><td><input value.bind="api.askAttributesItemsArray[4].value" /></td></tr>
