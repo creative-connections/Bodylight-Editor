@@ -10,7 +10,7 @@
   "dependencies": {
     "ace-builds": "^1.4.12",
     "aurelia-animator-css": "^1.0.4",
-    "aurelia-bodylight-plugin": "github:creative-connections/aurelia-bodylight-plugin",
+    "aurelia-bodylight-plugin": "^2.0.0",
     "aurelia-bootstrapper": "^2.3.3",
     "createjs-module": "^0.8.3",
     "file-saver": "^2.0.2",

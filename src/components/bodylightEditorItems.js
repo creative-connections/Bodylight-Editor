@@ -14,7 +14,8 @@ export class BodylightEditorItems {
         '    width="800"\n' +
         '    height="600"\n' +
         '    name="ZelezoCelek"\n' +
-        '    fromid="id4" ></bdl-animate-adobe> \n'
+        '    fromid="id4" ></bdl-animate-adobe> \n',
+      dialog: './attribute-adobe-dialog'
     },
     {
       name: 'bdl-bind2a',
@@ -27,6 +28,19 @@ export class BodylightEditorItems {
         'fmin="0.00007" \n' +
         'fmax="0.00015"\n' +
         '></bdl-bind2a>'
+    },
+    {
+      name: 'bdl-chartjs-time',
+      doc: 'chartjs.md',
+      def: '<bdl-chartjs-time  \n' +
+        '  id="id10" \n' +
+        '  width="300" \n' +
+        '  height="200" \n' +
+        '  fromid="idfmi" \n' +
+        '  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"\n' +
+        '  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" \n' +
+        '  refindex="2"   \n' +
+        '  refvalues="6"></bdl-chartjs-time>'
     }];
   advanceditems=[
     {

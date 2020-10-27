@@ -18,6 +18,7 @@ export class Editorapi {
   bs = new BodylightStorage();
   fmientries = [];
   fmientriessrc = [];
+  adobeentries = [];
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -216,6 +217,7 @@ export class Editorapi {
     this.bs.setFmiListEntries(this.fmientries);
     this.bs.setFmiListSrcs(this.fmientriessrc);
   }
+
   getFmiEntries() {
     let that = this;
     this.bs.getFMIListEntries()
@@ -232,5 +234,9 @@ export class Editorapi {
           .then(value2=> that.fmientriessrc = value2);
       });
     //set to first entry in list
+  }
+
+  addAdobeEntry(filename) {
+    this.adobeentries.push(filename);
   }
 }

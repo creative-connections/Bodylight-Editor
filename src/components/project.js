@@ -43,6 +43,7 @@ export class Project {
               this.firstmdfile = true;
               this.open(bodylightfile);
             }
+            this.updateadobeentries();
           }
         } else {
           this.files = [];//DEMOFILES;
@@ -77,6 +78,14 @@ export class Project {
    */
   updatelf() {
     this.api.bs.setFileList(this.files);
+    //update list of adobe files
+    this.updateadobeentries();
+  }
+
+  updateadobeentries() {
+    //console.log('project update adobe entries:',this.files);
+    this.api.adobeentries = this.files.filter(x => x.type.value === FTYPE.ADOBEANIMATE.value);
+    console.log('project update adobe entries:', this.api.adobeentries);
   }
 
   /**
@@ -227,6 +236,10 @@ export class Project {
     }
   }
 
+  /**
+   * extracts ZIP file produced by FMU compiler - contains JS with webassembly and fmu, and modeldescription.xml
+   * @param files array of files - files[0] should contain the zip file
+   */
   extractZipFile(files) {
     JSZip.loadAsync(files[0])
       .then(zip => {

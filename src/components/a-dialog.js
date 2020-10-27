@@ -1,8 +1,10 @@
 import {Editorapi} from './editorapi';
 import {inject} from 'aurelia-framework';
-import { PLATFORM } from 'aurelia-framework'; // need to put references here otherwise compose will not find the view-model components
+import { PLATFORM } from 'aurelia-framework';
+// need to put references here otherwise compose will not find the view-model components
 PLATFORM.moduleName('./attribute-dialog');
 PLATFORM.moduleName('./attribute-fmi-dialog');
+PLATFORM.moduleName('./attribute-adobe-dialog');
 
 @inject(Editorapi)
 export class ADialog {
