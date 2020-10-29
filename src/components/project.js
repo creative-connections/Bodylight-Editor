@@ -43,8 +43,8 @@ export class Project {
               this.firstmdfile = true;
               this.open(bodylightfile);
             } else if ( fileitem.type.value === FTYPE.MODELFILE.value || fileitem.type.value === FTYPE.ADOBEANIMATE.value )  {
-              console.log('opening model JS file');
-              this.insertScriptFile(bodylightfile);
+              console.log('opening model/adobe JS file');
+              //this.api.insertScriptFile(bodylightfile); //MOVED to plugin fallback
             }
             this.updateadobeentries();
           }
@@ -68,29 +68,6 @@ export class Project {
     this.api.getFmiEntries();
   }
 
-  /**
-   * Calls api insertscript to insert the project file or blob content into DOM
-   * @param bodylightfile - expects name property to contain filename - for identification purposes
-   * @param blob - if defined, gets content from this blob as text and inserts it into DOM
-   */
-  insertScriptFile(bodylightfile, blob) {
-    //read content of the file and insert content into the DOM
-    console.log('project.insertScriptFile() inserting script file into DOM', bodylightfile);
-    if (blob) {
-      //blob is defined, read the content of the blob
-      blob.text()
-        .then(txtvalue => {
-          this.api.insertScript(txtvalue, bodylightfile.name);
-        });
-    } else {
-      //blob is not defined, but might be in local storage, load it from there
-      this.api.bs.loadDocContent(bodylightfile.name)
-        .then(blob2 => blob2.text())
-        .then(txtvalue => {
-          this.api.insertScript(txtvalue, bodylightfile.name);
-        });
-    }
-  }
 
   /**
    * Callback when the component is detached, closed e.g. by browser,
@@ -249,14 +226,13 @@ export class Project {
     //window.editor = this;
     reader.onload = this.handleFileLoad;
     let files = event.target.files || event.dataTransfer.files;
-    console.log(files);
+    //console.log(files);
     let filename = files[0].name;
     if (filename.endsWith('.zip')) {
       //extract zip and save blob of extracted files
       this.extractZipFile(files);
-    } else {// save blob of any other file
-      let newfile = new BodylightFile(filename, FTYPE.ADOBEANIMATE, this.api, files[0]);
-      //BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
+    } else {// add other file type into project - save blob into localstorage, etc.
+      let newfile = BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
       this.files.push(newfile);
       this.updatelf();
       this.uploaddialog = false;
@@ -283,7 +259,7 @@ export class Project {
               //fill src of model
               this.api.setFmiEntrySrc(entryname);
               //inserts script into DOM - for previewing
-              this.insertScriptFile(newfile, blob);
+              //this.api.insertScriptFile(newfile, blob); //MOVED to plugin fallback
             }
             //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
             this.files.push(newfile);

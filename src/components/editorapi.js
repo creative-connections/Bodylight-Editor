@@ -22,6 +22,7 @@ export class Editorapi {
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
+    window.editorapi = this;
     ace.require('ace/ext/language_tools');
     this.editor = ace.edit('editorref', {
       mode: 'ace/mode/markdown2',
@@ -242,7 +243,7 @@ export class Editorapi {
 
   //get script element and registers 'onload' callback to be called when the script is loaded
   insertScript(txt, id) {
-    console.log('insertscript');
+    console.log('insertscript() id:', id);
     //if it is already registered - then return
     if (document.getElementById(id)) return;
     //create script with attribute id="$id" to prevent duplicate scripts
@@ -254,5 +255,38 @@ export class Editorapi {
     let inlinescript = document.createTextNode(txt);
     script.appendChild(inlinescript);
     prior.parentNode.insertBefore(script, prior);
+  }
+
+  /**
+   * Inserts script by id = source if it is stored in localstorage
+   * @param id
+   */
+  insertScriptById(id) {
+    let file = {name: id};
+    return this.insertScriptFile(file);
+  }
+
+  /**
+   * Calls api insertscript to insert the project file or blob content into DOM
+   * @param bodylightfile - expects name property to contain filename - for identification purposes
+   * @param blob - if defined, gets content from this blob as text and inserts it into DOM
+   */
+  insertScriptFile(bodylightfile, blob) {
+    //read content of the file and insert content into the DOM
+    console.log('insertScriptFile() inserting script file into DOM', bodylightfile);
+    if (blob) {
+      //blob is defined, read the content of the blob
+      blob.text()
+        .then(txtvalue => {
+          this.insertScript(txtvalue, bodylightfile.name);
+        });
+    } else {
+      //blob is not defined, but might be in local storage, load it from there
+      this.bs.loadDocContent(bodylightfile.name)
+        .then(blob2 => blob2.text())
+        .then(txtvalue => {
+          this.insertScript(txtvalue, bodylightfile.name);
+        });
+    }
   }
 }

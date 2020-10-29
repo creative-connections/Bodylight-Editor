@@ -1,7 +1,4 @@
 import {BodylightFile} from './bodylight-file';
-import {BodylightMdFile} from './bodylight-md-file';
-import {BodylightModelFile} from './bodylight-model-file';
-import {BodylightAnimateFile} from './bodylight-animate-file';
 import {FTYPE} from './bodylight-struct';
 
 export class BodylightFileFactory {
@@ -17,8 +14,8 @@ export class BodylightFileFactory {
     else if (entryname.endsWith('.png')) filetype = FTYPE.IMAGE;
     else if (entryname.endsWith('.jpg')) filetype = FTYPE.IMAGE;
     else filetype = FTYPE.OTHERJS;
-    let newfile = new BodylightFile(entryname, filetype, api);
-    if (blob) {
+    let newfile = new BodylightFile(entryname, filetype, api, blob);
+    /*if (blob) {
       api.bs.saveBlobContent(entryname, blob)
         .then(result => {
           console.log('result saving blob', result);
@@ -28,7 +25,8 @@ export class BodylightFileFactory {
           console.log('error saving blob', error);
           this.uploaddialog = false;
         });
-    }
+    }*/
+
     return newfile();
 
     //expect that by convention of Bodylight Compiler, ZIP contains JS and modelDescription.xml
