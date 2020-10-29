@@ -1,11 +1,8 @@
 <template>
+  adobe dialog
   <table>
-    <!--tr repeat.for="item of api.askAttributesItemsArray">
-      <td><label>${item.title}</label></td>
-      <td><input value.bind="item.value" /></td>
-    </tr-->
     <tr>  <td><label>${api.askAttributesItemsArray[0].title}</label></td>
-          <td><select value.bind="api.askAttributesItemsArray[0].value" class="w3-select" style="width:80%;max-width:100%">
+          <td><select value.two-way="adobesrc" class="w3-select" style="width:80%;max-width:100%">
             <option repeat.for="js of api.adobeentries" value.bind="js.name">${js.name}</option>
           </select></td></tr>
     <tr><td><label>${api.askAttributesItemsArray[1].title}</label></td><td><input value.bind="api.askAttributesItemsArray[1].value" /></td></tr>
