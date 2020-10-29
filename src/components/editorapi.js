@@ -239,4 +239,20 @@ export class Editorapi {
   addAdobeEntry(filename) {
     this.adobeentries.push(filename);
   }
+
+  //get script element and registers 'onload' callback to be called when the script is loaded
+  insertScript(txt, id) {
+    console.log('insertscript');
+    //if it is already registered - then return
+    if (document.getElementById(id)) return;
+    //create script with attribute id="$id" to prevent duplicate scripts
+    let script = document.createElement('script');
+    script.setAttribute('id', id);
+    let prior = document.getElementsByTagName('script')[0];
+    script.async = 1;
+    //no callback, ...
+    let inlinescript = document.createTextNode(txt);
+    script.appendChild(inlinescript);
+    prior.parentNode.insertBefore(script, prior);
+  }
 }

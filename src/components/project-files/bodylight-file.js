@@ -23,7 +23,6 @@ export class BodylightFile {
           console.log('error saving blob', error);
           //this.uploaddialog = false;
         });
-
     }
   }
 

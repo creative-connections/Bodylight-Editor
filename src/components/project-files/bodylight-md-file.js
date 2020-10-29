@@ -35,7 +35,7 @@ export class BodylightMdFile extends BodylightFileStrategy {
       this.api.bs.loadDocContent(file.name)
         .then(content =>{
           //if (content)
-          console.log('content of the file ' + file.name, content);
+          //console.log('content of the file ' + file.name, content);
           if (content) {
             //set editor value - 1 cursor at the end
             if (typeof(content) === 'string') this.api.editor.setValue(content, 1);

@@ -31,8 +31,8 @@ export class AttributeFmiDialog extends AttributeDialog {
   }
 
   activate() {
-    console.log('attributefmidialog activated src:', this.src);
-    this.sources = ['MeursFMI2.js', 'BurkhoffFMI.js', 'IronMetabolism.js'];
+    //console.log('attributefmidialog activated src:', this.src);
+    //this.sources = ['MeursFMI2.js', 'BurkhoffFMI.js', 'IronMetabolism.js'];
   }
 
   bind() {
@@ -61,46 +61,10 @@ export class AttributeFmiDialog extends AttributeDialog {
     this.api.submitattr1 = 'bdl-fmi';
     this.api.submitattr2 = this.attr;
     //load script content and insert it into current DOM so it can be interpretted and previewed
-    this.api.bs.loadDocContent(this.attr.src)
-      .then(blob => blob.text())
-      .then(txtvalue => {
-        //console.log('content of script "' + this.attr.src + '" is:', txtvalue);
-        //insert script into current window context - so it can be previewed
-        window.apicallback = this.api.submitattr;
-        this.insertScript(txtvalue, this.attr.src);
-        this.api.submitattr('bdl-fmi', this.attr);
-      });
-    //now call inherited method to convert attr to xml
+    //REFACTORED - loaddoccontent moved to PROJECT - calling only submitattr
+    this.api.submitattr('bdl-fmi', this.attr);
   }
 
-  //get script element and registers 'onload' callback to be called when the script is loaded
-  insertScript(txt, id) {
-    console.log('insertscript');
-    //if it is already registered - then return
-    if (document.getElementById(id)) return;
-    //create script with attribute id="$id" to prevent duplicate scripts
-    let script = document.createElement('script');
-    script.setAttribute('id', id);
-    let prior = document.getElementsByTagName('script')[0];
-    script.async = 1;
-    /*
-    script.onload = script.onreadystatechange = function( _, isAbort ) {
-      if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
-        script.onload = script.onreadystatechange = null;
-        script = undefined;
-        console.log('script inserted, onload ...');
-
-        if (!isAbort && callback) {
-          console.log('script inserted, calling callback');
-          setTimeout(callback, 0);
-        }
-      }
-    };
-*/
-    let inlinescript = document.createTextNode(txt);
-    script.appendChild(inlinescript);
-    prior.parentNode.insertBefore(script, prior);
-  }
 
   showhidefmicontrol() {
     this.showfmicontrol = ! this.showfmicontrol;

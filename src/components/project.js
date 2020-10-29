@@ -42,6 +42,9 @@ export class Project {
               console.log('opening first md file', fileitem);
               this.firstmdfile = true;
               this.open(bodylightfile);
+            } else if ( fileitem.type.value === FTYPE.MODELFILE.value || fileitem.type.value === FTYPE.ADOBEANIMATE.value )  {
+              console.log('opening model JS file');
+              this.insertScriptFile(bodylightfile);
             }
             this.updateadobeentries();
           }
@@ -63,6 +66,30 @@ export class Project {
     //this.api = api;
     this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
+  }
+
+  /**
+   * Calls api insertscript to insert the project file or blob content into DOM
+   * @param bodylightfile - expects name property to contain filename - for identification purposes
+   * @param blob - if defined, gets content from this blob as text and inserts it into DOM
+   */
+  insertScriptFile(bodylightfile, blob) {
+    //read content of the file and insert content into the DOM
+    console.log('project.insertScriptFile() inserting script file into DOM', bodylightfile);
+    if (blob) {
+      //blob is defined, read the content of the blob
+      blob.text()
+        .then(txtvalue => {
+          this.api.insertScript(txtvalue, bodylightfile.name);
+        });
+    } else {
+      //blob is not defined, but might be in local storage, load it from there
+      this.api.bs.loadDocContent(bodylightfile.name)
+        .then(blob2 => blob2.text())
+        .then(txtvalue => {
+          this.api.insertScript(txtvalue, bodylightfile.name);
+        });
+    }
   }
 
   /**
@@ -255,6 +282,8 @@ export class Project {
             } else {
               //fill src of model
               this.api.setFmiEntrySrc(entryname);
+              //inserts script into DOM - for previewing
+              this.insertScriptFile(newfile, blob);
             }
             //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
             this.files.push(newfile);
