@@ -67,16 +67,20 @@ export class AttributeFmiDialog extends AttributeDialog {
         //console.log('content of script "' + this.attr.src + '" is:', txtvalue);
         //insert script into current window context - so it can be previewed
         window.apicallback = this.api.submitattr;
-        this.insertScript(txtvalue);
+        this.insertScript(txtvalue, this.attr.src);
         this.api.submitattr('bdl-fmi', this.attr);
       });
     //now call inherited method to convert attr to xml
   }
 
   //get script element and registers 'onload' callback to be called when the script is loaded
-  insertScript(txt, callback) {
+  insertScript(txt, id) {
     console.log('insertscript');
+    //if it is already registered - then return
+    if (document.getElementById(id)) return;
+    //create script with attribute id="$id" to prevent duplicate scripts
     let script = document.createElement('script');
+    script.setAttribute('id', id);
     let prior = document.getElementsByTagName('script')[0];
     script.async = 1;
     /*
