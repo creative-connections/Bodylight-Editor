@@ -31,8 +31,7 @@ export class AttributeFmiDialog extends AttributeDialog {
   }
 
   activate() {
-    //console.log('attributefmidialog activated src:', this.src);
-    //this.sources = ['MeursFMI2.js', 'BurkhoffFMI.js', 'IronMetabolism.js'];
+
   }
 
   bind() {
