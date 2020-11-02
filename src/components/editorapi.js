@@ -38,6 +38,32 @@ export class Editorapi {
     });
     let that = this;
 
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    /*function debounce(func, wait, immediate) {
+      let timeout;
+      return function() {
+        let context = this;
+        let args = arguments;
+        let later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        let callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    }
+
+    let renderchange = debounce(function(delta) {
+      if (delta.start.row !== delta.end.row) {
+        that.renderchange(that);
+      }
+    }, 2000);*/
+
     this.editor.on('change', function(delta) {
       if (delta.start.row !== delta.end.row) {
         that.renderchange(that);
@@ -287,6 +313,116 @@ export class Editorapi {
         .then(txtvalue => {
           this.insertScript(txtvalue, bodylightfile.name);
         });
+    }
+  }
+
+  /**
+   * Discovers animable objects in Adobe Animation
+   * Should be called when a dialog needs animobjs for select form etc.
+   */
+  discoverAdobeAnimate() {
+    if (window.ani) {
+      //window.ani.objs = Object.keys(window.ani.exportRoot.children[0]);
+      //filter objects by purpose - so it can be bind to model value
+      //first level is discovered - but other levels may contain objects
+      //window.ani.animobjs = window.ani.objs.filter(name => name.endsWith('_anim'));
+      //window.ani.animobjs =
+      this.animobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_anim');
+      console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
+      this.textobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_text');
+      this.playobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_play');
+      //window.ani.textobjs = window.ani.objs.filter(name => name.endsWith('_text'));
+      //window.ani.playobjs = window.ani.objs.filter(name => name.endsWith('_play'));
+    }
+  }
+
+  // returns array of strings in form @preffix.name in case name contains @suffix
+  // root is root element array like, it's property name is checked for prefix
+  //in form prefix - root name e.g. ['ventricles.ventriclesTotal.VentricleLeft_anim','ventricles.ventriclesTotal.VentricleRight_anim']
+  discoverChildren(root, prefix, suffix) {
+    let discovered = [];
+    //console.log('discovering', prefix);
+    if (root.children) {
+    //depth first
+      for (let child of root.children) {
+        //object ending with suffix is what we need to discover
+        if (child.name && child.name.endsWith(suffix)) {
+          discovered.push(prefix + child.name);
+        }
+        //index needed when 'name' is undefined - so access via index in array
+        let index = 0;
+        if (!child.name) index = root.children.indexOf(child); //name is not defined then discover index
+        if (child.children) {
+          discovered = discovered.concat(
+            //recursive calling to discover names in all children
+            this.discoverChildren(
+              child,
+              child.name ? prefix + child.name + '.' : prefix + 'children.' + index + '.',
+              //add name into the discovered childre, e.g. full.myname
+              //otherwise add children.$index - e.g. full.children.1
+              suffix
+            )
+          );
+        }
+      }
+    }
+    return discovered;
+  }
+
+  //blinks object in adobe animate 3 times, every blink will take 3 seconds
+  blink(objname) {
+    console.log('blink "' + objname + '"');
+    let k = 0;
+    for (let j = 0; j < 2; j++) {
+      for (let i = -1; i <= 1; i += 0.1) {
+        let that = this;
+        k++;
+        setTimeout(function() {
+          that.setAnimationValue(objname, Math.abs(i), (i === -1 && j === 0), (i > 0.99 && j === 1), j === 0);
+        }, 100 * k);
+      }
+    }
+  }
+
+  //
+  /**
+   * set the animation value of the object objname
+   * @param objname to blink effect
+   * @param value, value between 0 and 1 to be set for 'alpha' property of the object
+   * @param first, boolean value whether this is first in blinking sequence, enables animation
+   * @param last, boolean value whether this is last in blinking sequence, disables animation
+   * @param doalpha, boolean value if animate as alpha or animate as values
+   */
+
+  setAnimationValue(objname, value, first, last, doalpha) {
+    //console.log('adobe-animate() setting window.ani.exportRoot.children[0][' + objname + '].alpha(' + value + ')');
+    if (first) {
+      //stopall animation
+      window.ani.stage.stop();
+      //enable ticker
+      window.createjs.Ticker.addEventListener('tick', window.ani.stage);
+    }
+    if (window.ani.exportRoot) {
+      //resolve path from string
+      const resolvePath = (object, path, defaultValue) => path
+        .split('.')
+        .reduce((o, p) => o ? o[p] : defaultValue, object);
+      let myobj = resolvePath(window.ani.exportRoot.children[0], objname, undefined);
+      //myobj is resolved in structure
+      if (myobj) {
+        if (doalpha) {//animate via setting alpha
+          if (last) myobj.alpha = 1;
+          else myobj.alpha = value;
+        } else { //do animation
+          if (last) myobj.gotoAndStop(Math.floor(100));
+          else myobj.gotoAndStop(Math.floor(100 * value));
+        }
+      }
+    }
+    if (last) {
+      //disable ticker
+      //console.log('last alpha for object', objname);
+      window.createjs.Ticker.removeEventListener('tick', window.ani.stage);
     }
   }
 }

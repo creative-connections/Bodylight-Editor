@@ -1,0 +1,19 @@
+<template>
+<table>
+  <tr><td><label>${api.askAttributesItemsArray[0].title}</label></td><td><input value.bind="api.askAttributesItemsArray[0].value" /></td></tr>
+  <tr>  <td><label>${api.askAttributesItemsArray[1].title}</label></td>
+    <td><select value.two-way="adobeobj" class="w3-select" style="width:80%;max-width:100%">
+      <option repeat.for="js of api.animobjs" value.bind="js">${js}</option>
+    </select></td></tr>
+  <tr>  <td><label>${api.askAttributesItemsArray[2].title}</label></td><td><input value.bind="api.askAttributesItemsArray[2].value" /></td></tr>
+  <tr>  <td><label>${api.askAttributesItemsArray[3].title}</label></td><td><input value.bind="api.askAttributesItemsArray[3].value" /></td></tr>
+  <tr>  <td><label>${api.askAttributesItemsArray[4].title}</label></td><td><input value.bind="api.askAttributesItemsArray[4].value" /></td></tr>
+  <tr>  <td><label>${api.askAttributesItemsArray[5].title}</label></td><td><input value.bind="api.askAttributesItemsArray[5].value" /></td></tr>
+  </tr>
+</table>
+<div class="w3-center w3-padding">
+  <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
+  <!--button class="w3-button w3-theme-l4" click.delegate="reset()">Reset</button-->
+  <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
+</div>
+</template>

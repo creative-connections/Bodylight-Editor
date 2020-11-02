@@ -27,7 +27,8 @@ export class BodylightEditorItems {
         'amax="0" \n' +
         'fmin="0.00007" \n' +
         'fmax="0.00015"\n' +
-        '></bdl-bind2a>'
+        '></bdl-bind2a>',
+      dialog: './attribute-bind2a-dialog'
     },
     {
       name: 'bdl-chartjs-time',

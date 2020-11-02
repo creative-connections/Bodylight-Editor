@@ -5,6 +5,7 @@ import { PLATFORM } from 'aurelia-framework';
 PLATFORM.moduleName('./attribute-dialog');
 PLATFORM.moduleName('./attribute-fmi-dialog');
 PLATFORM.moduleName('./attribute-adobe-dialog');
+PLATFORM.moduleName('./attribute-bind2a-dialog');
 
 @inject(Editorapi)
 export class ADialog {
