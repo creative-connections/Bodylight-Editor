@@ -414,8 +414,8 @@ export class Editorapi {
           if (last) myobj.alpha = 1;
           else myobj.alpha = value;
         } else { //do animation
-          if (last) myobj.gotoAndStop(Math.floor(100));
-          else myobj.gotoAndStop(Math.floor(100 * value));
+          //if (last) myobj.gotoAndStop(Math.floor(100));
+          myobj.gotoAndStop(Math.floor(100 * value));
         }
       }
     }
