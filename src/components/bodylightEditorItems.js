@@ -42,6 +42,18 @@ export class BodylightEditorItems {
         '  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" \n' +
         '  refindex="2"   \n' +
         '  refvalues="6"></bdl-chartjs-time>'
+    },
+    {
+      name: 'bdl-plotly',
+      doc: 'plotly.md',
+      def: '<bdl-plotly\n' +
+        '  fromid="fmiid"\n' +
+        '  refindex="0"\n' +
+        '  refvalues="2"\n' +
+        '  maxdata="255"\n' +
+        '  width="600"\n' +
+        '  height="300"\n' +
+        '  convertors="x/133.32;1,60"></bdl-plotly>'
     }];
   advanceditems=[
     {

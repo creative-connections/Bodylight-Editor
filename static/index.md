@@ -12,3 +12,16 @@
    * <i class="fa fa-repeat"></i> redo the operation of addin the item
    * <i class="fa fa-bold fa-italic"></i>H1 H2 ... - adds bold,italic, header 1, header 2, ...
 4) Save project or export project (HTML with `bodylight.bundle.js`) using <button class="w3-button w3-bar-item w3-theme-l4"><i class="fa fa-bars"></i> Project menu</button>.
+
+## Other tools
+  * Bodylight web components 
+    * Aurelia plugin https://github.com/creative-connections/aurelia-bodylight-plugin
+    * Standard Web Components Bundle https://github.com/creative-connections/Bodylight.js-Components
+  * Bodylight FMU Compiler - https://github.com/creative-connections/Bodylight.js-FMU-Compiler
+  * Bodylight Composer - does not support web components yet - https://github.com/creative-connections/Bodylight.js-Composer
+
+## Sample web simulators
+  * Bodylight Scenarios
+    * source codes in MD - https://github.com/creative-connections/Bodylight-Scenarios/
+    * rendered in browser - https://bodylight.physiome.cz/Bodylight-Scenarios/  
+  
