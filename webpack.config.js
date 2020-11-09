@@ -7,6 +7,8 @@ const project = require('./aurelia_project/aurelia.json');
 const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || [];
@@ -58,6 +60,14 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
   },
   optimization: {
+    minimize: production ? true : false,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: {
+          pure_funcs: [ 'console.log' ]
+        }
+      }
+    })],
     runtimeChunk: true,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
@@ -182,7 +192,9 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
     })),
     ...when(!tests, new CopyWebpackPlugin({patterns: [
-      { from: 'static', to: outDir }]})), // ignore dot (hidden) files
+      { from: 'static', to: outDir },
+      //add bodylight.bundle - needed when exporting the project as a ZIP file
+      {from: 'node_modules/bodylight-components/dist/bodylight.bundle.js', to: outDir}]})), // ignore dot (hidden) files
     ...when(analyze, new BundleAnalyzerPlugin()),
     /**
      * Note that the usage of following plugin cleans the webpack output directory before build.
