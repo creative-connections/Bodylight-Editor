@@ -17,17 +17,28 @@ export class BodylightStorage {
   getFileList() {
     return localForage.getItem(LFKEYS.FILELIST)
       .then(value=>{
+        //add api to the structure retrieved from storage
+        //for (let item of value) item.api = api;
         return value;
       })
       .catch(error=>{
-        console.log('BodylightStorage getFileList:', error);
+        console.error('BodylightStorage getFileList:', error);
         //set demo files
         return error;
       });
   }
 
   setFileList(files) {
-    localForage.setItem(LFKEYS.FILELIST, files);
+    /*let filesclone = files.slice(0);
+    //remove api property from files structure to be stored
+    for (let fitem of filesclone) {
+      console.log('removing api property', fitem.api);
+      fitem.api = undefined;
+      console.log('removing api property', fitem.api);
+    }*/
+    const filesclone = files.map(({api, ...keepAttrs}) => keepAttrs);
+    console.log('BodylightStorage setfilelist() files:', filesclone);
+    localForage.setItem(LFKEYS.FILELIST, filesclone);
   }
 
   saveDocContent(filename, content) {

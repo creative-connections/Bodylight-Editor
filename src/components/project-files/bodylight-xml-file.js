@@ -2,7 +2,7 @@ import {BodylightMdFile} from './bodylight-md-file';
 
 
 export class BodylightXmlFile extends BodylightMdFile {
-  deactivate(file){
+  deactivate(file) {
     file.active = false;
   }
 }

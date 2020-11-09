@@ -6,8 +6,8 @@ export class BodylightMdFile extends BodylightFileStrategy {
   loadFile(file) {
     return super.loadFile(file)
       .then(content =>{
-        if (content) this.api.editor.setValue(content);
-        else this.api.editor.setValue('');
+        if (content) file.api.editor.setValue(content);
+        else file.api.editor.setValue('');
         return content;
       });
   }
@@ -19,7 +19,7 @@ export class BodylightMdFile extends BodylightFileStrategy {
       let blob = new Blob([newcontent], {
         type: 'text/plain'
       });
-      this.api.bs.saveBlobContent(file.name, blob)
+      file.api.bs.saveBlobContent(file.name, blob)
         .then(result => {
           console.log('result saving blob', result);
           //this.uploaddialog = false;
@@ -28,29 +28,29 @@ export class BodylightMdFile extends BodylightFileStrategy {
           console.log('error saving blob', error);
           //this.uploaddialog = false;
         });
-      this.api.editor.setValue(newcontent, 1);
-      this.api.editor.focus();
+      file.api.editor.setValue(newcontent, 1);
+      file.api.editor.focus();
     } else {
       //opening md file
-      this.api.bs.loadDocContent(file.name)
+      file.api.bs.loadDocContent(file.name)
         .then(content =>{
           //if (content)
           //console.log('content of the file ' + file.name, content);
           if (content) {
             //set editor value - 1 cursor at the end
-            if (typeof(content) === 'string') this.api.editor.setValue(content, 1);
+            if (typeof(content) === 'string') file.api.editor.setValue(content, 1);
             if (content instanceof Blob) {
               //read content of blob
               const reader = new FileReader();
               reader.addEventListener('loadend', () => {
                 // reader.result contains the contents of blob as a typed array
                 //set editor value - 1 cursor at the end
-                this.api.editor.setValue(reader.result, 1);
+                file.api.editor.setValue(reader.result, 1);
               });
               reader.readAsText(content);
             }
-          } else this.api.editor.setValue('');
-          this.api.editor.focus();
+          } else file.api.editor.setValue('');
+          file.api.editor.focus();
         })
         .catch(err=>console.log('project open file error', err));
     }
@@ -58,6 +58,6 @@ export class BodylightMdFile extends BodylightFileStrategy {
 
   deactivate(file) {
     super.deactivate(file);
-    this.api.bs.saveDocContent(file.name, this.api.editor.getValue());
+    file.api.bs.saveDocContent(file.name, file.api.editor.getValue());
   }
 }

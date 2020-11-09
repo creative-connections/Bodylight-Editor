@@ -15,17 +15,14 @@ export const FTYPE = {
 };
 
 //call it once when the api is known - e.g. when project is attached
-export function createStrategyMap(api) {
-  let mymap = new Map();
-  mymap.set('MDFILE', new BodylightMdFile(api));
-  mymap.set('MODELFILE', new BodylightModelFile(api));
-  mymap.set('ADOBEANIMATE', new BodylightAnimateFile(api));
-  mymap.set('ANIMATEDGIF', new BodylightAnimateFile(api));
-  mymap.set('IMAGE', new BodylightAnimateFile(api));
-  mymap.set('OTHERJS', new BodylightJsFile(api));
-  mymap.set('DESCRIPTIONFILE', new BodylightXmlFile(api));
-  return mymap;
-}
+export const FileType2StrategyMap = new Map();
+FileType2StrategyMap.set('MDFILE', new BodylightMdFile());
+FileType2StrategyMap.set('MODELFILE', new BodylightModelFile());
+FileType2StrategyMap.set('ADOBEANIMATE', new BodylightAnimateFile());
+FileType2StrategyMap.set('ANIMATEDGIF', new BodylightAnimateFile());
+FileType2StrategyMap.set('IMAGE', new BodylightAnimateFile());
+FileType2StrategyMap.set('OTHERJS', new BodylightJsFile());
+FileType2StrategyMap.set('DESCRIPTIONFILE', new BodylightXmlFile());
 
 export const DEMOFILES = [
   {name: 'index.md', type: FTYPE.MDFILE, active: false},

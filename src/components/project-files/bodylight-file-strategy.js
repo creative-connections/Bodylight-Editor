@@ -1,7 +1,6 @@
 export class BodylightFileStrategy {
-
-  constructor(api) {
-    this.api = api;
+  constructor() {
+    //this.api = api;
   }
   /**
    * Loads file and returns it's content
@@ -9,11 +8,14 @@ export class BodylightFileStrategy {
    */
   loadFile(file) {
     //opening md file
-    return this.api.bs.loadDocContent(file.name)
-      .then(content =>{
-        return content;
-      })
-      .catch(err=>{console.log('project open file error', err); return err;});
+    if (file.api) {
+      return file.api.bs.loadDocContent(file.name)
+        .then(content =>{
+          return content;
+        })
+        .catch(err=>{console.log('project open file error', err); return err;});
+    }
+    //TODO fail when file.api is not available
   }
 
   /**

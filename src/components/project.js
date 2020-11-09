@@ -6,7 +6,8 @@ import JSZip from 'jszip';
 import './project-files/bodylight-struct';
 //import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
-import {FTYPE, DEMOCONTENT, createStrategyMap} from './project-files/bodylight-struct';
+import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
+import {LFKEYS} from './project-files/bodylight-storage';
 
 @inject(Editorapi, EventAggregator)
 export class Project {
@@ -30,11 +31,12 @@ export class Project {
     this.api.bs.getFileList()
       .then(value=>{
         //adds every file from storage to the visible list
+        console.log('Project attached() filelist:', value);
         if (value) {
           //convert array of struct to array of objects
           this.files = [];
           for (let fileitem of value) {
-            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
+            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type, this.api);
             this.files.push(bodylightfile);
             //first MD file - read content and put it into editor
             console.log('adding file from local storage', fileitem);
@@ -64,7 +66,7 @@ export class Project {
       this.currentfile.type = FTYPE[fileitems[0].value];
     });
     //this.api = api;
-    this.strategymap = createStrategyMap(this.api);
+    //this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
   }
 
@@ -107,7 +109,7 @@ export class Project {
     //switch to file
     this.currentfile = file;
     //activate it
-    this.currentfile.activate(this.strategymap);
+    this.currentfile.activate();//this.strategymap);
   }
 
   /**
@@ -148,7 +150,7 @@ export class Project {
       /*let blob = new Blob([content], {
         type: 'text/plain'
       });*/
-      let newfile = new BodylightFile(filename, FTYPE.MDFILE);
+      let newfile = new BodylightFile(filename, FTYPE.MDFILE, this.api);
       //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
 
       //push to file array - update localstorage
@@ -157,16 +159,18 @@ export class Project {
 
       //if currentfile is some other file - then save content an deactivate
       if (this.currentfile) {
-        this.currentfile.deactivate(this.strategymap);
+        if (!this.currentfile.api) this.currentfile.api = this.api;
+        this.currentfile.deactivate();//this.strategymap);
       }
       //activate new file
       this.currentfile = newfile;
-      this.currentfile.activate(this.strategymap, content);
+      if (!this.currentfile.api) this.currentfile.api = this.api;
+      this.currentfile.activate(content);
     }
   }
 
   saveChanges() {
-    if (this.currentfile) this.currentfile.deactivate(this.strategymap);
+    if (this.currentfile) this.currentfile.deactivate();//this.strategymap);
   }
 
   add1toname(name) {
@@ -281,7 +285,7 @@ export class Project {
               let myproject = JSON.parse(value);
               //project files needs to be instantiated
               for (let fileitem of myproject.files) {
-                this.files.push(new BodylightFile(fileitem.name, fileitem.type));
+                this.files.push(new BodylightFile(fileitem.name, fileitem.type,this.api));
               }
               //fmientries stored in project file
               this.api.fmientries = myproject.fmientries;
@@ -354,6 +358,9 @@ export class Project {
    * exports as HTML and related files, which can be published in web server or served locally
    */
   exportAsHtml() {
+    let filename = prompt('Web simulator project file name (*.zip):', 'project.zip');
+    if (!filename) return;
+    if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
     this.showButtons = false;
     let indexhtmlcontent = `<!DOCTYPE html>
 <html>
@@ -374,7 +381,8 @@ export class Project {
 
     //let indexhtml = new BodylightFile('index.html', FTYPE.MDFILE, this.api, indexhtmlblob);
     //htmlfiles.push(indexhtml);
-    let bundleurl = 'https://cdn.jsdelivr.net/npm/bodylight-components@2.0.1/dist/bodylight.bundle.js';
+    //TODO push most updated bundle - best local - rather then from CDN in case of offline use
+    let bundleurl = 'https://cdn.jsdelivr.net/npm/bodylight-components@2.0.6/dist/bodylight.bundle.js';
     fetch(bundleurl)
       .then(res => res.blob())
       .then(bodylightblob => {
@@ -388,6 +396,22 @@ export class Project {
         zip.file('index.html', indexhtmlcontent);
         //adds bodylight.bundle.js
         zip.file('bodylight.bundle.js', bodylightblob);
+        //create default summary if it is not part of the project already
+        if (!this.files.find(file => file.name === 'summary.md')) {
+          let summarymdcontent = '';
+          //loop over mdfiles only, each mdfile will be an entry
+          for (let file of this.files.filter(item => item.type.value === FTYPE.MDFILE.value)) {
+            summarymdcontent += '  *[' + file.name + '](#' + file.name + ')\n';
+          }
+          //create blob from generated content
+          let sblob = new Blob([summarymdcontent], {type: 'text/plain;charset=utf-8'});
+          //store file and blob in local storage
+          let sbodylightfile = new BodylightFile('summary.md', FTYPE.MDFILE, this.api, sblob);
+          //and add it into project 'files' structure
+          this.files.push(sbodylightfile);
+          //zip the summary file
+          zip.file('summary.md', summarymdcontent);
+        }
         //adds all project files
         for (let file of this.files) {
           //'blob' or 'string' content are zipped as entries

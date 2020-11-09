@@ -1,4 +1,4 @@
-import {FTYPE, createStrategyMap} from './bodylight-struct';
+import {FTYPE, FileType2StrategyMap} from './bodylight-struct';
 
 export class BodylightFile {
   name='';
@@ -11,6 +11,7 @@ export class BodylightFile {
     //do not serialize api and strategymap
     //instantiates the class in strategy field
     //this.strategy = window[this.type.strategy](this);
+    this.api = api;
     if (api && blob) {
       //store blob
       //api.bs.saveBlobContent(name, blob);
@@ -20,7 +21,7 @@ export class BodylightFile {
           //this.uploaddialog = false;
         })
         .catch(error => {
-          console.log('error saving blob', error);
+          console.error('error saving blob', error);
           //this.uploaddialog = false;
         });
     }
@@ -28,17 +29,15 @@ export class BodylightFile {
 
   changetype(type) {
     this.type = type;
-    //this.strategy = window[this.type.strategy](this);
   }
 
-  activate(strategies, content) {
-    //based on type execute strategy
-    strategies.get(this.type.name).activate(this, content);
-    //this.strategy.activate(content);
+  activate(content) {
+    //delegate to file type
+    FileType2StrategyMap.get(this.type.name).activate(this, content);
   }
 
-  deactivate(strategies) {
-    strategies.get(this.type.name).deactivate(this);
-    //this.strategy.deactivate();
+  deactivate() {
+    //delegate to file type
+    FileType2StrategyMap.get(this.type.name).deactivate(this);
   }
 }
