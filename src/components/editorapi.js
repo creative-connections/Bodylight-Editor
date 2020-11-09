@@ -65,6 +65,7 @@ export class Editorapi {
     }, 2000);*/
 
     this.editor.on('change', function(delta) {
+      //render only when new line or deleted line appears
       if (delta.start.row !== delta.end.row) {
         that.renderchange(that);
       }

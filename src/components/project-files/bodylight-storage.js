@@ -49,6 +49,18 @@ export class BodylightStorage {
     return localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
   }
 
+  renameDoc(oldfilename, newfilename) {
+    localForage.getItem(LFKEYS.FILECONTENT + '.' + oldfilename)
+      .then(value => {
+        //save value under new key
+        this.saveDocContent(newfilename, value)
+          .then(result => {
+            //remove oldfilename key
+            localForage.removeItem(LFKEYS.FILECONTENT + '.' + oldfilename);
+          });
+      });
+  }
+
   saveBlobContent(filename, blob) {
     return localForage.setItem(LFKEYS.FILECONTENT + '.' + filename, blob);
   }

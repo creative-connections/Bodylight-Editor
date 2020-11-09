@@ -19,6 +19,10 @@ export class Project {
   constructor(api, ea) {
     this.api = api;
     this.ea = ea;
+    this.handleContentUpdate = e => {
+      //content update is called by editor - catch this event and save changes
+      this.saveChanges();
+    };
     //this.bs = bs;
   }
 
@@ -65,6 +69,7 @@ export class Project {
       //assign type in fileitems[0].value will be name of the FTYPE in string
       this.currentfile.type = FTYPE[fileitems[0].value];
     });
+    document.getElementById('editorref').addEventListener('contentupdate', this.handleContentUpdate);
     //this.api = api;
     //this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
@@ -76,7 +81,9 @@ export class Project {
    * stores file list and content of the files internally
    */
   detached() {
-
+    const editorel = document.getElementById('editorref');
+    if (editorel) editorel.removeEventListener('contentupdate', this.handleContentUpdate);
+    //this.ea.unsubscribe
   }
 
   /**
@@ -285,7 +292,7 @@ export class Project {
               let myproject = JSON.parse(value);
               //project files needs to be instantiated
               for (let fileitem of myproject.files) {
-                this.files.push(new BodylightFile(fileitem.name, fileitem.type,this.api));
+                this.files.push(new BodylightFile(fileitem.name, fileitem.type, this.api));
               }
               //fmientries stored in project file
               this.api.fmientries = myproject.fmientries;
@@ -323,9 +330,13 @@ export class Project {
    * Saves project as ZIP file
    */
   save() {
+    let filename = prompt('Enter file name of web simulator project(*.zip):', 'project.zip');
+    if (!filename) return;
+    if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
     this.showButtons = false;
     let zip = new JSZip();
-    zip.file('bodylight-project.json', JSON.stringify({files: this.files, fmientries: this.api.fmientries, fmientriessrc: this.api.fmientriessrc}));
+    const filesclone = this.files.map(({api, ...keepAttrs}) => keepAttrs);
+    zip.file('bodylight-project.json', JSON.stringify({files: filesclone, fmientries: this.api.fmientries, fmientriessrc: this.api.fmientriessrc}));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
       zip.file(file.name, this.api.bs.loadDocContent(file.name));
@@ -358,21 +369,22 @@ export class Project {
    * exports as HTML and related files, which can be published in web server or served locally
    */
   exportAsHtml() {
-    let filename = prompt('Web simulator project file name (*.zip):', 'project.zip');
-    if (!filename) return;
-    if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
+    let projectname = prompt('Enter file name for web simulator export to HTML(packed in *.zip):', 'projectexport.zip');
+    if (!projectname) return;
+    let filename = projectname;
+    if (!projectname.endsWith('.zip')) filename = projectname.concat('.zip');
     this.showButtons = false;
+    let firstmdfile = this.files.filter(item => item.type.value === FTYPE.MDFILE.value)[0];
     let indexhtmlcontent = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Bodylight Web Components</title>
+    <title>${projectname}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
   </head>
   <body aurelia-app="webcomponents">
-
-    <bdl-markdown-book index="index.md" summary="summary.md">
+    <bdl-markdown-book index="${firstmdfile.name}" summary="summary.md">
       <img src="loading.gif"/>
     </bdl-markdown-book>
   </body>
@@ -382,7 +394,7 @@ export class Project {
     //let indexhtml = new BodylightFile('index.html', FTYPE.MDFILE, this.api, indexhtmlblob);
     //htmlfiles.push(indexhtml);
     //TODO push most updated bundle - best local - rather then from CDN in case of offline use
-    let bundleurl = 'https://cdn.jsdelivr.net/npm/bodylight-components@2.0.6/dist/bodylight.bundle.js';
+    let bundleurl = 'bodylight.bundle.js';
     fetch(bundleurl)
       .then(res => res.blob())
       .then(bodylightblob => {
@@ -396,12 +408,17 @@ export class Project {
         zip.file('index.html', indexhtmlcontent);
         //adds bodylight.bundle.js
         zip.file('bodylight.bundle.js', bodylightblob);
+        //adds all project files
+        for (let file of this.files) {
+          //'blob' or 'string' content are zipped as entries
+          zip.file(file.name, this.api.bs.loadDocContent(file.name));
+        }
         //create default summary if it is not part of the project already
         if (!this.files.find(file => file.name === 'summary.md')) {
           let summarymdcontent = '';
           //loop over mdfiles only, each mdfile will be an entry
           for (let file of this.files.filter(item => item.type.value === FTYPE.MDFILE.value)) {
-            summarymdcontent += '  *[' + file.name + '](#' + file.name + ')\n';
+            summarymdcontent += '  * [' + file.name + '](#' + file.name + ')\n';
           }
           //create blob from generated content
           let sblob = new Blob([summarymdcontent], {type: 'text/plain;charset=utf-8'});
@@ -411,17 +428,42 @@ export class Project {
           this.files.push(sbodylightfile);
           //zip the summary file
           zip.file('summary.md', summarymdcontent);
+          this.updatelf();
         }
-        //adds all project files
-        for (let file of this.files) {
-          //'blob' or 'string' content are zipped as entries
-          zip.file(file.name, this.api.bs.loadDocContent(file.name));
-        }
-        //and generates ZIP and save it
-        zip.generateAsync({type: 'blob'})
-          .then(function(blob) {
-            saveAs(blob, 'project-export.zip');
+        //add loading animated gif
+        let loadinggifurl = 'loading.gif';
+        fetch(loadinggifurl)
+          .then(res => res.blob())
+          .then(loadingblob =>{
+            zip.file(loadinggifurl, loadingblob);
+            //and generates ZIP and save it
+          })
+          .catch(error =>{
+            console.error('Project exportAsHtml() error:',error);
+            //and generates ZIP and save it
+          })
+          .finally(()=>{
+            zip.generateAsync({type: 'blob'})
+              .then(function(blob) {
+                saveAs(blob, filename);
+              });
           });
       });
+  }
+  rename(file) {
+    let oldfilename = file.name;
+    let filename = prompt('Rename file name:', file.name);
+    //empty filename - no change
+    if (!filename) return;
+    //add md extension if ommited for mdfile
+    if (file.type.value === FTYPE.MDFILE.value) {
+      if (!filename.endsWith('.md')) filename = filename.concat('.md');
+    }
+    //store in local structure
+    file.name = filename;
+    //update storage
+    this.updatelf();
+    //rename in storage
+    this.api.bs.renameDoc(oldfilename, filename);
   }
 }
