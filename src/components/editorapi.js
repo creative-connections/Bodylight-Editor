@@ -129,7 +129,7 @@ export class Editorapi {
     this.editor.insert(xmlStr + '\n');
     this.editor.focus();
     //inserts tag and attributes into globalstructure - for further use
-    if (! this.globstr[this.askAttributesItem.name]) this.globstr[this.askAttributesItem] = [];
+    if (! this.globstr[this.askAttributesItem.name]) this.globstr[this.askAttributesItem.name] = [];
     this.globstr[this.askAttributesItem.name].push({tag: this.askAttributesItem.name, attr: this.askAttributesItemsArray});
     this.idindex++;
     //return xmlStr;
@@ -370,9 +370,32 @@ export class Editorapi {
     return discovered;
   }
 
+  stopblink() {
+    this.blinking = false;
+  }
+
   //blinks object in adobe animate 3 times, every blink will take 3 seconds
   blink(objname) {
+    this.blinking = true;
     console.log('blink "' + objname + '"');
+    let that2 = this;
+    //do blink now
+    setTimeout( function() {that2.blinkthread(objname);}, 0);
+    //schedule blinkin in 4 seconds
+    setTimeout( function() {that2.scheduleblink(objname);}, 5000);
+  }
+
+  scheduleblink(objname) {
+    //test if blinking should be performed
+    if (this.blinking) {
+      let that3 = this;
+      setTimeout(function() {
+        that3.blinkthread(objname);
+      }, 0);
+    }
+  }
+
+  blinkthread(objname) {
     let k = 0;
     for (let j = 0; j < 2; j++) {
       for (let i = -1; i <= 1; i += 0.1) {

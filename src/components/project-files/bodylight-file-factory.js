@@ -27,7 +27,7 @@ export class BodylightFileFactory {
         });
     }*/
 
-    return newfile();
+    return newfile;
 
     //expect that by convention of Bodylight Compiler, ZIP contains JS and modelDescription.xml
     //    this.files.push(newfile);

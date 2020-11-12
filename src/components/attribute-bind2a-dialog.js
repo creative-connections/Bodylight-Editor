@@ -17,6 +17,10 @@ export class AttributeBind2aDialog extends AttributeDialog {
     //console.log('adobesrc', this.adobesrc);
   }
 
+  detached() {
+    this.api.stopblink();
+  }
+
   activate(model) {
     console.log('AttributeBind2a activate()');
     //this.adobesrc = this.api.askAttributesItemsArray[0].value;
@@ -33,4 +37,13 @@ export class AttributeBind2aDialog extends AttributeDialog {
     this.api.blink(newvalue);
   }
 
+  submit() {
+    this.api.stopblink();
+    super.submit();
+  }
+
+  cancel() {
+    this.api.stopblink();
+    super.cancel();
+  }
 }

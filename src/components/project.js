@@ -4,7 +4,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import JSZip from 'jszip';
 import './project-files/bodylight-struct';
-//import {BodylightFileFactory} from './project-files/bodylight-file-factory';
+import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
 import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
 import {LFKEYS} from './project-files/bodylight-storage';
