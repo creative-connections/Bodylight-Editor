@@ -19,6 +19,7 @@ export class Editorapi {
   fmientries = [];
   fmientriessrc = [];
   adobeentries = [];
+  blinking = false;
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -371,18 +372,34 @@ export class Editorapi {
   }
 
   stopblink() {
-    this.blinking = false;
+    if (this.blinking) {
+      this.blinking = false;
+      //disable ticker
+      //console.log('last alpha for object', objname);
+      window.createjs.Ticker.removeEventListener('tick', window.ani.stage);
+    }
+  }
+
+  startblink() {
+    if (!this.blinking) {
+      this.blinking = true;
+      //stopall animation
+      window.ani.stage.stop();
+      //enable ticker
+      window.createjs.Ticker.addEventListener('tick', window.ani.stage);
+    }
   }
 
   //blinks object in adobe animate 3 times, every blink will take 3 seconds
   blink(objname) {
-    this.blinking = true;
+    //this.blinking = true;
+    this.startblink();
     console.log('blink "' + objname + '"');
     let that2 = this;
     //do blink now
     setTimeout( function() {that2.blinkthread(objname);}, 0);
     //schedule blinkin in 4 seconds
-    setTimeout( function() {that2.scheduleblink(objname);}, 5000);
+    //setTimeout( function() {that2.scheduleblink(objname);}, 5000);
   }
 
   scheduleblink(objname) {
@@ -417,15 +434,8 @@ export class Editorapi {
    * @param last, boolean value whether this is last in blinking sequence, disables animation
    * @param doalpha, boolean value if animate as alpha or animate as values
    */
-
   setAnimationValue(objname, value, first, last, doalpha) {
     //console.log('adobe-animate() setting window.ani.exportRoot.children[0][' + objname + '].alpha(' + value + ')');
-    if (first) {
-      //stopall animation
-      window.ani.stage.stop();
-      //enable ticker
-      window.createjs.Ticker.addEventListener('tick', window.ani.stage);
-    }
     if (window.ani.exportRoot) {
       //resolve path from string
       const resolvePath = (object, path, defaultValue) => path
@@ -439,14 +449,11 @@ export class Editorapi {
           else myobj.alpha = value;
         } else { //do animation
           //if (last) myobj.gotoAndStop(Math.floor(100));
-          myobj.gotoAndStop(Math.floor(100 * value));
+          //for values between 0..1 do 100x
+          if (value < 1) myobj.gotoAndStop(Math.floor(100 * value));
+          else myobj.gotoAndStop(value);
         }
       }
-    }
-    if (last) {
-      //disable ticker
-      //console.log('last alpha for object', objname);
-      window.createjs.Ticker.removeEventListener('tick', window.ani.stage);
     }
   }
 }

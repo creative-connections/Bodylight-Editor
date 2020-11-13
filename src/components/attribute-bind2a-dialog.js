@@ -6,7 +6,7 @@ import {observable} from 'aurelia-framework';
 @inject(Editorapi)
 export class AttributeBind2aDialog extends AttributeDialog {
   @observable adobeobj;
-
+  @observable animationvalue;
   constructor(api) {
     super(api);
   }
@@ -45,5 +45,10 @@ export class AttributeBind2aDialog extends AttributeDialog {
   cancel() {
     this.api.stopblink();
     super.cancel();
+  }
+
+  animationvalueChanged(newvalue) {
+    this.api.startblink();
+    this.api.setAnimationValue(this.adobeobj, newvalue, true, true, false);
   }
 }

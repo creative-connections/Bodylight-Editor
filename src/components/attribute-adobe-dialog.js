@@ -7,6 +7,7 @@ import {observable} from 'aurelia-framework';
 export class AttributeAdobeDialog extends AttributeDialog {
   @observable adobesrc;
 
+
   constructor(api) {
     super(api);
   }
@@ -30,4 +31,6 @@ export class AttributeAdobeDialog extends AttributeDialog {
     let objectname = newvalue.split('.').slice(0, -1).join('.');
     this.api.askAttributesItemsArray[3].value = objectname;
   }
+
+
 }
