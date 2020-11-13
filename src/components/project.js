@@ -377,20 +377,19 @@ export class Project {
     let firstmdfile = this.files.filter(item => item.type.value === FTYPE.MDFILE.value)[0];
     let indexhtmlcontent = `<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title>${projectname}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
-  </head>
-  <body aurelia-app="webcomponents">
-    <bdl-markdown-book index="${firstmdfile.name}" summary="summary.md">
-      <img src="loading.gif"/>
-    </bdl-markdown-book>
-  </body>
+</head>
+<body aurelia-app="webcomponents">
+    <bdl-markdown-book2 index="${firstmdfile.name}" summary="summary.md">
+<img src="Bodylight_loading2_amber.gif" height="140" width="85" style="display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"/>
+    </bdl-markdown-book2>
+</body>
 </html>
-    `;
-
+`;
     //let indexhtml = new BodylightFile('index.html', FTYPE.MDFILE, this.api, indexhtmlblob);
     //htmlfiles.push(indexhtml);
     //TODO push most updated bundle - best local - rather then from CDN in case of offline use

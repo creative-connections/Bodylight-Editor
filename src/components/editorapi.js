@@ -323,18 +323,13 @@ export class Editorapi {
    * Should be called when a dialog needs animobjs for select form etc.
    */
   discoverAdobeAnimate() {
-    if (window.ani) {
-      //window.ani.objs = Object.keys(window.ani.exportRoot.children[0]);
-      //filter objects by purpose - so it can be bind to model value
-      //first level is discovered - but other levels may contain objects
-      //window.ani.animobjs = window.ani.objs.filter(name => name.endsWith('_anim'));
-      //window.ani.animobjs =
+    if (window.ani && window.ani.exportRoot) {
       this.animobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_anim');
       console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
       this.textobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_text');
       this.playobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_play');
-      //window.ani.textobjs = window.ani.objs.filter(name => name.endsWith('_text'));
-      //window.ani.playobjs = window.ani.objs.filter(name => name.endsWith('_play'));
+    } else {
+      console.log('error, Animate object is not yet accessible. Try to refresh after while');
     }
   }
 
