@@ -4,7 +4,6 @@ import localForage from 'localforage';
 import {BodylightEditorItems} from './bodylightEditorItems';
 
 @inject(Editorapi)
-
 export class Toolbar extends BodylightEditorItems {
   showButtons =false;
   uploaddialog = false;
@@ -158,5 +157,13 @@ export class Toolbar extends BodylightEditorItems {
   }
   load() {
 
+  }
+
+  preview() {
+    this.api.previewmode = ! this.api.previewmode;
+    //call resize on Adobe Animate - after 0.5s
+    if (window.ani) {
+      setTimeout(window.ani.handleResize(), 500);
+    }
   }
 }

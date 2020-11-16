@@ -9,17 +9,17 @@
   <require from="w3-css/w3.css"></require>
   <require from="./w3-theme-bodylight.css"></require>
   <div class="w3-row">
-    <div class="w3-col s5 m4 l3">
+    <div class="w3-col s6 m4 l2">
       <project></project>
       <a-dialog></a-dialog>
       <help></help>
     </div>
-    <div class="w3-col s7 m8 l9">
+    <div class="w3-col s6 m8 l10">
       <toolbar></toolbar>
-      <div class="w3-half">
+      <div class="w3-half" show.bind="!api.previewmode">
         <editor></editor>
       </div>
-      <div class="w3-half">
+      <div class="w3-rest">
         <viewer></viewer>
       </div>
     </div>

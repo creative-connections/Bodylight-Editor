@@ -11,6 +11,7 @@ import {BodylightStorage} from './project-files/bodylight-storage';
 
 export class Editorapi {
   askAttributes=false;
+  previewmode=false;
   attrDialog=null;
   dialogclass='./attribute-dialog';
   idindex=1;
