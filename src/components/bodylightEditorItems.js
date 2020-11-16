@@ -59,7 +59,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-range',
       doc: 'range.md',
-      def: '<bdl-range min="0" max="10" default="5" step="1"></bdl-range>'
+      def: '<bdl-range id="id1" title="" min="0" max="10" default="5" step="1" maxlength="2"></bdl-range>'
     },
     {
       name: 'bdl-value',
