@@ -430,7 +430,7 @@ export class Project {
           this.updatelf();
         }
         //add loading animated gif
-        let loadinggifurl = 'loading.gif';
+        let loadinggifurl = 'Bodylight_loading2_amber.gif';
         fetch(loadinggifurl)
           .then(res => res.blob())
           .then(loadingblob =>{
