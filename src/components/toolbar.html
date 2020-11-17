@@ -40,7 +40,10 @@
           <p>Drag your files here or click on this area</p>
           <input type="file" change.trigger="dragNdrop($event)"/>
         </div>
-        <span class.bind="api.previewmode? 'w3-padding-4 w3-hover-blue w3-grey' : 'w3-padding-4 w3-hover-blue'"  click.delegate="preview()" title="preview"><i class="fa fa-eye"></i></span
+        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        <span class.bind="api.previewmode? 'w3-padding-4 w3-hover-blue w3-grey' : 'w3-padding-4 w3-hover-blue'"  click.delegate="preview()" title="expand preview"><i class="fa fa-eye"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="autopreview()" title="automatically preview"><i class.bind="api.autopreview? 'fa fa-check-square-o':'fa fa-square-o'"></i><i class="fa fa-eye-slash"></i></span>
+        <span class="w3-padding-4 w3-hover-blue"  click.delegate="generatepreview()" title="generate preview"><i class="fa fa-refresh"></i></span>
       </div>
 
 

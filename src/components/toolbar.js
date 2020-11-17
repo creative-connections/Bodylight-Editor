@@ -163,7 +163,15 @@ export class Toolbar extends BodylightEditorItems {
     this.api.previewmode = ! this.api.previewmode;
     //call resize on Adobe Animate - after 0.5s
     if (window.ani) {
-      setTimeout(function() {window.ani.handleResize()}, 500);
+      setTimeout(function() {window.ani.handleResize();}, 500);
     }
+  }
+
+  autopreview() {
+    this.api.autopreview = ! this.api.autopreview;
+  }
+
+  generatepreview() {
+    this.api.renderchange(this.api);
   }
 }

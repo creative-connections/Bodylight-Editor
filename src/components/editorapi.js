@@ -5,9 +5,7 @@ import 'ace-builds/webpack-resolver';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/src-noconflict/snippets/text.js';
 import '../acemode/mode-markdown';
-//import {EventAggregator} from 'aurelia-event-aggregator';
 import {BodylightStorage} from './project-files/bodylight-storage';
-//import {ContentUpdated} from './messages';
 
 export class Editorapi {
   askAttributes=false;
@@ -21,6 +19,7 @@ export class Editorapi {
   fmientriessrc = [];
   adobeentries = [];
   blinking = false;
+  autopreview = true;
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -38,37 +37,11 @@ export class Editorapi {
       minLines: 25,
       fontSize: 14
     });
+
     let that = this;
-
-    // Returns a function, that, as long as it continues to be invoked, will not
-    // be triggered. The function will be called after it stops being called for
-    // N milliseconds. If `immediate` is passed, trigger the function on the
-    // leading edge, instead of the trailing.
-    /*function debounce(func, wait, immediate) {
-      let timeout;
-      return function() {
-        let context = this;
-        let args = arguments;
-        let later = function() {
-          timeout = null;
-          if (!immediate) func.apply(context, args);
-        };
-        let callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-      };
-    }
-
-    let renderchange = debounce(function(delta) {
-      if (delta.start.row !== delta.end.row) {
-        that.renderchange(that);
-      }
-    }, 2000);*/
-
     this.editor.on('change', function(delta) {
       //render only when new line or deleted line appears
-      if (delta.start.row !== delta.end.row) {
+      if (that.autopreview && (delta.start.row !== delta.end.row)) {
         that.renderchange(that);
       }
     });
