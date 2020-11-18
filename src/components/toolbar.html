@@ -2,7 +2,7 @@
   <require from="./animations.css"></require>
 
       <div class="w3-border w3-theme-l5 w3-block">
-        <span class="w3-small"><pre style="display:inline" title="basic bodylight components">basic:   </pre></span>
+        <span class="w3-small"><pre style="display:inline" title="basic bodylight components">basic:</pre></span>
         <span repeat.for="item of basicitems" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
           <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
           <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
@@ -44,6 +44,10 @@
         <span class.bind="api.previewmode? 'w3-padding-4 w3-hover-blue w3-grey' : 'w3-padding-4 w3-hover-blue'"  click.delegate="preview()" title="expand preview"><i class="fa fa-eye"></i></span>
         <span class="w3-padding-4 w3-hover-blue"  click.delegate="autopreview()" title="automatically preview"><i class.bind="api.autopreview? 'fa fa-check-square-o':'fa fa-square-o'"></i><i class="fa fa-eye-slash"></i></span>
         <span class="w3-padding-4 w3-hover-blue"  click.delegate="generatepreview()" title="generate preview"><i class="fa fa-refresh"></i></span>
+        <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+        <span class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+          <span class="w3-hover-blue" click.delegate="identifyItem()" title="identify and edit component">identify/edit</span>
+        </span>
       </div>
 
 

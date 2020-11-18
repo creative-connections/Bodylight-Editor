@@ -174,4 +174,43 @@ export class Toolbar extends BodylightEditorItems {
   generatepreview() {
     this.api.renderchange(this.api);
   }
+
+  identifyItem() {
+    let selectionRange = this.api.editor.getSelectionRange();
+    let res = this.api.editor.find(/</g, { backwards: true, start: selectionRange, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
+    let res2 = this.api.editor.find(/>/g, { backwards: false, start: selectionRange, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
+    let res3 = this.api.editor.find(/<\//g, { backwards: false, start: res2, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
+    let res4 = this.api.editor.find(/>/g, { backwards: false, start: res3, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
+    console.log('identifyItem res1', selectionRange);
+    console.log('identifyItem res1', res);
+    console.log('identifyItem res4', res4);
+    //set Range object from res to res4
+    res4.start = res.start;
+    this.api.editor.selection.setSelectionRange(res4);
+    let item = this.api.editor.getSelectedText();
+    console.log('identifyItem item:', item);
+    //let itemtag =  var reTagCatcher = /(<.[^(><.)]+>)/g;
+
+    try {
+      let itemtag = item.match(/<(bdl-[^(<> )]+)/g)[0].substr(1);
+      console.log('identifyItem tag:', itemtag);
+      let matchitem = this.basicitems.filter(x => x.name === itemtag);
+      let myitem = {};
+      if (matchitem && matchitem.length > 0) {
+        myitem.name = itemtag; myitem.def = item; myitem.doc = matchitem[0].doc; myitem.dialog = matchitem[0].dialog;
+      } else {
+        matchitem = this.advanceditems.filter(x => x.name === itemtag);
+        if (matchitem && matchitem.length > 0) {
+          myitem.name = itemtag; myitem.def = item; myitem.doc = matchitem[0].doc; myitem.dialog = matchitem[0].dialog;
+        }
+      }
+      if (myitem.name) this.api.addItem(myitem);
+      else console.error('identifyItem - tag not found in basic/advanced items', itemtag);
+    } catch (err) {
+      console.log('identifyItem - tag not found', err);
+    }
+
+
+    //from cursor find previous '<' tag and then find '>' and '</...>'
+  }
 }
