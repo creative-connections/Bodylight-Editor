@@ -16,18 +16,36 @@ export class AttributeFmiDialog extends AttributeDialog {
   }
 
   attached() {
+    //convert askattributes to struct
+    this.attrstr = {};//this.api.askAttributesItemsArray
+    for (let item of this.api.askAttributesItemsArray) this.attrstr[item.title] = item.value;
     this.attr = {
-      id: 'idfmi' , src: this.api.currentfmientry.src,
-      fminame: this.api.currentfmientry.fminame,
-      tolerance: '0.000001', starttime: '0', guid: this.api.currentfmientry.guid,
-      valuereferences: '637534281,637534272,33554436, 33554437, 33554432, 33554436, 33554437, 33554433, 16777313',
-      valuelabels: 'Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume, Extrathoracic Veins volume, Pulmonary Veins Volume,Heart Rate',
-      inputs: 'id1,16777313,1,60',
-      inputlabels: 'heart rate'
+      id: this.attrstr.id ? this.attrstr.id : 'idfmi',
+      src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
+      fminame: this.attrstr.fminame ? this.attrstr.fminame : this.api.currentfmientry.fminame,
+      tolerance: this.attrstr.tolerance ? this.attrstr.tolerance : '0.000001',
+      starttime: this.attrstr.starttime ? this.attrstr.starttime : '0',
+      fstepsize: this.attrstr.fstepsize ? this.attrstr.fstepsize : '0.01',
+      guid: this.attrstr.guid ? this.attrstr.guid : this.api.currentfmientry.guid,
+      valuereferences: this.attrstr.valuereferences ? this.attrstr.valuereferences : '',
+      valuelabels: this.attrstr.valuelabels ? this.attrstr.valuelabels : '',
+      inputs: this.attrstr.inputs ? this.attrstr.inputs : '',
+      inputlabels: this.attrstr.inputlabels ? this.attrstr.inputlabels : ''
     };
     console.log('attributefmidialog attached src:', this.src);
+    //fill input references
     this.inputreferences = [];
+    let refs = this.attr.valuereferences.split(',');
+    let labels = this.attr.valuelabels.split(',');
+    for (let i = 0; i < refs.length; i++) this.inputreferences.push({reference: refs[i], name: labels.length > i ? labels[i]:''});
+    //fill output references
     this.outputreferences = [];
+    refs = this.attr.inputs.split(';');
+    labels = this.attr.inputlabels.split(',');
+    for (let i = 0; i < refs.length; i++) {
+      let refitem = refs[i].split(',');
+      this.outputreferences.push({id: refitem[0],reference: refitem[1], name: labels[i],numerator:refitem[2],denominator:refitem[3]});
+    }
   }
 
   activate() {
