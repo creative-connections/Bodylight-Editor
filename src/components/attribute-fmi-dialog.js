@@ -37,14 +37,14 @@ export class AttributeFmiDialog extends AttributeDialog {
     this.inputreferences = [];
     let refs = this.attr.valuereferences.split(',');
     let labels = this.attr.valuelabels.split(',');
-    for (let i = 0; i < refs.length; i++) this.inputreferences.push({reference: refs[i], name: labels.length > i ? labels[i]:''});
+    for (let i = 0; i < refs.length; i++) this.inputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
     //fill output references
     this.outputreferences = [];
     refs = this.attr.inputs.split(';');
     labels = this.attr.inputlabels.split(',');
     for (let i = 0; i < refs.length; i++) {
       let refitem = refs[i].split(',');
-      this.outputreferences.push({id: refitem[0],reference: refitem[1], name: labels[i],numerator:refitem[2],denominator:refitem[3]});
+      this.outputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
     }
   }
 
