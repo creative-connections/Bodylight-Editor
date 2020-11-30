@@ -6,7 +6,8 @@ export const LFKEYS = {
   FILELIST: 'BodylightEditor.Filelist',
   FILECONTENT: 'BodylightEditor.Content',
   FMIENTRIES: 'BodylightEditor.FMIEntries',
-  FMISRCS: 'BodylightEditor.FMISrcs'
+  FMISRCS: 'BodylightEditor.FMISrcs',
+  NAME: 'BodylightEditor.Name'
 };
 
 /**
@@ -81,6 +82,19 @@ export class BodylightStorage {
   }
   setFmiListSrcs(srcentries) {
     return localForage.setItem(LFKEYS.FMISRCS, srcentries);
+  }
+
+  getProjectName() {
+    return localForage.getItem(LFKEYS.NAME)
+      .then(value => {return value;})
+      .catch(error=>{
+        console.log('BodylightStorage getEntries error:', error);
+        return 'project.zip';
+      });
+  }
+
+  setProjectName(name) {
+    return localForage.setItem(LFKEYS.NAME, name);
   }
   getFMIListEntries() {
     return localForage.getItem(LFKEYS.FMIENTRIES)

@@ -240,6 +240,11 @@ export class Editorapi {
     //set to first entry in list
   }
 
+  getProjectName() {
+    this.bs.getProjectName()
+      .then(value =>{this.filename = value;});
+  }
+
   addAdobeEntry(filename) {
     this.adobeentries.push(filename);
   }
