@@ -242,7 +242,7 @@ export class Editorapi {
 
   initProjectName() {
     this.bs.getProjectName()
-      .then(value =>{this.filename = value;});
+      .then(value =>{if (value) this.filename = value;});
   }
   setProjectName(name) {
     this.bs.setProjectName(name);
