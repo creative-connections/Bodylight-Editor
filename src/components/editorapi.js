@@ -240,7 +240,7 @@ export class Editorapi {
     //set to first entry in list
   }
 
-  getProjectName() {
+  initProjectName() {
     this.bs.getProjectName()
       .then(value =>{this.filename = value;});
   }

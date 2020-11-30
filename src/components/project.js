@@ -73,7 +73,7 @@ export class Project {
     //this.api = api;
     //this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
-    this.api.getProjectName();
+    this.api.initProjectName();
   }
 
 
