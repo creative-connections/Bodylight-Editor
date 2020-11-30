@@ -335,7 +335,7 @@ export class Project {
     let filename = prompt('Enter file name of web simulator project(*.zip):', this.api.filename);
     if (!filename) return;
     if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
-    this.api.filename = filename;
+    this.api.setProjectName(filename);
     this.showButtons = false;
     let zip = new JSZip();
     const filesclone = this.files.map(({api, ...keepAttrs}) => keepAttrs);

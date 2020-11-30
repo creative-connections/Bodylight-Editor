@@ -244,6 +244,10 @@ export class Editorapi {
     this.bs.getProjectName()
       .then(value =>{this.filename = value;});
   }
+  setProjectName(name) {
+    this.bs.setProjectName(name);
+    this.filename = name;
+  }
 
   addAdobeEntry(filename) {
     this.adobeentries.push(filename);
