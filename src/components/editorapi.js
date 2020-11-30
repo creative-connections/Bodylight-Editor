@@ -20,6 +20,7 @@ export class Editorapi {
   adobeentries = [];
   blinking = false;
   autopreview = true;
+  filename='project.zip';
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;

@@ -297,6 +297,7 @@ export class Project {
               //fmientries stored in project file
               this.api.fmientries = myproject.fmientries;
               this.api.fmientriessrc = myproject.fmientriessrc;
+              this.api.filename = myproject.projectname;
             });
           } else {
             zipEntry.async('blob').then(blob => {
@@ -330,20 +331,26 @@ export class Project {
    * Saves project as ZIP file
    */
   save() {
-    let filename = prompt('Enter file name of web simulator project(*.zip):', 'project.zip');
+    let filename = prompt('Enter file name of web simulator project(*.zip):', this.api.filename);
     if (!filename) return;
     if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
+    this.api.filename = filename;
     this.showButtons = false;
     let zip = new JSZip();
     const filesclone = this.files.map(({api, ...keepAttrs}) => keepAttrs);
-    zip.file('bodylight-project.json', JSON.stringify({files: filesclone, fmientries: this.api.fmientries, fmientriessrc: this.api.fmientriessrc}));
+    zip.file('bodylight-project.json', JSON.stringify({
+      files: filesclone,
+      fmientries: this.api.fmientries,
+      fmientriessrc: this.api.fmientriessrc,
+      projectname: this.api.filename
+    }));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
       zip.file(file.name, this.api.bs.loadDocContent(file.name));
     }
     zip.generateAsync({type: 'blob'})
       .then(function(blob) {
-        saveAs(blob, 'project.zip');
+        saveAs(blob, filename);
       });
   }
 
@@ -438,7 +445,7 @@ export class Project {
             //and generates ZIP and save it
           })
           .catch(error =>{
-            console.error('Project exportAsHtml() error:',error);
+            console.error('Project exportAsHtml() error:', error);
             //and generates ZIP and save it
           })
           .finally(()=>{
