@@ -1,5 +1,6 @@
 import localForage from 'localforage';
 import './bodylight-struct';
+import {utf8Encode} from './bodylight-struct';
 
 
 export const LFKEYS = {
@@ -48,6 +49,13 @@ export class BodylightStorage {
 
   loadDocContent(filename) {
     return localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
+  }
+
+  async loadDocContentStr(filename) {
+    let str = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
+    //console.log('doc content str for ', filename, ':', str);
+    if (typeof str === 'string') return utf8Encode(str);
+    return str;
   }
 
   renameDoc(oldfilename, newfilename) {

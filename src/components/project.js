@@ -6,7 +6,7 @@ import JSZip from 'jszip';
 import './project-files/bodylight-struct';
 import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
-import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
+import {FTYPE, DEMOCONTENT, utf8Decode, utf8Encode} from './project-files/bodylight-struct';
 import {LFKEYS} from './project-files/bodylight-storage';
 
 @inject(Editorapi, EventAggregator)
@@ -347,7 +347,10 @@ export class Project {
     }));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
-      zip.file(file.name, this.api.bs.loadDocContent(file.name));
+      zip.file(file.name, (file.type.value === FTYPE.MDFILE.value)
+        ? this.api.bs.loadDocContentStr(file.name)
+        : this.api.bs.loadDocContent(file.name), {binary: true} );
+      //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
     }
     zip.generateAsync({type: 'blob'})
       .then(function(blob) {
@@ -418,7 +421,13 @@ export class Project {
         //adds all project files
         for (let file of this.files) {
           //'blob' or 'string' content are zipped as entries
-          zip.file(file.name, this.api.bs.loadDocContent(file.name));
+          zip.file(
+            file.name,
+            (file.type.value === FTYPE.MDFILE.value)
+              ? this.api.bs.loadDocContentStr(file.name)
+              : this.api.bs.loadDocContent(file.name), {binary: true}
+          );
+          //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
         }
         //create default summary if it is not part of the project already
         if (!this.files.find(file => file.name === 'summary.md')) {
