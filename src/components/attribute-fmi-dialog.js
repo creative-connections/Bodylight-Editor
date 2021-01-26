@@ -62,6 +62,23 @@ export class AttributeFmiDialog extends AttributeDialog {
     if (this.attr) this.attr.src = this.src;
   }
 
+  refreshsrc() {
+    console.log('refreshsrc', this.attr.src);
+    this.api.updateCurrentFmiEntry(this.attr.src);
+    //this.attr.src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
+    this.attr.fminame = this.api.currentfmientry.fminame;
+    this.attr.tolerance = '0.000001';
+    this.attr.starttime = '0';
+    this.attr.fstepsize =  '0.01';
+    this.attr.guid = this.api.currentfmientry.guid;
+    this.attr.valuereferences = '';
+    this.attr.valuelabels = '';
+    this.attr.inputs = '';
+    this.attr.inputlabels = '';
+    this.inputreferences = [];
+    this.outputreferences = [];
+  }
+
   submit() {
     //convert this.api.references to comma separated ref numbers
     //api references were filled by the dialog

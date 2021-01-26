@@ -240,6 +240,15 @@ export class Editorapi {
     //set to first entry in list
   }
 
+  updateCurrentFmiEntry(src) {
+    //updates structs based on selected src
+    this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.src);
+    this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
+    console.log('found currentfmientry:',this.currentfmientry);
+    console.log('   from fmientries',this.fmientries);
+
+  }
+
   initProjectName() {
     this.bs.getProjectName()
       .then(value =>{if (value) this.filename = value;});
