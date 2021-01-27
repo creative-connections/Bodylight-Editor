@@ -242,11 +242,11 @@ export class Editorapi {
 
   updateCurrentFmiEntry(src) {
     //updates structs based on selected src
+    console.log('updateCurrentFmiEntry src:',src);
     this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.src);
     this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
-    console.log('found currentfmientry:',this.currentfmientry);
-    console.log('   from fmientries',this.fmientries);
-
+    console.log('found currentfmientry:', this.currentfmientry);
+    console.log('   from fmientries', this.fmientries);
   }
 
   initProjectName() {

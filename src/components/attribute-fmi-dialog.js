@@ -17,6 +17,7 @@ export class AttributeFmiDialog extends AttributeDialog {
 
   attached() {
     //convert askattributes to struct
+    console.log('attributefmidialog attached()');
     this.attrstr = {};//this.api.askAttributesItemsArray
     for (let item of this.api.askAttributesItemsArray) this.attrstr[item.title] = item.value;
     this.attr = {
