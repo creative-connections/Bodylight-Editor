@@ -32,12 +32,20 @@ export class BodylightFile {
   }
 
   activate(content) {
+    //this.active = true;
+    //console.log('bodylight-file activate', this);
     //delegate to file type
     FileType2StrategyMap.get(this.type.name).activate(this, content);
   }
 
   deactivate() {
+    //this.active = false;
+    //console.log('bodylight-file deactivate', this);
     //delegate to file type
     FileType2StrategyMap.get(this.type.name).deactivate(this);
+  }
+
+  saveChanges() {
+    FileType2StrategyMap.get(this.type.name).saveChanges(this);
   }
 }

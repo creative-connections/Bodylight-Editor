@@ -58,6 +58,10 @@ export class BodylightMdFile extends BodylightFileStrategy {
 
   deactivate(file) {
     super.deactivate(file);
+    this.saveChanges(file);
+  }
+
+  saveChanges(file) {
     file.api.bs.saveDocContent(file.name, file.api.editor.getValue());
   }
 }

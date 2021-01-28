@@ -28,4 +28,7 @@ export class BodylightFileStrategy {
   deactivate(file) {
     file.active = false;
   }
+
+  saveChanges(file) {
+  }
 }

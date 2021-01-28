@@ -178,7 +178,7 @@ export class Project {
   }
 
   saveChanges() {
-    if (this.currentfile) this.currentfile.deactivate();//this.strategymap);
+    if (this.currentfile) this.currentfile.saveChanges();//this.strategymap);
   }
 
   add1toname(name) {

@@ -20,7 +20,7 @@
     </th></tr>
   </thead>
   <tbody>
-  <tr repeat.for="file of files" class.bind="file.active ? 'w3-blue w3-hover-grey': 'w3-hover-blue'">
+  <tr repeat.for="file of files" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'">
     <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}</td>
     <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
     <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i> </td>

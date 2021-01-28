@@ -9,6 +9,6 @@ export class BodylightJsFile extends BodylightFileStrategy {
     super.activate(file, content);
   }
   deactivate(file) {
-    file.active = false;
+    super.deactivate(file);
   }
 }
