@@ -48,14 +48,29 @@ export class Editorapi {
     });
   }
 
-  renderchange(that) {
+  async renderchange(that) {
     let content = that.editor.getValue();
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
     //all <bdl- will be repaced to < and </bdl- to </
     const startprefix = /<bdl-/gi;
     const stopprefix = /<\/bdl-/gi;
-    const transformedContent = content.replace(startprefix, '<').replace(stopprefix, '</');
+    let transformedContent = content.replace(startprefix, '<').replace(stopprefix, '</');
+    //another hack - replace img src to local blob url - if exists
+    let filelist = that.projectfiles;//await that.bs.getFileList();
+    //generate array of with img_name,bloburl
+    //let imglist = [];
+    console.log('renderchange() filelist:', filelist);
+    for (let fileitem of filelist) {
+      if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png')) {
+        //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
+        //let imgname = fileitem.name;
+        console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
+        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace('(' + fileitem.name + ')', '(' + fileitem.bloburl + ')');}
+      }
+    }
+    console.log('renderchange() transformedcontent:', transformedContent);
+    //now replace every (img_name) with (bloburl)
     //create customevent - which component is listening to
     let event = new CustomEvent('contentupdate', {detail: {content: transformedContent}});
     //console.log('sending content update')
@@ -242,7 +257,7 @@ export class Editorapi {
 
   updateCurrentFmiEntry(src) {
     //updates structs based on selected src
-    console.log('updateCurrentFmiEntry src:',src);
+    console.log('updateCurrentFmiEntry src:', src);
     this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.src);
     this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
     console.log('found currentfmientry:', this.currentfmientry);

@@ -58,6 +58,14 @@ export class BodylightStorage {
     return str;
   }
 
+  async loadDocUrl(filename) {
+    let blob = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
+    console.log('loaddocurl() for ', filename, ':', blob);
+    //if (typeof str === 'string') return utf8Encode(str);
+    if (blob instanceof Blob) return await URL.createObjectURL(blob);
+    return '';
+  }
+
   renameDoc(oldfilename, newfilename) {
     localForage.getItem(LFKEYS.FILECONTENT + '.' + oldfilename)
       .then(value => {

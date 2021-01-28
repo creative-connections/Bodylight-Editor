@@ -4,6 +4,7 @@ export class BodylightFile {
   name='';
   type=FTYPE.MDFILE;
   active=false;
+  bloburl='';
 
   constructor(name, type, api, blob) {
     this.name = name;
@@ -12,18 +13,26 @@ export class BodylightFile {
     //instantiates the class in strategy field
     //this.strategy = window[this.type.strategy](this);
     this.api = api;
-    if (api && blob) {
+    if (api) {
+      if (blob) {
       //store blob
       //api.bs.saveBlobContent(name, blob);
-      api.bs.saveBlobContent(name, blob)
-        .then(result => {
-          console.log('result saving blob', result);
+        api.bs.saveBlobContent(name, blob)
+          .then(result => {
+            console.log('result saving blob', result);
+            //this.bloburl = this.api.bs.loadDocUrl(name);
+            this.api.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
           //this.uploaddialog = false;
-        })
-        .catch(error => {
-          console.error('error saving blob', error);
+          })
+          .catch(error => {
+            console.error('error saving blob', error);
           //this.uploaddialog = false;
-        });
+          });
+      } else {
+        //no blob - try to retrieve bloburl
+        //this.bloburl = this.api.bs.loadDocUrl(name);
+        this.api.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
+      }
     }
   }
 

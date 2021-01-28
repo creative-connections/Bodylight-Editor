@@ -8,7 +8,7 @@
   <require from="./components/project"></require>
   <require from="w3-css/w3.css"></require>
   <require from="./w3-theme-bodylight.css"></require>
-  <div class="w3-card-2 w3-center"><b>Bodylight Editor v ${version}</b></div>
+
   <div class="w3-row">
     <div class="w3-col s6 m4 l3">
       <project></project>
@@ -16,6 +16,7 @@
       <help></help>
     </div>
     <div class="w3-col s6 m8 l9">
+      <div class="w3-center"><b>Bodylight Editor v ${version}</b></div>
       <toolbar></toolbar>
       <div class="w3-half" show.bind="!api.previewmode">
         <editor></editor>

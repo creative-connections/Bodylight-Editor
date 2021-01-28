@@ -39,8 +39,10 @@ export class Project {
         if (value) {
           //convert array of struct to array of objects
           this.files = [];
+          this.api.projectfiles = this.files;
           for (let fileitem of value) {
             let bodylightfile = new BodylightFile(fileitem.name, fileitem.type, this.api);
+
             this.files.push(bodylightfile);
             //first MD file - read content and put it into editor
             console.log('adding file from local storage', fileitem);
@@ -56,6 +58,7 @@ export class Project {
           }
         } else {
           this.files = [];//DEMOFILES;
+          this.api.projectfiles = this.files;
           this.updatelf();
         }
       })
@@ -63,6 +66,7 @@ export class Project {
         //set demo files
         console.log('error', error);
         this.files = [];//DEMOFILES;
+        this.api.projectfiles = this.files;
       });
     //if the file dialog change some properties of the file - update it
     this.ea.subscribe('file-dialog', fileitems =>{
@@ -74,6 +78,8 @@ export class Project {
     //this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
     this.api.initProjectName();
+    //keep global pointer to file list;
+
   }
 
 
@@ -338,7 +344,7 @@ export class Project {
     this.api.setProjectName(filename);
     this.showButtons = false;
     let zip = new JSZip();
-    const filesclone = this.files.map(({api, ...keepAttrs}) => keepAttrs);
+    const filesclone = this.files.map(({api,bloburl, ...keepAttrs}) => keepAttrs);
     zip.file('bodylight-project.json', JSON.stringify({
       files: filesclone,
       fmientries: this.api.fmientries,
