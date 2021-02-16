@@ -6,8 +6,8 @@ import JSZip from 'jszip';
 import './project-files/bodylight-struct';
 import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
-import {FTYPE, DEMOCONTENT, utf8Decode, utf8Encode} from './project-files/bodylight-struct';
-import {LFKEYS} from './project-files/bodylight-storage';
+import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
+//import {LFKEYS} from './project-files/bodylight-storage';
 
 @inject(Editorapi, EventAggregator)
 export class Project {
@@ -78,8 +78,6 @@ export class Project {
     //this.strategymap = createStrategyMap(this.api);
     this.api.getFmiEntries();
     this.api.initProjectName();
-    //keep global pointer to file list;
-
   }
 
 
@@ -216,10 +214,11 @@ export class Project {
   upload() {
     this.uploaddialog = ! this.uploaddialog;
   }
+
   //handles after file is loaded
   handleFileLoad(event) {
     console.log('handlefileload event:', event);
-    let data = event.target.result;
+    //let data = event.target.result;
     //console.log('handlefile data:', data);
     //window.editor.editor.setValue(data);
     //window.editor.editor.focus();
@@ -305,6 +304,7 @@ export class Project {
               this.api.fmientries = myproject.fmientries;
               this.api.fmientriessrc = myproject.fmientriessrc;
               this.api.filename = myproject.projectname;
+              this.api.exportfilename = myproject.exportprojectname;
             });
           } else {
             zipEntry.async('blob').then(blob => {
@@ -339,17 +339,18 @@ export class Project {
    */
   save() {
     let filename = prompt('Enter file name of web simulator project(*.zip):', this.api.filename);
+    this.showButtons = false;
     if (!filename) return;
     if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
     this.api.setProjectName(filename);
-    this.showButtons = false;
     let zip = new JSZip();
     const filesclone = this.files.map(({api,bloburl, ...keepAttrs}) => keepAttrs);
     zip.file('bodylight-project.json', JSON.stringify({
       files: filesclone,
       fmientries: this.api.fmientries,
       fmientriessrc: this.api.fmientriessrc,
-      projectname: this.api.filename
+      projectname: this.api.filename,
+      exportprojectname: this.api.exportfilename
     }));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
@@ -386,11 +387,12 @@ export class Project {
    * exports as HTML and related files, which can be published in web server or served locally
    */
   exportAsHtml() {
-    let projectname = prompt('Enter file name for web simulator export to HTML(packed in *.zip):', 'projectexport.zip');
+    let projectname = prompt('Enter file name for web simulator export to HTML(packed in *.zip):', this.api.exportfilename);
+    this.showButtons = false;
     if (!projectname) return;
     let filename = projectname;
     if (!projectname.endsWith('.zip')) filename = projectname.concat('.zip');
-    this.showButtons = false;
+    this.api.setExportProjectName(filename);
     let firstmdfile = this.files.filter(item => item.type.value === FTYPE.MDFILE.value)[0];
     let indexhtmlcontent = `<!DOCTYPE html>
 <html>
@@ -420,8 +422,9 @@ export class Project {
         //now save as zip
         let zip = new JSZip();
         //zip.file('bodylight-project.json', JSON.stringify(this.files));
-        //adds index.html with content
-        zip.file('index.html', indexhtmlcontent);
+        //adds index.html with generated content, if do not exist in project
+        if (! this.files.find(file => file.name === ' index.html')) zip.file('index.html', indexhtmlcontent);
+
         //adds bodylight.bundle.js
         zip.file('bodylight.bundle.js', bodylightblob);
         //adds all project files

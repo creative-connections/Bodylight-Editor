@@ -21,6 +21,7 @@ export class Editorapi {
   blinking = false;
   autopreview = true;
   filename='project.zip';
+  exportfilename='projectexport.zip';
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -267,10 +268,18 @@ export class Editorapi {
   initProjectName() {
     this.bs.getProjectName()
       .then(value =>{if (value) this.filename = value;});
+    this.bs.getExportProjectName()
+      .then(value =>{if (value) this.exportfilename = value;});
   }
+
   setProjectName(name) {
     this.bs.setProjectName(name);
     this.filename = name;
+  }
+
+  setExportProjectName(name) {
+    this.bs.setExportProjectName(name);
+    this.exportfilename = name;
   }
 
   addAdobeEntry(filename) {

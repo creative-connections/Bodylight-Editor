@@ -8,7 +8,8 @@ export const LFKEYS = {
   FILECONTENT: 'BodylightEditor.Content',
   FMIENTRIES: 'BodylightEditor.FMIEntries',
   FMISRCS: 'BodylightEditor.FMISrcs',
-  NAME: 'BodylightEditor.Name'
+  NAME: 'BodylightEditor.Name',
+  EXPORTNAME: 'BodylightEditor.ExportName'
 };
 
 /**
@@ -60,7 +61,7 @@ export class BodylightStorage {
 
   async loadDocUrl(filename) {
     let blob = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
-    console.log('loaddocurl() for ', filename, ':', blob);
+    //console.log('loaddocurl() for ', filename, ':', blob);
     //if (typeof str === 'string') return utf8Encode(str);
     if (blob instanceof Blob) return await URL.createObjectURL(blob);
     return '';
@@ -109,9 +110,23 @@ export class BodylightStorage {
       });
   }
 
+  getExportProjectName() {
+    return localForage.getItem(LFKEYS.EXPORTNAME)
+      .then(value => {return value;})
+      .catch(error=>{
+        console.log('BodylightStorage getEntries error:', error);
+        return 'projectexport.zip';
+      });
+  }
+
   setProjectName(name) {
     return localForage.setItem(LFKEYS.NAME, name);
   }
+
+  setExportProjectName(name) {
+    return localForage.setItem(LFKEYS.EXPORTNAME, name);
+  }
+
   getFMIListEntries() {
     return localForage.getItem(LFKEYS.FMIENTRIES)
       .then(value=> {

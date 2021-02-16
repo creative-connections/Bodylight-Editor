@@ -15,10 +15,10 @@ export class BodylightEditorItems {
       name: 'bdl-animate-adobe',
       doc: 'adobe.md',
       def: '<bdl-animate-adobe' +
-        '    src="ZelezoCelek.js"' +
+        '    src=""' +
         '    width="800"' +
         '    height="600"' +
-        '    name="ZelezoCelek"' +
+        '    name=""' +
         '    fromid="idfmi" ></bdl-animate-adobe> \n',
       dialog: './attribute-adobe-dialog'
     },
@@ -27,7 +27,7 @@ export class BodylightEditorItems {
       doc: 'adobe.md',
       def: '<bdl-bind2a \n' +
         'findex="0" \n' +
-        'aname="ventricles.ventriclesTotal.VentricleLeft_anim" \n' +
+        'aname="" \n' +
         'amin="100" \n' +
         'amax="0" \n' +
         'fmin="0.00007" \n' +
@@ -43,10 +43,10 @@ export class BodylightEditorItems {
         '  width="300" \n' +
         '  height="200" \n' +
         '  fromid="idfmi" \n' +
-        '  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"\n' +
-        '  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" \n' +
-        '  refindex="2"   \n' +
-        '  refvalues="6"></bdl-chartjs-time>'
+        '  labels=""\n' +
+        '  initialdata="" \n' +
+        '  refindex="0"   \n' +
+        '  refvalues="1"></bdl-chartjs-time>'
     },
     {
       name: 'bdl-plotly',
@@ -137,8 +137,8 @@ export class BodylightEditorItems {
         '  width="300" \n' +
         '  height="200" \n' +
         '  fromid="idfmi" \n' +
-        '  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"\n' +
-        '  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" \n' +
+        '  labels=""\n' +
+        '  initialdata="" \n' +
         '  refindex="2"   \n' +
         '  refvalues="6"></bdl-chartjs-time>'
     }, {

@@ -17,9 +17,10 @@ export class AttributeFmiDialog extends AttributeDialog {
 
   attached() {
     //convert askattributes to struct
-    console.log('attributefmidialog attached()');
+
     this.attrstr = {};//this.api.askAttributesItemsArray
     for (let item of this.api.askAttributesItemsArray) this.attrstr[item.title] = item.value;
+    console.log('attributefmidialog attached() attrstr:', this.attrstr);
     this.attr = {
       id: this.attrstr.id ? this.attrstr.id : 'idfmi',
       src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
@@ -33,19 +34,19 @@ export class AttributeFmiDialog extends AttributeDialog {
       inputs: this.attrstr.inputs ? this.attrstr.inputs : '',
       inputlabels: this.attrstr.inputlabels ? this.attrstr.inputlabels : ''
     };
-    console.log('attributefmidialog attached src:', this.src);
+    //console.log('attributefmidialog attached src:', this.src);
     //fill input references
-    this.inputreferences = [];
+    this.outputreferences = [];
     let refs = this.attr.valuereferences.split(',');
     let labels = this.attr.valuelabels.split(',');
-    for (let i = 0; i < refs.length; i++) this.inputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
+    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
     //fill output references
-    this.outputreferences = [];
+    this.inputreferences = [];
     refs = this.attr.inputs.split(';');
     labels = this.attr.inputlabels.split(',');
     for (let i = 0; i < refs.length; i++) {
       let refitem = refs[i].split(',');
-      this.outputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
+      this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
     }
   }
 

@@ -10,6 +10,7 @@ export class BodylightFileFactory {
       else filetype = FTYPE.MODELFILE;
     } else if (entryname.endsWith('.md')) filetype = FTYPE.MDFILE;
     else if (entryname.endsWith('.xml')) filetype = FTYPE.DESCRIPTIONFILE;
+    else if (entryname.endsWith('.html')) filetype = FTYPE.DESCRIPTIONFILE;
     else if (entryname.endsWith('.gif')) filetype = FTYPE.ANIMATEDGIF;
     else if (entryname.endsWith('.png')) filetype = FTYPE.IMAGE;
     else if (entryname.endsWith('.jpg')) filetype = FTYPE.IMAGE;
