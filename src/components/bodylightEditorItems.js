@@ -170,6 +170,14 @@ export class BodylightEditorItems {
         '  labels="ECG I (mV)"\n' +
         '  width="300"\n' +
         '  height="50"></bdl-ecg>\n'
+    }, {
+      name: 'bdl-quiz',
+      doc: 'quiz.md',
+      def: '<bdl-quiz question="Question :"' +
+        '  answers="answer 1 (separated by pipe) | answer 2"' +
+        '  correctoptions="false|true"' +
+        '  explanations="explanation why answer 1 is false (separated by pipe)|explanation why answer 2 is true">' +
+        '</bdl-quiz>'
     }/* this is for webapp project type,{
     name:"bdl-markdown",
       doc:"markdown.md",
