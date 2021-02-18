@@ -6,6 +6,7 @@ PLATFORM.moduleName('./attribute-dialog');
 PLATFORM.moduleName('./attribute-fmi-dialog');
 PLATFORM.moduleName('./attribute-adobe-dialog');
 PLATFORM.moduleName('./attribute-bind2a-dialog');
+PLATFORM.moduleName('./attribute-bind2a-text-dialog');
 
 @inject(Editorapi)
 export class ADialog {

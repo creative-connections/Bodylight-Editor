@@ -36,6 +36,15 @@ export class BodylightEditorItems {
       dialog: './attribute-bind2a-dialog'
     },
     {
+      name: 'bdl-bind2a-text',
+      doc: 'adobe.md',
+      def: '<bdl-bind2a-text \n' +
+        'findex="0" \n' +
+        'aname="" \n' +
+        '></bdl-bind2a-text>',
+      dialog: './attribute-bind2a-text-dialog'
+    },
+    {
       name: 'bdl-chartjs-time',
       doc: 'chartjs.md',
       def: '<bdl-chartjs-time  \n' +
