@@ -28,10 +28,10 @@ export class BodylightEditorItems {
       def: '<bdl-bind2a \n' +
         'findex="0" \n' +
         'aname="" \n' +
-        'amin="100" \n' +
-        'amax="0" \n' +
-        'fmin="0.00007" \n' +
-        'fmax="0.00015"\n' +
+        'amin="0" \n' +
+        'amax="100" \n' +
+        'fmin="0.5" \n' +
+        'fmax="1.5"\n' +
         '></bdl-bind2a>',
       dialog: './attribute-bind2a-dialog'
     },
