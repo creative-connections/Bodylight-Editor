@@ -22,6 +22,7 @@ export class Editorapi {
   autopreview = true;
   filename='project.zip';
   exportfilename='projectexport.zip';
+  outputreferences=[];
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;

@@ -12,7 +12,7 @@ export class AttributeBind2aDialog extends AttributeDialog {
   }
 
   attached() {
-    //console.log('AttributeAdobeDialog attached()');
+    console.log('AttributeAdobeDialog attached() api.outputreferences', this.api.outputreferences);
     //this.adobesrc = this.api.askAttributesItemsArray[0].value;
     //console.log('adobesrc', this.adobesrc);
   }
@@ -22,7 +22,7 @@ export class AttributeBind2aDialog extends AttributeDialog {
   }
 
   activate(model) {
-    console.log('AttributeBind2a activate()');
+    console.log('AttributeBind2a activate() api.outputreferences', this.api.outputreferences);
     //this.adobesrc = this.api.askAttributesItemsArray[0].value;
     //console.log('adobesrc',this.adobesrc)
     this.api.discoverAdobeAnimate(); //discovers all objects

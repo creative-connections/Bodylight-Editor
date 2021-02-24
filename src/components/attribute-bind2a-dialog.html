@@ -1,6 +1,19 @@
 <template>
 <table>
-  <tr><td><label>${api.askAttributesItemsArray[0].title}</label></td><td><input value.bind="api.askAttributesItemsArray[0].value" /></td></tr>
+  <tr>
+    <td><label>${api.askAttributesItemsArray[0].title}</label></td>
+    <td show.bind="api.outputreferences.length == 0">
+      <span class="w3-tiny w3-theme-l4">Fill variable index in references from fmi <br />
+        (to get list of available values,<br /> add/identify bdl-fmi component first).</span><br/>
+      <input value.bind="api.askAttributesItemsArray[0].value" />
+    </td>
+    <td show.bind="api.outputreferences.length>0">
+      <select value.bind="api.askAttributesItemsArray[0].value">
+        <option repeat.for="i of api.outputreferences.length" value.bind="i">${api.outputreferences[i].name}
+        </option>
+      </select>
+    </td>
+  </tr>
   <tr>  <td><label>${api.askAttributesItemsArray[1].title}</label></td>
     <td><select value.two-way="adobeobj" class="w3-select" style="width:80%;max-width:100%">
       <option repeat.for="js of api.animobjs" value.bind="js">${js}</option>

@@ -40,6 +40,8 @@ export class AttributeFmiDialog extends AttributeDialog {
     let refs = this.attr.valuereferences.split(',');
     let labels = this.attr.valuelabels.split(',');
     for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
+    //keep link to outputreferences
+    this.api.outputreferences = this.outputreferences;
     //fill output references
     this.inputreferences = [];
     refs = this.attr.inputs.split(';');
@@ -99,6 +101,8 @@ export class AttributeFmiDialog extends AttributeDialog {
     //load script content and insert it into current DOM so it can be interpretted and previewed
     //REFACTORED - loaddoccontent moved to PROJECT - calling only submitattr
     this.api.submitattr('bdl-fmi', this.attr);
+    //keep link to outputreferences in singleton api
+    this.api.outputreferences = this.outputreferences;
   }
 
 
