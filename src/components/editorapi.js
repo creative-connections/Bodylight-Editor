@@ -69,7 +69,9 @@ export class Editorapi {
         //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
         //let imgname = fileitem.name;
         console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
-        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace('](' + fileitem.name + ')', '](' + fileitem.bloburl + ')');}
+        //repleace all image - not only first - regex with 'g'
+        let regex = new RegExp('\\]\\(' + fileitem.name + '\\)', 'g');
+        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace(regex, '](' + fileitem.bloburl + ')');}
       }
     }
     console.log('renderchange() transformedcontent:', transformedContent);
