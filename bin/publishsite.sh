@@ -5,5 +5,5 @@
 # this script doesn't need the build in the original git repo to be commited
 #using https://github.com/X1011/git-directory-deploy
 export GIT_DEPLOY_DIR=../dist
-export GIT_DEPLOY_REPO=git@github.com/creative-connections/Bodylight-Editor.git
+export GIT_DEPLOY_REPO=git@github.com:creative-connections/Bodylight-Editor.git
 ./deploy.sh
