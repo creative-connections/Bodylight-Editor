@@ -300,6 +300,8 @@ export class Project {
               for (let fileitem of myproject.files) {
                 this.files.push(new BodylightFile(fileitem.name, fileitem.type, this.api));
               }
+              //update api.projectfiles
+              this.api.projectfiles = this.files;
               //fmientries stored in project file
               this.api.fmientries = myproject.fmientries;
               this.api.fmientriessrc = myproject.fmientriessrc;

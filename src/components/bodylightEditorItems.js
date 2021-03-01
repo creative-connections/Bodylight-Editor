@@ -76,6 +76,11 @@ export class BodylightEditorItems {
       def: '<bdl-range id="id1" title="" min="0" max="10" default="5" step="1" maxlength="2"></bdl-range>'
     },
     {
+      name: 'bdl-buttonparams',
+      doc: 'button.md',
+      def: '<bdl-buttonparams title="buttontitle" ids="id1,id2" values="120,60"></bdl-buttonparams>'
+    },
+    {
       name: 'bdl-value',
       doc: 'value.md',
       def: '<bdl-value fromid="idfmi" refindex="8"></bdl-value>'
@@ -173,11 +178,11 @@ export class BodylightEditorItems {
     }, {
       name: 'bdl-ecg',
       doc: 'ecg.md',
-      def: '<bdl-ecg \n' +
-        '  id="id11" \n' +
-        '  fromid="idfmi"\n' +
-        '  labels="ECG I (mV)"\n' +
-        '  width="300"\n' +
+      def: '<bdl-ecg ' +
+        '  id="id11" ' +
+        '  fromid="idfmi"' +
+        '  labels="ECG I (mV)"' +
+        '  width="300"' +
         '  height="50"></bdl-ecg>\n'
     }, {
       name: 'bdl-quiz',
@@ -187,16 +192,10 @@ export class BodylightEditorItems {
         '  correctoptions="false|true"' +
         '  explanations="explanation why answer 1 is false (separated by pipe)|explanation why answer 2 is true">' +
         '</bdl-quiz>'
-    }/* this is for webapp project type,{
-    name:"bdl-markdown",
-      doc:"markdown.md",
-      def:"<bdl-markdown src=\"[filename.md]\" watchhash=\"true|false\"></bdl-markdown>"
-    },{
-    name:"bdl-markdown-book",
-      doc:"markdown.md",
-      def:"    <bdl-markdown-book index=\"doc/index.md\" summary=\"doc/summary.md\">\n" +
-        "      <img src=\"loading.gif\"/>\n" +
-        "    </bdl-markdown-book>\n"
-    }*/
+    }, {
+      name: 'bdl-pdb-pdbe-molstar',
+      doc: 'pdb.md',
+      def: '<bdl-pdb-pdbe-molstar id="pdb2h35" molecule-id="2h35" hide-controls="true" hide-polymer="true"></bdl-pdb-pdbe-molstar>'
+    }
   ]
 }

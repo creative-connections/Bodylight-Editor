@@ -58,6 +58,7 @@ export class Editorapi {
     const startprefix = /<bdl-/gi;
     const stopprefix = /<\/bdl-/gi;
     let transformedContent = content.replace(startprefix, '<').replace(stopprefix, '</');
+
     //another hack - replace img src to local blob url - if exists
     let filelist = that.projectfiles;//await that.bs.getFileList();
     //generate array of with img_name,bloburl
@@ -68,7 +69,7 @@ export class Editorapi {
         //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
         //let imgname = fileitem.name;
         console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
-        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace('(' + fileitem.name + ')', '(' + fileitem.bloburl + ')');}
+        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace('](' + fileitem.name + ')', '](' + fileitem.bloburl + ')');}
       }
     }
     console.log('renderchange() transformedcontent:', transformedContent);
