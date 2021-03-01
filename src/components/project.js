@@ -302,6 +302,7 @@ export class Project {
               }
               //update api.projectfiles
               this.api.projectfiles = this.files;
+              this.updatelf();
               //fmientries stored in project file
               this.api.fmientries = myproject.fmientries;
               this.api.fmientriessrc = myproject.fmientriessrc;
