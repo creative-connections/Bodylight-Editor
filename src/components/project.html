@@ -2,19 +2,21 @@
 <require from="./file-dialog"></require>
   <require from="./project.css"></require>
   <div class="w3-margin w3-card-2 w3-small">
-<table>
-  <thead>
-  <tr>
-    <th colspan="3">
-        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> Project menu</button>
+    <div>
+    <div class="w3-left w3-margin-right">
+      <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Project menu</b></button>
         <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block" style="position:absolute;margin-top:0px;margin-left:1em">
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newProject()"><i class="fa fa-plus"> New project</i></button>
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="save()"><i class="fa fa-save"> Save project as ZIP</i></button>
           <button class="w3-button w3-bar-item w3-theme-l4"><label for="loadfile"><i class="fa fa-upload">  Load project from ZIP</i></label><input id="loadfile" style="visibility: hidden;width:10px" type="file" change.trigger="load($event)"/></button>
           <button class="w3-button w3-bar-item w3-theme-l4 w3-border-bottom" click.delegate="exportAsHtml()"><i class="fa fa-download"> Export project as HTML</i></button>
         </div>
-    </th></tr>
-  </thead>
+    </div>
+      name: <b>${api.filename} </b><br />
+      export:<b>${api.exportfilename}</b>
+    </div>
+    <div class="w3-clear"></div>
+  <table>
   <tbody>
   <tr repeat.for="file of files" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'">
     <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}</td>
