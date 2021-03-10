@@ -23,8 +23,8 @@
         <tr><td>github path:</td><td><input type="text" value.bind="githubpath" placeholder="(fill directory or leave empty)"/></td></tr>
         <tr><td>github token:</td><td><input type="password" value.bind="githubtoken" placeholder="(fill token with 'repos' permission)"/></td></tr>
         <tr><td colspan="2" align="center"><button class="w3-button w3-bar-item w3-theme-l4" click.delegate="compareGithub()"><i class="fa fa-refresh"></i> Compare</button>
-          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pullFromGithub()"><i class="fa fa-download"></i> Pull</button>
-        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pushToGithub()"><i class="fa fa-upload"></i> Push</button></td> </tr>
+          <!--button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pullFromGithub()"><i class="fa fa-download"></i> Pull</button>
+        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pushToGithub()"><i class="fa fa-upload"></i> Push</button--></td> </tr>
       </table>
     </div>
     <div class="w3-clear"></div>
@@ -35,10 +35,10 @@
     <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
     <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i> </td>
     <td class="w3-text-orange">
-      <i class="fa fa-exchange" show.bind="file.syncstatus === STATUS.different" title="different"></i>
-      <i class="fa fa-check" show.bind="file.syncstatus === STATUS.synced" title="synced"></i>
-      <i class="fa fa-download" show.bind="file.syncstatus === STATUS.notinlocal" title="notinlocal"></i>
-      <i class="fa fa-upload" show.bind="file.syncstatus === STATUS.notinremote" title="notinremote"></i>
+      <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange" title="different choose whether to upload/download"></i> <i class="fa fa-download" click.delegate="syncDownlodGithub(file)" title="download and replace"></i> <i class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+      <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green" title="synced"></i></span>
+      <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download" title="notinlocal, click to download" click.delegate="syncUploadGithub(file)"></i></span>
+      <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload" title="notinremote, click to upload" click.delegate="syncDownlodGithub(file)"></i></span>
     </td>
   </tr>
   <tr><td colspan="2">

@@ -10,7 +10,7 @@ import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
 import {GithubSync, STATUS} from './githubsync/GithubSync';
 //import {LFKEYS} from './project-files/bodylight-storage';
 
-@inject(Editorapi, EventAggregator)
+@inject(Editorapi, EventAggregator, GithubSync)
 export class Project {
   showButtons = false;
   showgithub = false;
@@ -18,13 +18,14 @@ export class Project {
   currentfile=null;
   askFile=false;
   firstmdfile=false;
-  constructor(api, ea) {
+  constructor(api, ea, gs) {
     this.api = api;
     this.ea = ea;
     this.handleContentUpdate = e => {
       //content update is called by editor - catch this event and save changes
       this.saveChanges();
     };
+    this.gs = gs;
     //this.bs = bs;
   }
 
@@ -512,10 +513,7 @@ export class Project {
       });
   }
   compareGithub() {
-    let gs = new GithubSync();
-
-    gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath);
-    //TODO store into bs
+    this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
     this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
   }
 
@@ -524,5 +522,17 @@ export class Project {
   }
   pushToGithub() {
     alert('note yet implemented');
+  }
+
+  syncUploadGithub(file) {
+    let a = prompt('The file will be uploaded to GITHUB and replaced. Confirm commit message or cancel.', 'UPDATE ' + file.name);
+    if (!a) return;
+    this.gs.uploadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs, a);
+  }
+
+  syncDownloadGithub(file) {
+    let a = confirm('Are you sure? The file will be replaced from downloaded copy from GITHUB');
+    if (!a) return;
+    this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
   }
 }

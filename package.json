@@ -16,6 +16,7 @@
     "createjs-module": "^0.8.3",
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
+    "js-sha1": "^0.6.0",
     "jszip": "^3.6.0",
     "katex": "^0.12.0",
     "localforage": "^1.9.0",
@@ -78,7 +79,7 @@
     "test": "au test"
   },
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=15.0.0"
   },
   "jest": {
     "moduleNameMapper": {

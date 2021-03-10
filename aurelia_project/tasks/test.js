@@ -11,6 +11,7 @@ export default (cb) => {
     Object.assign(options, { watchAll: true});
   }
 
+  //process.env.BABEL_TARGET = '/home/vagrant/node-v15.11.0-linux-x64/bin/node';
   process.env.BABEL_TARGET = 'node';
 
   runCLI(options, [path.resolve(__dirname, '../../')]).then(({ results }) => {

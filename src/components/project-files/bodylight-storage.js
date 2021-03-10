@@ -1,6 +1,7 @@
 import localForage from 'localforage';
 import './bodylight-struct';
 import {utf8Encode} from './bodylight-struct';
+import sha1 from 'js-sha1';
 
 
 export const LFKEYS = {
@@ -60,6 +61,34 @@ export class BodylightStorage {
     return str;
   }
 
+  async loadBlobContent(filename) {
+    let str = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
+    //console.log('doc content str for ', filename, ':', str);
+    return new Promise((resolve, reject)=> {
+      if (typeof str === 'blob') {
+        let a = new FileReader();
+        a.onloadend = () => {
+          resolve(a.result);// it outputs a promise
+        };
+        a.readAsArrayBuffer(blob);
+      } else reject();
+    });
+  }
+  async loadBlobContentBase64(filename) {
+    let str = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
+    //console.log('doc content str for ', filename, ':', str);
+    return new Promise((resolve, reject)=> {
+      if (typeof str === 'blob') {
+        let a = new FileReader();
+        a.onloadend = () => {
+          let base64data = a.result;
+          resolve(base64data.substr(base64data.indexOf(',') + 1));
+        };
+        a.readAsDataURL(blob);
+      } else reject();
+    });
+  }
+
   async loadDocUrl(filename) {
     let blob = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
     //console.log('loaddocurl() for ', filename, ':', blob);
@@ -93,7 +122,7 @@ export class BodylightStorage {
   }
 
   getBlob(filename) {
-    return localForage.getI;
+    return localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
   }
   setFmiListEntries(entries) {
     return localForage.setItem(LFKEYS.FMIENTRIES, entries);
