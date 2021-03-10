@@ -91,26 +91,28 @@ export class GithubSync {
       const myfile = result.data.find(x => x.name === file.name);
       if (myfile) {
         //compare
-        file.syncstatus = STATUS.different; //by default different
-        //count sha for file
-        let content = (file.type.value === FTYPE.MDFILE.value)
-          ? await storageapi.loadDocContentStr(file.name)
-          : await storageapi.loadDocContent(file.name);
+        if ((!file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
+          file.syncstatus = STATUS.different; //by default different
+          //count sha for file
+          let content = (file.type.value === FTYPE.MDFILE.value)
+            ? await storageapi.loadDocContentStr(file.name)
+            : await storageapi.loadDocContent(file.name);
 
-        let filesha = '';
-        if (typeof(content) === 'string') {
-          console.log('string sha for', file.name);
-          //filesha = this.sha1lib(content);
-          filesha = this.size(content);
+          let filesha = '';
+          if (typeof (content) === 'string') {
+            console.log('string sha for', file.name);
+            //filesha = this.sha1lib(content);
+            filesha = this.size(content);
+          }
+          if (content instanceof Blob) {
+            console.log('blob sha for', file.name);
+            //filesha = await this.sha1libblob(content);
+            filesha = this.sizeblob(content);
+          }
+          console.log('sha local x sha remote', filesha, myfile.size); //myfile.sha
+          if (filesha === myfile.size) file.syncstatus = STATUS.synced;
+          file.sha = myfile.sha;
         }
-        if (content instanceof Blob) {
-          console.log('blob sha for', file.name);
-          //filesha = await this.sha1libblob(content);
-          filesha = this.sizeblob(content);
-        }
-        console.log('sha local x sha remote', filesha, myfile.size); //myfile.sha
-        if (filesha === myfile.size) file.syncstatus = STATUS.synced;
-        file.sha = myfile.sha;
         //file.syncstatus = STATUS.synced; //if sha are same
       } else {
         //exist in local not in repo
