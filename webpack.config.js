@@ -173,7 +173,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   plugins: [
     ...when(!tests, new DuplicatePackageCheckerPlugin()),
     new AureliaPlugin({
-      dist: 'es2015',
+      dist: 'es6',
       aureliaApp: 'editormain'
     }),
     new ModuleDependenciesPlugin({

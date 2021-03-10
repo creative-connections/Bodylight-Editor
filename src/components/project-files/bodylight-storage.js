@@ -9,7 +9,8 @@ export const LFKEYS = {
   FMIENTRIES: 'BodylightEditor.FMIEntries',
   FMISRCS: 'BodylightEditor.FMISrcs',
   NAME: 'BodylightEditor.Name',
-  EXPORTNAME: 'BodylightEditor.ExportName'
+  EXPORTNAME: 'BodylightEditor.ExportName',
+  GH: 'Bodylight.GithubSync'
 };
 
 /**
@@ -145,6 +146,19 @@ export class BodylightStorage {
       .catch(error=>{
         console.log('BodylightStorage getSrcs error:', error);
         return error;
+      });
+  }
+
+  storeghparams(ghstruct) {
+    //let ghstruct = {org: org, repo: repo, dir: dir};
+    const ghstructstr = JSON.stringify(ghstruct);
+    return localForage.setItem(LFKEYS.GH, ghstructstr);
+  }
+
+  restoreghparams() {
+    return localForage.getItem(LFKEYS.GH)
+      .then(value => {
+        return JSON.parse(value);
       });
   }
 }

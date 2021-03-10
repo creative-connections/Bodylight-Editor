@@ -7,11 +7,13 @@ import './project-files/bodylight-struct';
 import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
 import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
+import {GithubSync, STATUS} from './githubsync/GithubSync';
 //import {LFKEYS} from './project-files/bodylight-storage';
 
 @inject(Editorapi, EventAggregator)
 export class Project {
   showButtons = false;
+  showgithub = false;
   uploaddialog = false;
   currentfile=null;
   askFile=false;
@@ -31,6 +33,7 @@ export class Project {
    * get file list from the local storage
    */
   attached() {
+    this.STATUS = STATUS;
     //get filelist from storage
     this.api.bs.getFileList()
       .then(value=>{
@@ -347,7 +350,7 @@ export class Project {
     if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
     this.api.setProjectName(filename);
     let zip = new JSZip();
-    const filesclone = this.files.map(({api,bloburl, ...keepAttrs}) => keepAttrs);
+    const filesclone = this.files.map(({api, bloburl, ...keepAttrs}) => keepAttrs);
     zip.file('bodylight-project.json', JSON.stringify({
       files: filesclone,
       fmientries: this.api.fmientries,
@@ -493,5 +496,33 @@ export class Project {
     this.updatelf();
     //rename in storage
     this.api.bs.renameDoc(oldfilename, filename);
+  }
+
+  syncGithub1() {
+    this.showgithub = ! this.showgithub;
+    this.showButtons = false;
+    //let githuburl = prompt('')
+    //TODO restore from bs
+    this.api.bs.restoreghparams()
+      .then(ghparams =>{
+        this.githuborg = ghparams.org;
+        this.githubrepo = ghparams.repo;
+        this.githubpath = ghparams.path;
+        this.githubtoken = ghparams.token;
+      });
+  }
+  compareGithub() {
+    let gs = new GithubSync();
+
+    gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath);
+    //TODO store into bs
+    this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
+  }
+
+  pullFromGithub() {
+    alert('note yet implemented');
+  }
+  pushToGithub() {
+    alert('note yet implemented');
   }
 }
