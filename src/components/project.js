@@ -531,7 +531,7 @@ export class Project {
   }
 
   syncDownloadGithub(file) {
-    let a = confirm('Are you sure? The file will be replaced from downloaded copy from GITHUB');
+    let a = confirm('The file will be replaced from downloaded copy from GITHUB.');
     if (!a) return;
     this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
   }

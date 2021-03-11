@@ -161,19 +161,15 @@ export class GithubSync {
     });
     const b64toBlob = (base64, type = 'application/octet-stream') =>
       fetch(`data:${type};base64,${base64}`).then(res => res.blob());
-    b64toBlob(result.content)
-      .then(blob => {
-        storageapi.saveBlobContent(file.name, blob)
-          .then(result2 => {
-            console.log('result saving blob', result2);
-            //this.bloburl = this.api.bs.loadDocUrl(name);
-            storageapi.loadDocUrl(file.name).then(bloburl => file.bloburl = bloburl);
-            //this.uploaddialog = false;
-          })
-          .catch(error => {
-            console.error('error saving blob', error);
-            //this.uploaddialog = false;
-          });
-      });
+    console.log('github2 download file result:', result);
+    let blob = await b64toBlob(result.data.content);
+    let result2 = await storageapi.saveBlobContent(file.name, blob);
+    console.log('result saving blob', result2);
+    //this.bloburl = this.api.bs.loadDocUrl(name);
+    storageapi.loadDocUrl(file.name).then(bloburl => file.bloburl = bloburl);
+    //this.uploaddialog = false;
+    if (result.status >= 200 && result.status < 300) {
+      file.syncstatus = STATUS.synced;
+    }
   }
 }

@@ -35,10 +35,10 @@
     <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
     <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i> </td>
     <td class="w3-text-orange">
-      <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange" title="different choose whether to upload/download"></i> <i class="fa fa-download" click.delegate="syncDownlodGithub(file)" title="download and replace"></i> <i class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+      <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange" title="different choose whether to upload/download"></i> <i class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
       <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green" title="synced"></i></span>
-      <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download" title="notinlocal, click to download" click.delegate="syncUploadGithub(file)"></i></span>
-      <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload" title="notinremote, click to upload" click.delegate="syncDownlodGithub(file)"></i></span>
+      <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download" title="notinlocal, click to download" click.delegate="syncDownloadGithub(file)"></i></span>
+      <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload" title="notinremote, click to upload" click.delegate="syncUploadGithub(file)"></i></span>
     </td>
   </tr>
   <tr><td colspan="2">
