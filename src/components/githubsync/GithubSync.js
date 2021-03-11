@@ -6,12 +6,12 @@ import sha1 from 'js-sha1';
 
 /**const makeEnum = (...lst) => Object.freeze(Object.assign({}, ...lst.map(k => ({[k]: Symbol(k)}))));
 const STATUS = makeEnum(['notinlocal', 'notinremote', 'synced', 'different']);**/
-export const STATUS = Object.freeze({
+export const STATUS = {
   notinlocal: Symbol('notinlocal'),
   notinremote: Symbol('notinremote'),
   synced: Symbol('synced'),
   different: Symbol('different')
-});
+};
 
 export class GithubSync {
   //STATUS = makeEnum(["notinlocal","notinremote","synced","different"])
@@ -153,6 +153,27 @@ export class GithubSync {
   }
 
   async downloadFile(file, org, repo, path, storageapi) {
-    alert('not implemented');
+    const result = await request('GET /repos/{org}/{repo}/contents/{path}/{filename}', {
+      org: org,
+      repo: repo,
+      path: path,
+      filename: file.name
+    });
+    const b64toBlob = (base64, type = 'application/octet-stream') =>
+      fetch(`data:${type};base64,${base64}`).then(res => res.blob());
+    b64toBlob(result.content)
+      .then(blob => {
+        storageapi.saveBlobContent(file.name, blob)
+          .then(result2 => {
+            console.log('result saving blob', result2);
+            //this.bloburl = this.api.bs.loadDocUrl(name);
+            storageapi.loadDocUrl(file.name).then(bloburl => file.bloburl = bloburl);
+            //this.uploaddialog = false;
+          })
+          .catch(error => {
+            console.error('error saving blob', error);
+            //this.uploaddialog = false;
+          });
+      });
   }
 }
