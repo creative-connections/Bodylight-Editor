@@ -27,6 +27,7 @@ export class Editorapi {
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     window.editorapi = this;
+    const maxLines = Math.floor((window.innerHeight - 100) / 17);
     ace.require('ace/ext/language_tools');
     this.editor = ace.edit('editorref', {
       mode: 'ace/mode/markdown2',
@@ -36,7 +37,7 @@ export class Editorapi {
       enableLiveAutocompletion: false, //live autocompletion = when writing
       enableBehaviours: true, //automatically close tags, ", parentheses
       wrap: true,
-      maxLines: 50,
+      maxLines: maxLines,
       minLines: 25,
       fontSize: 14
     });

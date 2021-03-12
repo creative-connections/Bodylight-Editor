@@ -437,12 +437,14 @@ export class Project {
         //adds all project files
         for (let file of this.files) {
           //'blob' or 'string' content are zipped as entries
-          zip.file(
-            file.name,
-            (file.type.value === FTYPE.MDFILE.value)
-              ? this.api.bs.loadDocContentStr(file.name)
-              : this.api.bs.loadDocContent(file.name), {binary: true}
-          );
+          if (!(file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
+            zip.file(
+              file.name,
+              (file.type.value === FTYPE.MDFILE.value)
+                ? this.api.bs.loadDocContentStr(file.name)
+                : this.api.bs.loadDocContent(file.name), {binary: true}
+            );
+          }
           //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
         }
         //create default summary if it is not part of the project already
@@ -534,5 +536,9 @@ export class Project {
     let a = confirm('The file will be replaced from downloaded copy from GITHUB.');
     if (!a) return;
     this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+  }
+
+  showGithubHelp() {
+    this.api.helpsrc = 'github.md';
   }
 }

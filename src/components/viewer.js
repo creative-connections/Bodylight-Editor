@@ -1,1 +1,2 @@
-export class Viewer {}
+export class Viewer {
+}

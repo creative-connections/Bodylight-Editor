@@ -1,63 +1,114 @@
 <template>
 <require from="./file-dialog"></require>
-  <require from="./project.css"></require>
-  <div class="w3-margin w3-card-2 w3-small">
-    <div>
-    <div class="w3-left w3-margin-right">
-      <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Project menu</b></button>
-        <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block" style="position:absolute;margin-top:0px;margin-left:1em">
-          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newProject()"><i class="fa fa-plus"></i> New project</button>
-          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="save()"><i class="fa fa-save"></i> Save project as ZIP</button>
-          <button class="w3-button w3-bar-item w3-theme-l4"><label for="loadfile"><i class="fa fa-upload"></i> Load project from ZIP</label><input id="loadfile" style="visibility: hidden;width:10px" type="file" change.trigger="load($event)"/></button>
-          <button class="w3-button w3-bar-item w3-theme-l4 w3-border-bottom" click.delegate="exportAsHtml()"><i class="fa fa-download"></i> Export project as HTML</button>
-          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="syncGithub1()"><i class="fa fa-refresh"></i> Sync with GITHUB</button>
+<require from="./project.css"></require>
+
+  <div class="w3-margin w3-card-2 w3-tiny" style="height:100%;display:block" >
+
+
+      <div class="w3-left w3-margin-right">
+        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Project
+          menu</b></button>
+        <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block"
+             style="position:absolute;margin-top:0px;margin-left:1em">
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newProject()"><i class="fa fa-plus"></i> New
+            project
+          </button>
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="save()"><i class="fa fa-save"></i> Save
+            project as ZIP
+          </button>
+          <button class="w3-button w3-bar-item w3-theme-l4"><label for="loadfile"><i class="fa fa-upload"></i> Load
+            project from ZIP</label><input id="loadfile" style="visibility: hidden;width:10px" type="file"
+                                           change.trigger="load($event)"/></button>
+          <button class="w3-button w3-bar-item w3-theme-l4 w3-border-bottom" click.delegate="exportAsHtml()"><i
+            class="fa fa-download"></i> Export project as HTML
+          </button>
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="syncGithub1()"><i class="fa fa-refresh"></i>
+            Sync with GITHUB
+          </button>
         </div>
-    </div>
-      <span class="w3-small">
+      </div>
+
+      <span>
       name: <b>${api.filename} </b><br/>
       export:<b>${api.exportfilename}</b>
       </span>
-      <table show.bind="showgithub" class="w3-small">
-        <tr><td>github user/org:</td><td><input type="text" value.bind="githuborg" placeholder="creative-connections"/></td></tr>
-        <tr><td>github repo:</td><td><input type="text" value.bind="githubrepo" placehorder="Bodylight-Scenarios"/></td></tr>
-        <tr><td>github path:</td><td><input type="text" value.bind="githubpath" placeholder="(fill directory or leave empty)"/></td></tr>
-        <tr><td>github token:</td><td><input type="password" value.bind="githubtoken" placeholder="(fill token with 'repos' permission)"/></td></tr>
-        <tr><td colspan="2" align="center"><button class="w3-button w3-bar-item w3-theme-l4" click.delegate="compareGithub()"><i class="fa fa-refresh"></i> Compare</button>
-          <!--button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pullFromGithub()"><i class="fa fa-download"></i> Pull</button>
-        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pushToGithub()"><i class="fa fa-upload"></i> Push</button--></td> </tr>
+      <table show.bind="showgithub">
+        <tr>
+          <td>github user/org:</td>
+          <td><input type="text" value.bind="githuborg" placeholder="creative-connections"/></td>
+        </tr>
+        <tr>
+          <td>github repo:</td>
+          <td><input type="text" value.bind="githubrepo" placehorder="Bodylight-Scenarios"/></td>
+        </tr>
+        <tr>
+          <td>github path:</td>
+          <td><input type="text" value.bind="githubpath" placeholder="(fill directory or leave empty)"/></td>
+        </tr>
+        <tr>
+          <td>github token:</td>
+          <td><input type="password" value.bind="githubtoken" placeholder="(fill token with 'repos' permission)"/></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="compareGithub()"><i
+              class="fa fa-refresh"></i> Compare
+            </button>
+            <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="showGithubHelp()"><i
+              class="fa fa-help"></i> Help
+            </button>
+            <!--button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pullFromGithub()"><i class="fa fa-download"></i> Pull</button>
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="pushToGithub()"><i class="fa fa-upload"></i> Push</button-->
+          </td>
+        </tr>
       </table>
-    </div>
-    <div class="w3-clear"></div>
-  <table>
-  <tbody>
-  <tr repeat.for="file of files" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'">
-    <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}</td>
-    <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i> </td>
-    <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i> </td>
-    <td class="w3-text-orange">
-      <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange" title="different choose whether to upload/download"></i> <i class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
-      <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green" title="synced"></i></span>
-      <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download" title="notinlocal, click to download" click.delegate="syncDownloadGithub(file)"></i></span>
-      <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload" title="notinremote, click to upload" click.delegate="syncUploadGithub(file)"></i></span>
-    </td>
-  </tr>
-  <tr><td colspan="2">
-    <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i class="fa fa-plus"></i> Create new file</span>
-    <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i class="fa fa-plus"></i> Upload file</span>
-    <div show.bind="uploaddialog"
 
-         dragenter.delegate="drag($event)"
-         dragover.delegate="drag($event)"
-         drop.delegate="drop($event)"
-         style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
-         class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
-      <p>Drag your files here or click on this area</p>
-      <input type="file" change.trigger="dragNdrop($event)"/>
-    </div>
-  </td>
-  </tr>
-  </tbody>
-</table>
+
+    <div class="w3-clear"></div>
+    <div style="overflow:scroll;overflow-x:hidden;height:500px">
+    <table>
+      <tbody>
+      <tr repeat.for="file of files" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'">
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        </td>
+        <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
+        <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td class="w3-text-orange">
+          <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
+                                                                    title="different choose whether to upload/download"></i> <i
+            class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i
+            class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+          <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green"
+                                                                 title="synced"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download"
+                                                                     title="notinlocal, click to download"
+                                                                     click.delegate="syncDownloadGithub(file)"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload"
+                                                                      title="notinremote, click to upload"
+                                                                      click.delegate="syncUploadGithub(file)"></i></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i
+            class="fa fa-plus"></i> Create new file</span>
+          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i
+            class="fa fa-plus"></i> Upload file</span>
+          <div show.bind="uploaddialog"
+
+               dragenter.delegate="drag($event)"
+               dragover.delegate="drag($event)"
+               drop.delegate="drop($event)"
+               style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
+               class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+            <p>Drag your files here or click on this area</p>
+            <input type="file" change.trigger="dragNdrop($event)"/>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
     <file-dialog></file-dialog>
+  </div>
   </div>
 </template>
