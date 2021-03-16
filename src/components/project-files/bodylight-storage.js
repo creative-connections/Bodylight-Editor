@@ -74,17 +74,24 @@ export class BodylightStorage {
       } else reject();
     });
   }
+
+  readBlobAsync(blob) {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.onload = () =>{
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
   async loadBlobContentBase64(filename) {
     let str = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
     console.log('doc content str for ', filename, ':', str);
-    if (typeof str === 'blob' || (str instanceof File)) {
-      let a = new FileReader();
-      let content64 = '';
-      a.onloadend = () => {
-        let base64data = a.result;
-        content64 = base64data.substr(base64data.indexOf(',') + 1);
-      };
-      await a.readAsDataURL(str);
+    if ((str instanceof Blob) || (str instanceof File)) {
+      let base64data = await this.readBlobAsync(str);
+      let content64 = base64data.substr(base64data.indexOf(',') + 1);
       console.log('content64', content64);
       return content64;
     }

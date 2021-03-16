@@ -129,6 +129,7 @@ export class GithubSync {
 
   async uploadFile(file, org, repo, path, token, storageapi, message) {
     let filename = file.name;
+    console.log('githubsync uploadfile() storagepi',storageapi);
     let content = (file.type.value === FTYPE.MDFILE.value)
       ? btoa(await storageapi.loadDocContentStr(file.name))
       : await storageapi.loadBlobContentBase64(file.name);
