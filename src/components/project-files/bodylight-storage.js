@@ -1,7 +1,7 @@
 import localForage from 'localforage';
 import './bodylight-struct';
 import {utf8Encode} from './bodylight-struct';
-import sha1 from 'js-sha1';
+//import sha1 from 'js-sha1';
 
 
 export const LFKEYS = {
@@ -88,11 +88,11 @@ export class BodylightStorage {
 
   async loadBlobContentBase64(filename) {
     let str = await localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
-    console.log('doc content str for ', filename, ':', str);
+    //console.log('doc content str for ', filename, ':', str);
     if ((str instanceof Blob) || (str instanceof File)) {
       let base64data = await this.readBlobAsync(str);
       let content64 = base64data.substr(base64data.indexOf(',') + 1);
-      console.log('content64', content64);
+      //console.log('content64', content64);
       return content64;
     }
   }
