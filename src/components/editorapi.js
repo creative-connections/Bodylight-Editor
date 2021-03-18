@@ -302,40 +302,54 @@ export class Editorapi {
     let prior = document.getElementsByTagName('script')[0];
     script.async = 1;
     //no callback, ...
-    let inlinescript = document.createTextNode(txt);
-    script.appendChild(inlinescript);
-    prior.parentNode.insertBefore(script, prior);
+    //let inlinescript = document.createTextNode(txt);
+    script.innerHTML = txt;
+    //script.appendChild(inlinescript);
+    prior.parentNode.appendChild(script);//, prior);
+    return script;
   }
 
   /**
-   * Inserts script by id = source if it is stored in localstorage
+   * Removes script with id beginning with idprefix
+   * @param idprefix
+   */
+  removeScriptById(idprefix) {
+    let script = document.getElementById(idprefix);
+    if (script) script.remove();
+  }
+
+  /**
+   * Inserts script filename and sets its id, can be called by external api
+   * @param filename
    * @param id
    */
-  insertScriptById(id) {
-    let file = {name: id};
-    return this.insertScriptFile(file);
+  insertScriptById(filename, id = 'adobeobj') {
+    let file = {name: filename};
+    this.removeScriptById(id);
+    return this.insertScriptFile(file, null, id);
   }
 
   /**
    * Calls api insertscript to insert the project file or blob content into DOM
    * @param bodylightfile - expects name property to contain filename - for identification purposes
    * @param blob - if defined, gets content from this blob as text and inserts it into DOM
+   * @param id - if defined, script with id will be added - otherwise the id is filename from bodylightfile
    */
-  insertScriptFile(bodylightfile, blob) {
+  insertScriptFile(bodylightfile, blob, id) {
     //read content of the file and insert content into the DOM
     console.log('insertScriptFile() inserting script file into DOM', bodylightfile);
     if (blob) {
       //blob is defined, read the content of the blob
-      blob.text()
+      return blob.text()
         .then(txtvalue => {
-          this.insertScript(txtvalue, bodylightfile.name);
+          return this.insertScript(txtvalue, id ? id : bodylightfile.name);
         });
     } else {
       //blob is not defined, but might be in local storage, load it from there
-      this.bs.loadDocContent(bodylightfile.name)
+      return this.bs.loadDocContent(bodylightfile.name)
         .then(blob2 => blob2.text())
         .then(txtvalue => {
-          this.insertScript(txtvalue, bodylightfile.name);
+          return this.insertScript(txtvalue, id ? id : bodylightfile.name);
         });
     }
   }
