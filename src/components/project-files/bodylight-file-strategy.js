@@ -8,14 +8,14 @@ export class BodylightFileStrategy {
    */
   loadFile(file) {
     //opening md file
-    if (file.api) {
-      return file.api.bs.loadDocContent(file.name)
+    if (window.editorapi) {
+      return window.editorapi.bs.loadDocContent(file.name)
         .then(content =>{
           return content;
         })
         .catch(err=>{console.log('project open file error', err); return err;});
     }
-    //TODO fail when file.api is not available
+    //TODO fail when window.editorapi is not available
   }
 
   /**

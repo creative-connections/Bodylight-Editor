@@ -45,7 +45,7 @@ export class Project {
           this.files = [];
           this.api.projectfiles = this.files;
           for (let fileitem of value) {
-            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type, this.api);
+            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
 
             this.files.push(bodylightfile);
             //first MD file - read content and put it into editor
@@ -166,7 +166,7 @@ export class Project {
       /*let blob = new Blob([content], {
         type: 'text/plain'
       });*/
-      let newfile = new BodylightFile(filename, FTYPE.MDFILE, this.api);
+      let newfile = new BodylightFile(filename, FTYPE.MDFILE);
       //BodylightFileFactory.createBodylightFile(filename, blob, this.api);//new BodylightFile(filename, this.api);//{name: filename, type: FTYPE.MDFILE};
 
       //push to file array - update localstorage
@@ -272,7 +272,7 @@ export class Project {
           let entryname = zipEntry.name;
           zipEntry.async('blob').then(blob => {
             //let newfile= new BodylightFile()
-            let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, this.api, blob);
+            let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, blob);
             if (entryname.endsWith('.xml')) {
               //parse modeldescription.file
               this.api.setFmiEntryDescription(blob);
@@ -302,7 +302,7 @@ export class Project {
               let myproject = JSON.parse(value);
               //project files needs to be instantiated
               for (let fileitem of myproject.files) {
-                this.files.push(new BodylightFile(fileitem.name, fileitem.type, this.api));
+                this.files.push(new BodylightFile(fileitem.name, fileitem.type));
               }
               //update api.projectfiles
               this.api.projectfiles = this.files;
@@ -317,7 +317,7 @@ export class Project {
             zipEntry.async('blob').then(blob => {
               //let newfile= new BodylightFile()
               //will store content in blob
-              let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, this.api, blob);
+              let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, blob);
               //BodylightFileFactory.createBodylightFile(entryname, blob, this.api,false,false);
               //this.files.push(newfile);
               //this.updatelf();
@@ -361,10 +361,12 @@ export class Project {
     }));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
-      zip.file(file.name, (file.type.value === FTYPE.MDFILE.value)
-        ? this.api.bs.loadDocContentStr(file.name)
-        : this.api.bs.loadDocContent(file.name), {binary: true} );
-      //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
+      if (file.syncstatus !== STATUS.notinlocal) {
+        zip.file(file.name, (file.type.value === FTYPE.MDFILE.value)
+          ? this.api.bs.loadDocContentStr(file.name)
+          : this.api.bs.loadDocContent(file.name), {binary: true});
+        //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
+      }
     }
     zip.generateAsync({type: 'blob'})
       .then(function(blob) {
@@ -457,7 +459,7 @@ export class Project {
           //create blob from generated content
           let sblob = new Blob([summarymdcontent], {type: 'text/plain;charset=utf-8'});
           //store file and blob in local storage
-          let sbodylightfile = new BodylightFile('summary.md', FTYPE.MDFILE, this.api, sblob);
+          let sbodylightfile = new BodylightFile('summary.md', FTYPE.MDFILE, sblob);
           //and add it into project 'files' structure
           this.files.push(sbodylightfile);
           //zip the summary file

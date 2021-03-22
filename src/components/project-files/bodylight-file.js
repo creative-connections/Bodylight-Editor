@@ -6,7 +6,7 @@ export class BodylightFile {
   active=false;
   bloburl='';
 
-  constructor(name, type, api, blob) {
+  constructor(name, type, blob) {
     this.name = name;
     if (type) {
       this.type = type;
@@ -24,28 +24,28 @@ export class BodylightFile {
     //do not serialize api and strategymap
     //instantiates the class in strategy field
     //this.strategy = window[this.type.strategy](this);
-    this.api = api;
-    if (api) {
-      if (blob) {
+    //this.api = api;
+    //if (api) {
+    if (blob) {
       //store blob
       //api.bs.saveBlobContent(name, blob);
-        api.bs.saveBlobContent(name, blob)
-          .then(result => {
-            console.log('result saving blob', result);
-            //this.bloburl = this.api.bs.loadDocUrl(name);
-            this.api.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
+      window.editorapi.bs.saveBlobContent(name, blob)
+        .then(result => {
+          console.log('result saving blob', result);
+          //this.bloburl = this.api.bs.loadDocUrl(name);
+          window.editorapi.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
           //this.uploaddialog = false;
-          })
-          .catch(error => {
-            console.error('error saving blob', error);
+        })
+        .catch(error => {
+          console.error('error saving blob', error);
           //this.uploaddialog = false;
-          });
-      } else {
-        //no blob - try to retrieve bloburl
-        //this.bloburl = this.api.bs.loadDocUrl(name);
-        this.api.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
-      }
+        });
+    } else {
+      //no blob - try to retrieve bloburl
+      //this.bloburl = this.api.bs.loadDocUrl(name);
+      window.editorapi.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
     }
+    //}
   }
 
   changetype(type) {

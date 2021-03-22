@@ -2,7 +2,7 @@ import {BodylightFile} from './bodylight-file';
 import {FTYPE} from './bodylight-struct';
 
 export class BodylightFileFactory {
-  static createBodylightFile(entryname, blob, api, isanimate, isother) {
+  static createBodylightFile(entryname, blob, isanimate, isother) {
     let filetype;
     if (entryname.endsWith('.js')) {
       if (isanimate) filetype = FTYPE.ADOBEANIMATE;
@@ -15,7 +15,7 @@ export class BodylightFileFactory {
     else if (entryname.endsWith('.png')) filetype = FTYPE.IMAGE;
     else if (entryname.endsWith('.jpg')) filetype = FTYPE.IMAGE;
     else filetype = FTYPE.OTHERJS;
-    let newfile = new BodylightFile(entryname, filetype, api, blob);
+    let newfile = new BodylightFile(entryname, filetype, blob);
     /*if (blob) {
       api.bs.saveBlobContent(entryname, blob)
         .then(result => {
