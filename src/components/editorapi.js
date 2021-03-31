@@ -378,8 +378,8 @@ export class Editorapi {
     if (root.children) {
     //depth first
       for (let child of root.children) {
-        //object ending with suffix is what we need to discover
-        if (child.name && child.name.endsWith(suffix)) {
+        //object including suffix is what we need to discover
+        if (child.name && child.name.includes(suffix)) {
           discovered.push(prefix + child.name);
         }
         //index needed when 'name' is undefined - so access via index in array
