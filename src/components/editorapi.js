@@ -6,6 +6,7 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/src-noconflict/snippets/text.js';
 import '../acemode/mode-markdown';
 import {BodylightStorage} from './project-files/bodylight-storage';
+import {FTYPE} from './project-files/bodylight-struct';
 
 export class Editorapi {
   askAttributes=false;
@@ -23,6 +24,7 @@ export class Editorapi {
   filename='project.zip';
   exportfilename='projectexport.zip';
   outputreferences=[];
+  currentfmientry = {};
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -247,7 +249,11 @@ export class Editorapi {
   }
 
   getFmiEntries() {
-    let that = this;
+    this.fmientries = this.projectfiles.filter(file => file.type.value === FTYPE.MODELFILE.value);
+    //this.currentfmientry = {src: this.fmientries[0].name};
+    //this.currentfmientry{src: 'FILL src of JS file', fminame: 'FILL fminame from modeldescription.xml', guid: '', valuereferences: '', valuelabels: '', inputs: ''};
+    //fixing fmientries - removing obsolete storage - fmientries from project file list
+    /*let that = this;
     this.bs.getFMIListEntries()
       .then(value=> {
         that.fmientries = value;
@@ -260,7 +266,7 @@ export class Editorapi {
         }
         this.bs.getFMIListSrcs()
           .then(value2=> that.fmientriessrc = value2);
-      });
+      });*/
     //set to first entry in list
   }
 

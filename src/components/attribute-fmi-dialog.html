@@ -19,7 +19,7 @@
       <tr show.bind="showfmicontrol">
         <td><label>src</label></td>
         <td><select value.bind="attr.src" class="w3-select" style="width:80%;max-width:100%">
-          <option repeat.for="js of api.fmientriessrc" value.bind="js.src">${js.src}</option>
+          <option repeat.for="js of api.fmientries" value.bind="js.name">${js.name}</option>
         </select>
           <i class="fa fa-refresh" click.delegate="refreshsrc()"></i>
         </td>

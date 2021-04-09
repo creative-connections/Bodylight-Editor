@@ -50,7 +50,7 @@ export class AttributeFmiDialog extends AttributeDialog {
       this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
     }
     //if (this.attrstr.src) this.api.update
-    if (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0))  this.api.updateFMIVariableList();
+    if (!this.api.currentfmientry || (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0)))  this.api.updateFMIVariableList();
   }
 
   activate() {

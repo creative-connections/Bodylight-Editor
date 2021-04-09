@@ -164,8 +164,8 @@ export class BodylightStorage {
   setExportProjectName(name) {
     return localForage.setItem(LFKEYS.EXPORTNAME, name);
   }
-
-  getFMIListEntries() {
+  //OBSOLETE introduce bug if more project are edited
+  /*  getFMIListEntries() {
     return localForage.getItem(LFKEYS.FMIENTRIES)
       .then(value=> {
         return value;
@@ -185,6 +185,7 @@ export class BodylightStorage {
         return error;
       });
   }
+ */
 
   storeghparams(ghstruct) {
     //let ghstruct = {org: org, repo: repo, dir: dir};

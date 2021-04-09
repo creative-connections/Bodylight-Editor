@@ -58,11 +58,13 @@ export class Project {
               console.log('opening model/adobe JS file');
               //this.api.insertScriptFile(bodylightfile); //MOVED to plugin fallback
             }
-            this.updateadobeentries();
           }
+          this.updateadobeentries();
+          this.api.getFmiEntries();
         } else {
           this.files = [];//DEMOFILES;
           this.api.projectfiles = this.files;
+          this.api.getFmiEntries();
           this.updatelf();
         }
       })
@@ -71,6 +73,7 @@ export class Project {
         console.log('error', error);
         this.files = [];//DEMOFILES;
         this.api.projectfiles = this.files;
+        this.api.getFmiEntries();
       });
     //if the file dialog change some properties of the file - update it
     this.ea.subscribe('file-dialog', fileitems =>{
@@ -80,7 +83,6 @@ export class Project {
     document.getElementById('editorref').addEventListener('contentupdate', this.handleContentUpdate);
     //this.api = api;
     //this.strategymap = createStrategyMap(this.api);
-    this.api.getFmiEntries();
     this.api.initProjectName();
   }
 
