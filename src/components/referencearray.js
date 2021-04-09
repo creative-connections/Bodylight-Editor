@@ -29,11 +29,12 @@ export class Referencearray {
    */
   getSuggestions(value) {
     let suggestion;
-    if (this.askids) { //will filter all tunable - for inputs
-      suggestion = this.api.currentfmientry.modelvariables.filter(variable => (variable.name.includes(value) && variable.tunable)).map(v => {return v.reference + '-' + v.name; });
+    if (this.askids) { //will filter all tunable - for inputs, (added) OR fixed - for tunning fixed parameters by stop/reinit/start
+      suggestion = this.api.currentfmientry.modelvariables.filter(variable => (variable.name.includes(value) && (variable.tunable || variable.fixed)))
+        .map(v => {return v.reference + '-' + (v.tunable ? 't' : 'f') + '-' + v.name; });
     } else { //will filter all variable - for outputs
       suggestion = this.api.currentfmientry.modelvariables.filter(variable => variable.name.includes(value)).map(v => {
-        return v.reference + '-' + v.name;
+        return v.reference + '-o-' + v.name; //add -o- signature compatible with askids === input references
       });
     }
     //console.log('this.api.currentfminetry.modelvariables', this.api.currentfmientry.modelvariables);
@@ -56,13 +57,15 @@ export class Referencearray {
    */
   addReference() {
     let newvalue = this.goodautocomplete.getRawValue();
-    let reference = newvalue.split('-', 1)[0];
-    let name = newvalue.slice(reference.length + 1);
+    let signatures = newvalue.split('-', 2);
+    let reference = signatures[0];
+    let fixed = signatures[1] === 'f'; //f for fixed, t for tunable, o for output
+    let name = newvalue.slice(reference.length + 3); //+1 for '-' +1 for 't' or 'f' and +1 for '-'
     console.log('referencearray newvalue:', newvalue);
     if (!this.value) this.value = [];
-    if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator});
+    if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, fixed: fixed});
     else this.value.push({reference: reference, name: name});
-    this.goodautocomplete._value = "";
+    this.goodautocomplete._value = '';
   }
 
   removeReference(item) {

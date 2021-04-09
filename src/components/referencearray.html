@@ -1,8 +1,9 @@
 <template>
   <require from="./autocomplete/good-auto-complete"></require>
   <require from="./autocomplete/good-auto-complete.css"></require>
+  <require from="./referencearray.css"></require>
   <div class="w3-theme-l4 w3-margin-top w3-margin-bottom">
-  <table>
+  <table class="referencearray">
     <tr repeat.for="item of value">
       <td>${item.reference}</td><td>${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
     </tr>

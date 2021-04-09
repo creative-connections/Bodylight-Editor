@@ -1,9 +1,9 @@
 <template>
   <require from="./referencearray"></require>
-    <table>
+    <table class="w3-tiny" style="width:100%">
       <thead>
       <tr>
-        <th style="width:6em;">attribute</th>
+        <th style="width:6em;white-space: nowrap;">attribute</th>
         <th>value</th>
       </tr>
       </thead>
@@ -47,18 +47,22 @@
       </tr>
 
       <tr>
-        <td colspan="2">
+        <td colspan="3">
           <button class="w3-button w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Input/Output variables <i class="fa fa-arrow-down"></i></button>
         </td>
       </tr>
-
-      <tr show.bind="showfmiinput">
-        <td><label>model output variables: </label></td>
-        <td><referencearray value.two-way="outputreferences"></referencearray></td>
+      <tr show.bind="showfmiinput" class="w3-tiny">
+        <td>outputs</td>
       </tr>
-      <tr show.bind="showfmiinput">
-        <td><label>model input variables</label></td>
-        <td><referencearray value.two-way="inputreferences" askids="true"></referencearray></td>
+      <tr show.bind="showfmiinput" class="w3-tiny">
+        <td colspan="3"><referencearray value.two-way="outputreferences"></referencearray></td>
+      </tr>
+      <tr show.bind="showfmiinput" class="w3-tiny">
+        <td>inputs</td>
+      </tr>
+      <tr show.bind="showfmiinput" class="w3-tiny">
+
+        <td colspan="3"><referencearray value.two-way="inputreferences" askids="true"></referencearray></td>
       </tr>
     </table>
     <div class="w3-center w3-padding">

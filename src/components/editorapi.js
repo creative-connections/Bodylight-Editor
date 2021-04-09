@@ -27,7 +27,8 @@ export class Editorapi {
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     window.editorapi = this;
-    const maxLines = Math.floor((window.innerHeight - 100) / 17);
+    const fontsize = 12;
+    const maxLines = Math.floor((window.innerHeight - 100) / (fontsize+2));
     ace.require('ace/ext/language_tools');
     this.editor = ace.edit('editorref', {
       mode: 'ace/mode/markdown2',
@@ -39,7 +40,7 @@ export class Editorapi {
       wrap: true,
       maxLines: maxLines,
       minLines: 25,
-      fontSize: 14
+      fontSize: fontsize
     });
 
     let that = this;
@@ -210,6 +211,8 @@ export class Editorapi {
         reference: varnode.getAttribute('valueReference'),
         description: varnode.getAttribute('description'),
         tunable: (varnode.getAttribute('variability') === 'tunable'),
+        fixed: (varnode.getAttribute('variability') === 'fixed'),
+        parameter: (varnode.getAttribute('causality') === 'parameter'),
         start: (varnode.children.length > 0 ? varnode.children[0].getAttribute('start') : 0)
       });
     }
@@ -268,6 +271,15 @@ export class Editorapi {
     this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
     console.log('found currentfmientry:', this.currentfmientry);
     console.log('   from fmientries', this.fmientries);
+  }
+
+  updateFMIVariableList() {
+    //fix #14 read the variables
+    this.bs.getBlob('modelDescription.xml')
+      .then(blob => {
+        this.setFmiEntryDescription(blob);
+      });
+    //TODO fix duplicates - either read from modelDescription each time, or store modeldescription par JS with FMU
   }
 
   initProjectName() {
@@ -344,14 +356,13 @@ export class Editorapi {
         .then(txtvalue => {
           return this.insertScript(txtvalue, id ? id : bodylightfile.name);
         });
-    } else {
-      //blob is not defined, but might be in local storage, load it from there
-      return this.bs.loadDocContent(bodylightfile.name)
-        .then(blob2 => blob2.text())
-        .then(txtvalue => {
-          return this.insertScript(txtvalue, id ? id : bodylightfile.name);
-        });
     }
+    //blob is not defined, but might be in local storage, load it from there
+    return this.bs.loadDocContent(bodylightfile.name)
+      .then(blob2 => blob2.text())
+      .then(txtvalue => {
+        return this.insertScript(txtvalue, id ? id : bodylightfile.name);
+      });
   }
 
   /**

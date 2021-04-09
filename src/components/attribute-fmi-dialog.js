@@ -17,7 +17,6 @@ export class AttributeFmiDialog extends AttributeDialog {
 
   attached() {
     //convert askattributes to struct
-
     this.attrstr = {};//this.api.askAttributesItemsArray
     for (let item of this.api.askAttributesItemsArray) this.attrstr[item.title] = item.value;
     console.log('attributefmidialog attached() attrstr:', this.attrstr);
@@ -50,6 +49,8 @@ export class AttributeFmiDialog extends AttributeDialog {
       let refitem = refs[i].split(',');
       this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
     }
+    //if (this.attrstr.src) this.api.update
+    if (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0))  this.api.updateFMIVariableList();
   }
 
   activate() {
@@ -64,11 +65,13 @@ export class AttributeFmiDialog extends AttributeDialog {
   srcChanged() {
     console.log('attributefmidialog changed src:', this.src);
     if (this.attr) this.attr.src = this.src;
+    this.refreshsrc();
   }
 
   refreshsrc() {
     console.log('refreshsrc', this.attr.src);
     this.api.updateCurrentFmiEntry(this.attr.src);
+    this.api.updateFMIVariableList();
     //this.attr.src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
     this.attr.fminame = this.api.currentfmientry.fminame;
     this.attr.tolerance = '0.000001';
