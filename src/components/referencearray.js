@@ -59,11 +59,11 @@ export class Referencearray {
     let newvalue = this.goodautocomplete.getRawValue();
     let signatures = newvalue.split('-', 2);
     let reference = signatures[0];
-    let fixed = signatures[1] === 'f'; //f for fixed, t for tunable, o for output
+    let fixed = signatures[1]; //f for fixed, t for tunable, o for output
     let name = newvalue.slice(reference.length + 3); //+1 for '-' +1 for 't' or 'f' and +1 for '-'
     console.log('referencearray newvalue:', newvalue);
     if (!this.value) this.value = [];
-    if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, fixed: fixed});
+    if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, addend: this.addend, fixed: fixed});
     else this.value.push({reference: reference, name: name});
     this.goodautocomplete._value = '';
   }

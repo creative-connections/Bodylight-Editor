@@ -132,6 +132,7 @@ export class BodylightStorage {
   getBlob(filename) {
     return localForage.getItem(LFKEYS.FILECONTENT + '.' + filename);
   }
+
   setFmiListEntries(entries) {
     return localForage.setItem(LFKEYS.FMIENTRIES, entries);
   }
