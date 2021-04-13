@@ -9,6 +9,7 @@ export class Referencearray {
   @bindable title;
   numerator = 1;
   denominator = 1;
+  addend = 0;
   inputid='id1'
   constructor(api) {
     this.api = api;

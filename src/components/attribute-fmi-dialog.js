@@ -47,7 +47,7 @@ export class AttributeFmiDialog extends AttributeDialog {
     labels = this.attr.inputlabels.split(',');
     for (let i = 0; i < refs.length; i++) {
       let refitem = refs[i].split(',');
-      this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3]});
+      this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3], addend:refitem[4]?refitem[4]:0, fixed:refitem[5]?refitem[5]:''});
     }
     //if (this.attrstr.src) this.api.update
     if (!this.api.currentfmientry || (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0)))  this.api.updateFMIVariableList();
@@ -91,7 +91,12 @@ export class AttributeFmiDialog extends AttributeDialog {
     //api references were filled by the dialog
     let valuereferences = this.outputreferences.map(ref => ref.reference).join(',');
     let valuelabels = this.outputreferences.map(ref => ref.name).join(','); //name should not contain comma
-    let inputs = this.inputreferences.map(ref => ref.id + ',' + ref.reference + ',' + ref.numerator + ',' + ref.denominator).join(';');
+    let inputs = this.inputreferences.map(ref => {
+      const addend = ref.addend ? (',' + ref.addend) : '';
+      const fixed = ref.fixed ? (',' + ref.fixed) : '';
+      return ref.id + ',' + ref.reference + ',' + ref.numerator + ',' + ref.denominator + addend + fixed;
+    }
+    ).join(';');
     let inputlabels = this.inputreferences.map(ref => ref.name).join(',');
     //console.log('submit() references:', valuereferences);
     this.attr.valuereferences = valuereferences;

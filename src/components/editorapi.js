@@ -187,18 +187,25 @@ export class Editorapi {
    * @param blob
    */
   setFmiEntryDescription(blob) {
-    const reader = new FileReader();
-    //sets global variable to this instance
-    //window.editor = this;
-    reader.onload = this.handleModelDescription;
-    //handler do not know 'this', must set global variable
     window.editorapi = this;
-    reader.readAsText(blob);
+    if (typeof blob === 'string') this.handleModelDescriptionText(blob);
+    else {
+      const reader = new FileReader();
+      //sets global variable to this instance
+      //window.editor = this;
+      reader.onload = this.handleModelDescription;
+      //handler do not know 'this', must set global variable
+      reader.readAsText(blob);
+    }
   }
 
   handleModelDescription(event) {
     console.log('handlefileload event:', event);
     let data = event.target.result;
+    editorapi.handleModelDescriptionText(data);
+  }
+
+  handleModelDescriptionText(data) {
     let parser = new DOMParser();
     let xmlDoc = parser.parseFromString(data, 'text/xml');
     console.log('handleModelDescription xmldoc:', xmlDoc);
@@ -208,7 +215,7 @@ export class Editorapi {
     editorapi.currentfmientry.modelvariables = [];
     for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
       //console.log('parsing varnode:', varnode);
-      editorapi.currentfmientry.modelvariables.push( {
+      editorapi.currentfmientry.modelvariables.push({
         name: varnode.getAttribute('name'),
         reference: varnode.getAttribute('valueReference'),
         description: varnode.getAttribute('description'),
