@@ -16,4 +16,11 @@ export class FileDialog {
   cancel() {
     this.api.askFile = false;
   }
+  blink(obj) {
+    this.api.blink(obj);
+  }
+
+  refresh() {
+    this.api.discoverAdobeAnimate();
+  }
 }

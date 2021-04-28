@@ -13,14 +13,21 @@
   </table>
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="update()">Update</button>
-    <!--button class="w3-button w3-theme-l4" click.delegate="reset()">Reset</button-->
     <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
+    <button class="w3-button w3-theme-l4" click.delegate="refresh()" title="refresh all objects in file">Refresh</button>
+
   </div>
     <div if.bind="api.askFileRef.type.value === 1">
       <attribute-fmi-dialog src.two-way="api.askFileRef.name"></attribute-fmi-dialog>
     </div>
-    <div show.bind="api.askFileRef.type.value === 2">
-      ADOBE Animate
+    <div show.bind="api.askFileRef.type.value === 2" style="max-height:300px;overflow:scroll;overflow-x:hidden;">
+      <b class="w3-center">ADOBE Animate objects</b>
+      <ul style="line-height: 1.2;list-style-type: none;padding-left:15px;margin:0">
+        <li repeat.for="obj of api.animobjs" class="w3-hover-theme" click.delegate="blink(obj)"><i class="fa fa-image"></i> ${obj}</li>
+      </ul>
+      <ul style="line-height: 1.2;list-style-type: none;padding-left:15px;margin:0">
+        <li repeat.for="obj of api.textobjs" class="w3-hover-theme" click.delegate="blink(obj)"><i class="fa fa-file-text-o"></i> ${obj}</li>
+      </ul>
     </div>
     <div show.bind="api.askFileRef.type.value === 3">
       Animated GIF

@@ -81,10 +81,14 @@ export class Editorapi {
     console.log('renderchange() transformedcontent:', transformedContent);
     //now replace every (img_name) with (bloburl)
     //create customevent - which component is listening to
-    let event = new CustomEvent('contentupdate', {detail: {content: transformedContent}});
+    this.sendContentUpdate(transformedContent);
+  }
+
+  sendContentUpdate(content) {
+    //create customevent - which component is listening to
+    let event = new CustomEvent('contentupdate', {detail: {content: content}});
     //console.log('sending content update')
     document.getElementById('editorref').dispatchEvent(event);
-    //that.ea.publish(new ContentUpdated(content));
   }
 
   addItem(item) {
@@ -453,6 +457,8 @@ export class Editorapi {
     let that2 = this;
     //do blink now
     setTimeout( function() {that2.blinkthread(objname);}, 0);
+    setTimeout( function() {that2.blinkthread(objname);}, 2000);
+    setTimeout( function() {that2.blinkthread(objname);}, 4000);
     //schedule blinkin in 4 seconds
     //setTimeout( function() {that2.scheduleblink(objname);}, 5000);
   }
@@ -475,7 +481,7 @@ export class Editorapi {
         k++;
         setTimeout(function() {
           that.setAnimationValue(objname, Math.abs(i), (i === -1 && j === 0), (i > 0.99 && j === 1), j === 0);
-        }, 100 * k);
+        }, 50 * k);
       }
     }
   }
