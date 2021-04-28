@@ -18,6 +18,12 @@ export class Project {
   currentfile=null;
   askFile=false;
   firstmdfile=false;
+  showdoc=true;
+  showmodel=true;
+  showadobe=true;
+  showimg=true;
+  showother=true;
+
   constructor(api, ea, gs) {
     this.api = api;
     this.ea = ea;
@@ -61,6 +67,7 @@ export class Project {
           }
           this.updateadobeentries();
           this.api.getFmiEntries();
+          this.updatelf();
         } else {
           this.files = [];//DEMOFILES;
           this.api.projectfiles = this.files;
@@ -102,6 +109,11 @@ export class Project {
    */
   updatelf() {
     this.api.bs.setFileList(this.files);
+    this.mdfiles = this.files.filter(x => x.type.value === FTYPE.MDFILE.value);
+    this.modelfiles = this.files.filter(x => x.type.value === FTYPE.MODELFILE.value || x.type.value === FTYPE.DESCRIPTIONFILE.value);
+    this.adobefiles = this.files.filter(x => x.type.value === FTYPE.ADOBEANIMATE.value);
+    this.imgfiles = this.files.filter(x => x.type.value === FTYPE.IMAGE.value || x.type.value === FTYPE.ANIMATEDGIF.value);
+    this.otherfiles = this.files.filter(x => x.type.value === FTYPE.OTHERJS.value);
     //update list of adobe files
     this.updateadobeentries();
   }
@@ -545,4 +557,10 @@ export class Project {
   showGithubHelp() {
     this.api.helpsrc = 'github.md';
   }
+
+  toggledoc(){this.showdoc=!this.showdoc}
+  togglemodel(){this.showmodel=!this.showmodel}
+  toggleadobe(){this.showadobe=!this.showadobe}
+  toggleimg(){this.showimg=!this.showimg}
+  toggleother(){this.showother=!this.showother}
 }

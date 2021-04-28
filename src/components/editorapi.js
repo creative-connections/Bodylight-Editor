@@ -385,7 +385,7 @@ export class Editorapi {
   discoverAdobeAnimate() {
     if (window.ani && window.ani.exportRoot) {
       this.animobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_anim');
-      console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
+      //console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
       this.textobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_text');
       this.playobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_play');
     } else {

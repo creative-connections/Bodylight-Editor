@@ -65,10 +65,11 @@
 
 
     <div class="w3-clear"></div>
-    <div style="overflow:scroll;overflow-x:hidden;height:500px">
+    <div style="overflow:scroll;overflow-x:hidden;max-height:500px">
     <table class="project">
       <tbody>
-      <tr repeat.for="file of files" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'">
+      <tr><td colspan="4" click.delegate="toggledoc()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showdoc">-</span><span show.bind="!showdoc">+</span> DOCUMENTS </td></tr>
+      <tr repeat.for="file of mdfiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'" show.bind="showdoc">
         <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
         </td>
         <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
@@ -88,6 +89,91 @@
                                                                       click.delegate="syncUploadGithub(file)"></i></span>
         </td>
       </tr>
+      <tr><td colspan="4" click.delegate="togglemodel()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showmodel">-</span><span show.bind="!showmodel">+</span> MODEL </td></tr>
+      <tr repeat.for="file of modelfiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'"  show.bind="showmodel">
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        </td>
+        <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
+        <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td class="w3-text-orange">
+          <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
+                                                                    title="different choose whether to upload/download"></i> <i
+            class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i
+            class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+          <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green"
+                                                                 title="synced"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download"
+                                                                     title="notinlocal, click to download"
+                                                                     click.delegate="syncDownloadGithub(file)"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload"
+                                                                      title="notinremote, click to upload"
+                                                                      click.delegate="syncUploadGithub(file)"></i></span>
+        </td>
+      </tr>
+      <tr><td colspan="4" click.delegate="toggleadobe()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showadobe">-</span><span show.bind="!showadobe">+</span> ANIMATE </td></tr>
+      <tr repeat.for="file of adobefiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'"  show.bind="showadobe">
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        </td>
+        <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
+        <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td class="w3-text-orange">
+          <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
+                                                                    title="different choose whether to upload/download"></i> <i
+            class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i
+            class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+          <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green"
+                                                                 title="synced"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download"
+                                                                     title="notinlocal, click to download"
+                                                                     click.delegate="syncDownloadGithub(file)"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload"
+                                                                      title="notinremote, click to upload"
+                                                                      click.delegate="syncUploadGithub(file)"></i></span>
+        </td>
+      </tr>
+      <tr><td colspan="4" click.delegate="toggleimg()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showimg">-</span><span show.bind="!showimg">+</span> IMAGES </td></tr>
+      <tr repeat.for="file of imgfiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'" show.bind="showimg">
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        </td>
+        <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
+        <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td class="w3-text-orange">
+          <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
+                                                                    title="different choose whether to upload/download"></i> <i
+            class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i
+            class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+          <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green"
+                                                                 title="synced"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download"
+                                                                     title="notinlocal, click to download"
+                                                                     click.delegate="syncDownloadGithub(file)"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload"
+                                                                      title="notinremote, click to upload"
+                                                                      click.delegate="syncUploadGithub(file)"></i></span>
+        </td>
+      </tr>
+      <tr><td colspan="4" click.delegate="toggleother()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showother">-</span><span show.bind="!showother">+</span> OTHER </td></tr>
+      <tr repeat.for="file of otherfiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'"  show.bind="showother">
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        </td>
+        <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
+        <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td class="w3-text-orange">
+          <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
+                                                                    title="different choose whether to upload/download"></i> <i
+            class="fa fa-download" click.delegate="syncDownloadGithub(file)" title="download and replace"></i> <i
+            class="fa fa-upload" click.delegate="syncUploadGithub(file)" title="upload to GITHUB"></i></span>
+          <span show.bind="file.syncstatus === STATUS.synced"><i class="fa fa-check w3-text-green"
+                                                                 title="synced"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinlocal"><i class="fa fa-download"
+                                                                     title="notinlocal, click to download"
+                                                                     click.delegate="syncDownloadGithub(file)"></i></span>
+          <span show.bind="file.syncstatus === STATUS.notinremote"><i class="fa fa-upload"
+                                                                      title="notinremote, click to upload"
+                                                                      click.delegate="syncUploadGithub(file)"></i></span>
+        </td>
+      </tr>
+
       <tr>
         <td colspan="2">
           <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i
