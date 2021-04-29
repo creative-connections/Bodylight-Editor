@@ -388,10 +388,10 @@ export class Editorapi {
    */
   discoverAdobeAnimate() {
     if (window.ani && window.ani.exportRoot) {
-      this.animobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_anim');
+      this.animobjs = this.discoverChildren(window.ani.exportRoot, '', '_anim');
       //console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
-      this.textobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_text');
-      this.playobjs = this.discoverChildren(window.ani.exportRoot.children[0], '', '_play');
+      this.textobjs = this.discoverChildren(window.ani.exportRoot, '', '_text');
+      this.playobjs = this.discoverChildren(window.ani.exportRoot, '', '_play');
     } else {
       console.log('error, Animate object is not yet accessible. Try to refresh after while');
     }
@@ -502,7 +502,9 @@ export class Editorapi {
       const resolvePath = (object, path, defaultValue) => path
         .split('.')
         .reduce((o, p) => o ? o[p] : defaultValue, object);
-      let myobj = resolvePath(window.ani.exportRoot.children[0], objname, undefined);
+      let myobj = resolvePath(window.ani.exportRoot, objname, undefined);
+      //some animation are in unnamed children root, backward compatibility with already done anim
+      if (!myobj) myobj = resolvePath(window.ani.exportRoot.children[0], objname, undefined);
       //myobj is resolved in structure
       if (myobj) {
         if (doalpha) {//animate via setting alpha
