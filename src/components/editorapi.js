@@ -54,11 +54,11 @@ export class Editorapi {
     });
   }
 
-  async renderchange(that) {
-    let content = that.editor.getValue();
+  async renderchange(that, content) {
+    if (!content) content = that.editor.getValue();
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
-    //all <bdl- will be repaced to < and </bdl- to </
+    //all <bdl- will be replaced to < and </bdl- to </ because preview mode uses aurelia-plugin (components without prefix)
     const startprefix = /<bdl-/gi;
     const stopprefix = /<\/bdl-/gi;
     let transformedContent = content.replace(startprefix, '<').replace(stopprefix, '</');
@@ -69,13 +69,15 @@ export class Editorapi {
     //let imglist = [];
     console.log('renderchange() filelist:', filelist);
     for (let fileitem of filelist) {
-      if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png')) {
+      if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png') || fileitem.name.endsWith('gif')) {
         //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
         //let imgname = fileitem.name;
         console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
-        //repleace all image - not only first - regex with 'g'
+        //repleace all markdown images - not only first - regex with 'g'
         let regex = new RegExp('\\]\\(' + fileitem.name + '\\)', 'g');
-        if (fileitem.bloburl !== '') {transformedContent = transformedContent.replace(regex, '](' + fileitem.bloburl + ')');}
+        if (fileitem.bloburl !== '') {
+          transformedContent = transformedContent.replace(regex, '](' + fileitem.bloburl + ')');
+        }
       }
     }
     console.log('renderchange() transformedcontent:', transformedContent);

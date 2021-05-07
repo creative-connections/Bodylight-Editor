@@ -3,6 +3,7 @@ import {BodylightModelFile} from './bodylight-model-file';
 import {BodylightAnimateFile} from './bodylight-animate-file';
 import {BodylightJsFile} from './bodylight-js-file';
 import {BodylightXmlFile} from './bodylight-xml-file';
+import {BodylightImageFile} from './bodylight-image-file';
 
 export const FTYPE = {
   MDFILE: {name: 'MDFILE', value: 0, title: 'Web simulator (markdown)', faclass: 'fa fa-file-text'},
@@ -19,8 +20,8 @@ export const FileType2StrategyMap = new Map();
 FileType2StrategyMap.set('MDFILE', new BodylightMdFile());
 FileType2StrategyMap.set('MODELFILE', new BodylightModelFile());
 FileType2StrategyMap.set('ADOBEANIMATE', new BodylightAnimateFile());
-FileType2StrategyMap.set('ANIMATEDGIF', new BodylightAnimateFile());
-FileType2StrategyMap.set('IMAGE', new BodylightAnimateFile());
+FileType2StrategyMap.set('ANIMATEDGIF', new BodylightImageFile());
+FileType2StrategyMap.set('IMAGE', new BodylightImageFile());
 FileType2StrategyMap.set('OTHERJS', new BodylightJsFile());
 FileType2StrategyMap.set('DESCRIPTIONFILE', new BodylightXmlFile());
 

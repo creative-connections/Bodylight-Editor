@@ -538,10 +538,10 @@ export class Project {
   }
 
   pullFromGithub() {
-    alert('note yet implemented');
+    alert('not yet implemented');
   }
   pushToGithub() {
-    alert('note yet implemented');
+    alert('not yet implemented');
   }
 
   syncUploadGithub(file) {
@@ -557,10 +557,7 @@ export class Project {
     if (this.currentfile.type.value === FTYPE.MDFILE.value) this.currentfile.activate();
   }
 
-  showGithubHelp() {
-    this.api.helpsrc = 'github.md';
-  }
-
+  showGithubHelp() {this.api.helpsrc = 'github.md';}
   toggledoc() {this.showdoc = !this.showdoc;}
   togglemodel() {this.showmodel = !this.showmodel;}
   toggleadobe() {this.showadobe = !this.showadobe;}
