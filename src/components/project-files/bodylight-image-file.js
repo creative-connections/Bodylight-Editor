@@ -21,4 +21,12 @@ export class BodylightImageFile extends BodylightFileStrategy {
     super.deactivate(file);
     window.editorapi.previewmode = false;
   }
+
+  renderlink(file) {
+    if (window.editorapi) {
+      window.editorapi.editor.insert('![' + file.name.split('.').slice(0, -1).join('.') + '](' + file.name + ')\n');
+      window.editorapi.editor.focus();
+    }
+  }
+
 }

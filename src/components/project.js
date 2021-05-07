@@ -142,6 +142,11 @@ export class Project {
     this.currentfile.activate();//this.strategymap);
   }
 
+  addlink(file) {
+    this.api.askFile = false;
+    file.renderlink();
+  }
+
   /**
    * Delete file and it's content from project
    * @param file

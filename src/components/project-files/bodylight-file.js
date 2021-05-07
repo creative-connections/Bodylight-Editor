@@ -66,6 +66,10 @@ export class BodylightFile {
     FileType2StrategyMap.get(this.type.name).deactivate(this);
   }
 
+  renderlink() {
+    FileType2StrategyMap.get(this.type.name).renderlink(this);
+  }
+
   saveChanges() {
     FileType2StrategyMap.get(this.type.name).saveChanges(this);
   }
