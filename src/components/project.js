@@ -550,10 +550,11 @@ export class Project {
     this.gs.uploadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs, a);
   }
 
-  syncDownloadGithub(file) {
-    let a = confirm('The file will be replaced from downloaded copy from GITHUB.');
+  async syncDownloadGithub(file) {
+    let a = confirm('The file will be replaced by downloaded copy from GITHUB.');
     if (!a) return;
-    this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+    await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+    if (this.currentfile.type.value === FTYPE.MDFILE.value) this.currentfile.activate();
   }
 
   showGithubHelp() {
