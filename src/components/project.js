@@ -376,9 +376,11 @@ export class Project {
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
       if (file.syncstatus !== STATUS.notinlocal) {
-        zip.file(file.name, (file.type.value === FTYPE.MDFILE.value)
+        let data = (file.type.value === FTYPE.MDFILE.value)
           ? this.api.bs.loadDocContentStr(file.name)
-          : this.api.bs.loadDocContent(file.name), {binary: true});
+          : this.api.bs.loadDocContent(file.name);
+        if (data) zip.file(file.name, data, {binary: true});
+        else {console.warn('blob for file is not stored,', file.name);}
         //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
       }
     }
@@ -558,9 +560,9 @@ export class Project {
     this.api.helpsrc = 'github.md';
   }
 
-  toggledoc(){this.showdoc=!this.showdoc}
-  togglemodel(){this.showmodel=!this.showmodel}
-  toggleadobe(){this.showadobe=!this.showadobe}
-  toggleimg(){this.showimg=!this.showimg}
-  toggleother(){this.showother=!this.showother}
+  toggledoc() {this.showdoc = !this.showdoc;}
+  togglemodel() {this.showmodel = !this.showmodel;}
+  toggleadobe() {this.showadobe = !this.showadobe;}
+  toggleimg() {this.showimg = !this.showimg;}
+  toggleother() {this.showother = !this.showother;}
 }
