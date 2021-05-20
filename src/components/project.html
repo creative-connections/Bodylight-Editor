@@ -4,7 +4,6 @@
 
   <div class="w3-margin w3-card-2 w3-tiny" style="height:100%;display:block" >
 
-
       <div class="w3-left w3-margin-right">
         <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Project
           menu</b></button>
@@ -62,7 +61,6 @@
           </td>
         </tr>
       </table>
-
 
     <div class="w3-clear"></div>
     <div style="overflow:scroll;overflow-x:hidden;max-height:500px">
@@ -175,28 +173,26 @@
                                                                       click.delegate="syncUploadGithub(file)"></i></span>
         </td>
       </tr>
-
-      <tr>
-        <td colspan="2">
-          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i
-            class="fa fa-plus"></i> Create new file</span>
-          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i
-            class="fa fa-plus"></i> Upload file</span>
-          <div show.bind="uploaddialog"
-
-               dragenter.delegate="drag($event)"
-               dragover.delegate="drag($event)"
-               drop.delegate="drop($event)"
-               style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
-               class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
-            <p>Drag your files here or click on this area</p>
-            <input type="file" change.trigger="dragNdrop($event)"/>
-          </div>
-        </td>
-      </tr>
       </tbody>
     </table>
   </div>
-  <file-dialog></file-dialog>
+    <div>
+          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i
+            class="fa fa-plus"></i> Create new file</span>
+        <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i
+          class="fa fa-plus"></i> Upload file</span>
+    </div>
+    <div show.bind="uploaddialog" style="position:absolute;z-index:5;margin-top:-4px;margin-left:8px;background-color:#f8fcfe">
+      <div
+         dragenter.delegate="drag($event)"
+         dragover.delegate="drag($event)"
+         drop.delegate="drop($event)"
+         style="border:4px dashed #aaa;"
+         class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+      <p>Drag your files here or click button to select file</p>
+      </div>
+      <input type="file" change.trigger="dragNdrop($event)"/>
+    </div>
+    <file-dialog></file-dialog>
   </div>
 </template>
