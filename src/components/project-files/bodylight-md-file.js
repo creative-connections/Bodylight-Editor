@@ -64,4 +64,11 @@ export class BodylightMdFile extends BodylightFileStrategy {
   saveChanges(file) {
     window.editorapi.bs.saveDocContent(file.name, window.editorapi.editor.getValue());
   }
+
+  renderlink(file) {
+    if (window.editorapi) {
+      window.editorapi.editor.insert('[' + file.name.split('.').slice(0, -1).join('.') + '](#' + file.name + ')\n');
+      window.editorapi.editor.focus();
+    }
+  }
 }
