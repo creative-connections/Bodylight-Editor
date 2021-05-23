@@ -109,13 +109,17 @@ export class Project {
    */
   updatelf() {
     this.api.bs.setFileList(this.files);
+    this.updatefiletypes();
+    //update list of adobe files
+    this.updateadobeentries();
+  }
+
+  updatefiletypes(){
     this.mdfiles = this.files.filter(x => x.type.value === FTYPE.MDFILE.value);
     this.modelfiles = this.files.filter(x => x.type.value === FTYPE.MODELFILE.value || x.type.value === FTYPE.DESCRIPTIONFILE.value);
     this.adobefiles = this.files.filter(x => x.type.value === FTYPE.ADOBEANIMATE.value);
     this.imgfiles = this.files.filter(x => x.type.value === FTYPE.IMAGE.value || x.type.value === FTYPE.ANIMATEDGIF.value);
     this.otherfiles = this.files.filter(x => x.type.value === FTYPE.OTHERJS.value);
-    //update list of adobe files
-    this.updateadobeentries();
   }
 
   updateadobeentries() {
@@ -356,6 +360,9 @@ export class Project {
         .then(()=>{
           this.files = [];
           this.updatelf();
+        })
+        .catch( err =>{
+          console.warn('newProject() localstorage clear error:',err);
         });
     }
   }
@@ -537,8 +544,9 @@ export class Project {
         this.githubtoken = ghparams.token;
       });
   }
-  compareGithub() {
-    this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+  async compareGithub() {
+    await this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+    this.updatefiletypes();
     this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
   }
 

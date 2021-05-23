@@ -125,8 +125,12 @@ export class BodylightStorage {
     return localForage.removeItem(LFKEYS.FILECONTENT + '.' + filename);
   }
 
-  clearStorage() {
-    return localForage.clear();
+  async clearStorage() {
+    let keys = await localForage.keys();
+    for (let key of keys) {
+      if (key.startsWith('BodylightEditor')) await localForage.removeItem(key);
+    }
+    return Promise.resolve(1);
   }
 
   getBlob(filename) {

@@ -108,6 +108,27 @@ export class Toolbar extends BodylightEditorItems {
     this.api.editor.insert('#### ');
     this.api.editor.focus();
   }
+  division13() {
+    this.api.editor.insert('<div class="w3-row">\n<div class="w3-third">\n');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.insert('\n</div>\n<div class="w3-third">\n</div>\n<div class="w3-third">\n</div></div>');
+    this.api.editor.moveCursorTo(p.row, p.column);
+    this.api.editor.focus();
+  }
+  division12() {
+    this.api.editor.insert('<div class="w3-row">\n<div class="w3-half">\n');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.insert('\n</div>\n<div class="w3-half">\n</div>\n</div>');
+    this.api.editor.moveCursorTo(p.row, p.column);
+    this.api.editor.focus();
+  }
+  division1323() {
+    this.api.editor.insert('<div class="w3-row">\n<div class="w3-third">\n');
+    let p = this.api.editor.getCursorPosition();
+    this.api.editor.insert('\n</div>\n<div class="w3-twothird">\n</div>\n</div>');
+    this.api.editor.moveCursorTo(p.row, p.column);
+    this.api.editor.focus();
+  }
 
   //handles download button click, asks for filename and use file-saver.saveAs package to save the blob
   download() {

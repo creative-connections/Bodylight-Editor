@@ -43,7 +43,7 @@ export class GithubSync {
   }
 
   sha1lib(message) {
-    console.log('sha1', sha1);
+    //console.log('sha1', sha1);
     return sha1(message);
   }
 
@@ -83,9 +83,11 @@ export class GithubSync {
       repo: repo,
       path: path
     });
-    console.log('result:', result.data);
+    //console.log('result:', result.data);
     //2. compare with list in $files
-    let notinlocals = result.data.filter(x => (x.type !== 'dir') && !files.find(y => y.name === x.name));
+    //let notinlocals = result.data.filter(x => ((x.type !== 'dir') && !files.find(y => y.name === x.name)));
+    let notinlocals = result.data.filter(x => !(files.find(y => y.name === x.name)));
+    //console.log('comparedir() notinlocals:',notinlocals);
     //let notinremote = [];
     for (let file of files) {
       const myfile = result.data.find(x => x.name === file.name);
@@ -100,16 +102,16 @@ export class GithubSync {
 
           let filesha = '';
           if (typeof (content) === 'string') {
-            console.log('string sha for', file.name);
+            //console.log('string sha for', file.name);
             //filesha = this.sha1lib(content);
             filesha = this.size(content);
           }
           if (content instanceof Blob) {
-            console.log('blob sha for', file.name);
+            //console.log('blob sha for', file.name);
             //filesha = await this.sha1libblob(content);
             filesha = this.sizeblob(content);
           }
-          console.log('sha local x sha remote', filesha, myfile.size); //myfile.sha
+          //console.log('sha local x sha remote', filesha, myfile.size); //myfile.sha
           if (filesha === myfile.size) file.syncstatus = STATUS.synced;
           file.sha = myfile.sha;
         }
@@ -125,11 +127,12 @@ export class GithubSync {
       myfile.syncstatus = STATUS.notinlocal;
       files.push(myfile);
     }
+    //return files;
   }
 
   async uploadFile(file, org, repo, path, token, storageapi, message) {
     let filename = file.name;
-    console.log('githubsync uploadfile() storagepi',storageapi);
+    //console.log('githubsync uploadfile() storagepi',storageapi);
     let content = (file.type.value === FTYPE.MDFILE.value)
       ? btoa(await storageapi.loadDocContentStr(file.name))
       : await storageapi.loadBlobContentBase64(file.name);
@@ -146,7 +149,7 @@ export class GithubSync {
       content: content,
       message: message
     });
-    console.log('github uploadFile result:', result);
+    //console.log('github uploadFile result:', result);
     if (result.status >= 200 && result.status < 300) {
       file.syncstatus = STATUS.synced;
     }
@@ -162,10 +165,10 @@ export class GithubSync {
     });
     const b64toBlob = (base64, type = 'application/octet-stream') =>
       fetch(`data:${type};base64,${base64}`).then(res => res.blob());
-    console.log('github2 download file result:', result);
+    //console.log('github2 download file result:', result);
     let blob = await b64toBlob(result.data.content);
     let result2 = await storageapi.saveBlobContent(file.name, blob);
-    console.log('result saving blob', result2);
+    //console.log('result saving blob', result2);
     //this.bloburl = this.api.bs.loadDocUrl(name);
     storageapi.loadDocUrl(file.name).then(bloburl => file.bloburl = bloburl);
     //this.uploaddialog = false;

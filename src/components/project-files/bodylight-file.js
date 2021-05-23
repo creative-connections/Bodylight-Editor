@@ -31,7 +31,7 @@ export class BodylightFile {
       //api.bs.saveBlobContent(name, blob);
       window.editorapi.bs.saveBlobContent(name, blob)
         .then(result => {
-          console.log('result saving blob', result);
+          //console.log('result saving blob', result);
           //this.bloburl = this.api.bs.loadDocUrl(name);
           window.editorapi.bs.loadDocUrl(name).then(bloburl => this.bloburl = bloburl);
           //this.uploaddialog = false;

@@ -72,7 +72,7 @@ export class Editorapi {
       if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png') || fileitem.name.endsWith('gif')) {
         //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
         //let imgname = fileitem.name;
-        console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
+        //console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
         //repleace all markdown images - not only first - regex with 'g'
         let regex = new RegExp('\\]\\(' + fileitem.name + '\\)', 'g');
         if (fileitem.bloburl !== '') {
