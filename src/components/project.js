@@ -567,7 +567,9 @@ export class Project {
     let a = confirm('The file will be replaced by downloaded copy from GITHUB.');
     if (!a) return;
     await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
-    if (this.currentfile.type.value === FTYPE.MDFILE.value) this.currentfile.activate();
+    //update file list - if the file is new
+    this.updatelf(); //update lf
+    if (file.type.value === FTYPE.MDFILE.value) this.open(file);
   }
 
   showGithubHelp() {this.api.helpsrc = 'github.md';}
