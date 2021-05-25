@@ -42,7 +42,7 @@ export class BodylightStorage {
       console.log('removing api property', fitem.api);
     }*/
     const filesclone = files.map((file) => {return {name: file.name, type: file.type }});
-    console.log('BodylightStorage setfilelist() files:', filesclone);
+    //console.log('BodylightStorage setfilelist() files:', filesclone);
     return localForage.setItem(LFKEYS.FILELIST, filesclone)
       .then(v => v)
       .catch(error => {console.error('BodylightStorage setFilelist error:', error);});
