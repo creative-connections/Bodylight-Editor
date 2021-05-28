@@ -391,7 +391,13 @@ export class Project {
         let data = (file.type.value === FTYPE.MDFILE.value)
           ? this.api.bs.loadDocContentStr(file.name)
           : this.api.bs.loadDocContent(file.name);
-        if (data) zip.file(file.name, data, {binary: true});
+        if (data) {
+          try {
+            zip.file(file.name, data, {binary: true});
+          } catch (err) {
+            console.warn('file not saved', file.name);
+          }
+        }
         else {console.warn('blob for file is not stored,', file.name);}
         //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
       }
