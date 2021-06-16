@@ -16,7 +16,7 @@ describe('Stage Viewer Component', () => {
   it('should create editor and viewer divs', done => {
     component.create(bootstrap).then(() => {
       const view = component.element;
-      const divs = view.getElementsByTagName('div');
+      const divs = view.getElementsByTagName('markdownaurelia');
       expect(divs.length).toBeGreaterThanOrEqual(1);
       done();
     }).catch(e => {

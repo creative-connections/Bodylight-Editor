@@ -17,11 +17,12 @@ export class GithubSync {
   //STATUS = makeEnum(["notinlocal","notinremote","synced","different"])
   constructor() {}
 
-  async sha256(message) {
+  async sha256(message, mycrypto) {
+    if (! mycrypto) mycrypto = crypto;
     // encode as UTF-8
     const msgBuffer = new TextEncoder().encode(message);
     // hash the message
-    const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
+    const hashBuffer = await mycrypto.subtle.digest('SHA-1', msgBuffer);
     // convert ArrayBuffer to Array
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     // convert bytes to hex string
@@ -85,10 +86,14 @@ export class GithubSync {
     });
     //console.log('result:', result.data);
     //2. compare with list in $files
-    //let notinlocals = result.data.filter(x => ((x.type !== 'dir') && !files.find(y => y.name === x.name)));
-    let notinlocals = result.data.filter(x => !(files.find(y => y.name === x.name)));
+    //files not in locals - do not include directories and include those with different names
+    let notinlocals = result.data.filter(x => ((x.type !== 'dir') && !files.find(y => y.name === x.name)));
+    //let notinlocals = result.data.filter(x => !(files.find(y => y.name === x.name)));
     //console.log('comparedir() notinlocals:',notinlocals);
     //let notinremote = [];
+    // storage for dirs and associated filenames to be checked after
+    let dirs = {};
+    //3. compare list of files that are local not in remote
     for (let file of files) {
       const myfile = result.data.find(x => x.name === file.name);
       if (myfile) {
@@ -117,17 +122,34 @@ export class GithubSync {
         }
         //file.syncstatus = STATUS.synced; //if sha are same
       } else {
-        //exist in local not in repo
+        //exist in local but not in repo
         file.syncstatus = STATUS.notinremote;
+        //TODO check if directory
+        if (file.name.includes('/')) {
+          //add directory to queue
+          let dirandname = file.name.split('/', 2);
+          //if associated dirs with dirname is not yet array.
+          if (!dirs[dirandname[0]]) dirs[dirandname[0]] = [];
+          //push filename into array associated to the dir
+          dirs[dirandname[0]].push(dirandname[1]);
+          //add filename to the directory to be checked
+        }
       }
     }
-    //
+    //indicate files that are not among local files
     for (let notinlocal of notinlocals) {
       let myfile = new BodylightFile(notinlocal.name);
       myfile.syncstatus = STATUS.notinlocal;
       files.push(myfile);
     }
-    //return files;
+    //check directories - breath first
+    for (let key in Object.keys(dirs)) {
+      // key - directory name
+      //dirs[key] - array with filenames
+      //do comparedir recursively
+      this.compareDir(dirs[key], org, repo, path + key, storageapi);
+    }
+
   }
 
   async uploadFile(file, org, repo, path, token, storageapi, message) {
