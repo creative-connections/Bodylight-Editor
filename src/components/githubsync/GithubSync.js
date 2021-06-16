@@ -124,7 +124,7 @@ export class GithubSync {
       } else {
         //exist in local but not in repo
         file.syncstatus = STATUS.notinremote;
-        //TODO check if directory
+        //check if directory - includes /
         if (file.name.includes('/')) {
           //add directory to queue
           let dirandname = file.name.split('/', 2);
@@ -149,7 +149,6 @@ export class GithubSync {
       //do comparedir recursively
       this.compareDir(dirs[key], org, repo, path + key, storageapi);
     }
-
   }
 
   async uploadFile(file, org, repo, path, token, storageapi, message) {
