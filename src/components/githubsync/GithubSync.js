@@ -13,6 +13,11 @@ export const STATUS = {
   different: Symbol('different')
 };
 
+export function stripprefix(name, optdir) {
+  if (name.startsWith(optdir)) return name.slice(optdir.length + 1);
+  return name;
+}
+
 export class GithubSync {
   //STATUS = makeEnum(["notinlocal","notinremote","synced","different"])
   constructor() {}
@@ -72,22 +77,23 @@ export class GithubSync {
    * @param org
    * @param repo
    * @param path
+   * @param optdir - used for recursive call only - start with empty string
    */
-  async compareDir(files, org, repo, path, storageapi) {
+  async compareDir(files, org, repo, path, storageapi, optdir = '') {
     //const githubcontentreq = `GET /repos/${org}/${repo}/contents/${path}`;
     //1. get content of github repo path - list of files
-    const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
+    const result = await request('GET /repos/{org}/{repo}/contents/{path}/{optdir}', {
       /*      headers: {
         authorization: `token ${token}`
       },*/
       org: org,
       repo: repo,
-      path: path
+      path: path + (optdir ? '/' + optdir : '')
     });
     //console.log('result:', result.data);
     //2. compare with list in $files
     //files not in locals - do not include directories and include those with different names
-    let notinlocals = result.data.filter(x => ((x.type !== 'dir') && !files.find(y => y.name === x.name)));
+    let notinlocals = result.data.filter(x => ((x.type !== 'dir') && !files.find(y => (optdir ? stripprefix(y.name, optdir) : y.name) === x.name)));
     //let notinlocals = result.data.filter(x => !(files.find(y => y.name === x.name)));
     //console.log('comparedir() notinlocals:',notinlocals);
     //let notinremote = [];
@@ -95,7 +101,8 @@ export class GithubSync {
     let dirs = {};
     //3. compare list of files that are local not in remote
     for (let file of files) {
-      const myfile = result.data.find(x => x.name === file.name);
+      let filename = (optdir ? stripprefix(file.name, optdir) : file.name);
+      const myfile = result.data.find(x => x.name === filename);
       if (myfile) {
         //compare
         if ((!file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
@@ -124,14 +131,14 @@ export class GithubSync {
       } else {
         //exist in local but not in repo
         file.syncstatus = STATUS.notinremote;
-        //check if directory - includes /
-        if (file.name.includes('/')) {
+        //check if directory - includes /, only if optdir is not defined
+        if (!optdir && file.name.includes('/')) {
           //add directory to queue
           let dirandname = file.name.split('/', 2);
           //if associated dirs with dirname is not yet array.
           if (!dirs[dirandname[0]]) dirs[dirandname[0]] = [];
           //push filename into array associated to the dir
-          dirs[dirandname[0]].push(dirandname[1]);
+          dirs[dirandname[0]].push(file);
           //add filename to the directory to be checked
         }
       }
@@ -143,11 +150,11 @@ export class GithubSync {
       files.push(myfile);
     }
     //check directories - breath first
-    for (let key in Object.keys(dirs)) {
+    for (let key of Object.keys(dirs)) {
       // key - directory name
       //dirs[key] - array with filenames
       //do comparedir recursively
-      this.compareDir(dirs[key], org, repo, path + key, storageapi);
+      await this.compareDir(dirs[key], org, repo, path, storageapi, key);
     }
   }
 
