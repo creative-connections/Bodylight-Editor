@@ -74,9 +74,15 @@ export class Editorapi {
         //let imgname = fileitem.name;
         //console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);
         //repleace all markdown images - not only first - regex with 'g'
-        let regex = new RegExp('\\]\\(' + fileitem.name + '\\)', 'g');
+        /*let regex = new RegExp('\\]\\(' + fileitem.name + '\\)', 'g');
         if (fileitem.bloburl !== '') {
           transformedContent = transformedContent.replace(regex, '](' + fileitem.bloburl + ')');
+        }*/
+        //repleace all image names that begins with quote e.g. in "1.jpg" or with pipe e.g. in list "1.jpg|2.jpg" - not only first - regex with 'g'
+        let regex = new RegExp('([|"\'\\(])' + fileitem.name, 'g');
+        if (fileitem.bloburl !== '') {
+          //keep captured char in group 1 ($1) and replace name with bloburl
+          transformedContent = transformedContent.replace(regex, '$1' + fileitem.bloburl );
         }
       }
     }
