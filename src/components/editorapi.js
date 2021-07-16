@@ -69,7 +69,7 @@ export class Editorapi {
     //let imglist = [];
     console.log('renderchange() filelist:', filelist);
     for (let fileitem of filelist) {
-      if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png') || fileitem.name.endsWith('gif')) {
+      if (fileitem.name.endsWith('jpg') || fileitem.name.endsWith('png') || fileitem.name.endsWith('gif') || fileitem.name.endsWith('svg')) {
         //let imgbloburl = await that.bs.loadDocUrl(fileitem.name);
         //let imgname = fileitem.name;
         //console.log('replacing ', fileitem.name, ' by ', fileitem.bloburl);

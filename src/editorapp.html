@@ -10,15 +10,15 @@
   <require from="./w3-theme-bodylight.css"></require>
 
   <div class="w3-row">
-    <div class="w3-col s6 m4 l3">
+    <div class="w3-col" style="width:330px">
       <project></project>
       <a-dialog></a-dialog>
       <help></help>
     </div>
-    <div class="w3-col s6 m8 l9">
+    <div class="w3-rest">
       <div class="w3-center"><b>Bodylight Editor v ${version}</b></div>
       <toolbar></toolbar>
-      <div class="w3-half" show.bind="!api.previewmode">
+      <div class="w3-col" style="width:50%;max-width:700px" show.bind="!api.previewmode">
         <editor></editor>
       </div>
       <div class="w3-rest">

@@ -14,7 +14,7 @@ export class BodylightFile {
       //determine type from name
       let name2 = name.toLowerCase();
       if (name2.endsWith('.md')) this.type = FTYPE.MDFILE;
-      else if (name2.endsWith('.png') || name2.endsWith('.jpg') || name2.endsWith('.gif')) this.type = FTYPE.IMAGE;
+      else if (name2.endsWith('.png') || name2.endsWith('.jpg') || name2.endsWith('.gif') || name2.endsWith('.svg')) this.type = FTYPE.IMAGE;
       else if (name2.endsWith('.xml') || name2.endsWith('.html')) this.type = FTYPE.DESCRIPTIONFILE;
       else if (name2.endsWith('.js') && name2.includes('_')) this.type = FTYPE.MODELFILE;
       else if (name2.endsWith('.js') && name2.endsWith('.bundle.js')) this.type = FTYPE.OTHERJS;
