@@ -14,6 +14,7 @@ export class BodylightFileFactory {
     else if (entryname.endsWith('.gif')) filetype = FTYPE.ANIMATEDGIF;
     else if (entryname.endsWith('.png')) filetype = FTYPE.IMAGE;
     else if (entryname.endsWith('.jpg')) filetype = FTYPE.IMAGE;
+    else if (entryname.endsWith('.svg')) filetype = FTYPE.IMAGE;
     else filetype = FTYPE.OTHERJS;
     let newfile = new BodylightFile(entryname, filetype, blob);
     /*if (blob) {
