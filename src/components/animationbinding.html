@@ -1,0 +1,28 @@
+<template>
+  <div class="w3-center w3-padding">
+    <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>obj name</th>
+      <th>amin</th>
+      <th>amax</th>
+      <th>fmu var</th>
+      <th>fmin</th>
+      <th>fmax</th>
+    </tr>
+    </thead>
+    <tr repeat.for="item of mapping">
+      <td>${item.animobj}</td>
+      <td>${item.amin}</td>
+      <td>${item.amax}</td>
+      <td>${item.fmuvarname}</td>
+      <td>${item.fmin}</td>
+      <td>${item.fmax}</td>
+    </tr>
+  </table>
+  <div class="w3-center w3-padding">
+    <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
+  </div>
+</template>
