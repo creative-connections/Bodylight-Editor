@@ -8,16 +8,20 @@
   <require from="./components/project"></require>
   <require from="w3-css/w3.css"></require>
   <require from="./w3-theme-bodylight.css"></require>
+  <require from="./components/animationbinding"></require>
 
   <div class="w3-row">
-    <div class="w3-col" style="width:350px">
-      <!--tabs idlist="project,dialog,help"
-                titlelist="Project,Dialog,Help"></tabs-->
+    <div class="w3-col" style="width:20%;max-width:500px">
+      <tabs idlist="project,dialog,mapping,help"
+                titlelist="Project,Dialog,Mapping,Help"></tabs>
       <div id="project">
         <project></project>
       </div>
       <div id="dialog">
         <a-dialog></a-dialog>
+      </div>
+      <div id="mapping">
+        <animationbinding></animationbinding>
       </div>
       <div id="help">
         <help></help>

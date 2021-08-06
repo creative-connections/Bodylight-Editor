@@ -4,9 +4,8 @@
 
   <div class="w3-margin w3-card-2 w3-tiny" style="height:100%;display:block" >
 
-      <div class="w3-left w3-margin-right">
-        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Project
-          menu</b></button>
+      <div class="w3-margin-right">
+        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="toggleMenu()"><i class="fa fa-bars"></i> <b>Menu</b></button>
         <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block"
              style="position:absolute;margin-top:0px;margin-left:1em">
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newProject()"><i class="fa fa-plus"></i> New
@@ -25,12 +24,28 @@
             Sync with GITHUB
           </button>
         </div>
-      </div>
 
-      <span>
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="create()" title="create new file"><i
+            class="fa fa-plus"></i> Create </button>
+          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="upload()" title="upload existing file"><i
+            class="fa fa-upload"></i> Upload </button>
+        </div>
+        <div show.bind="uploaddialog" style="position:absolute;z-index:5;margin-top:-4px;margin-left:8px;background-color:#f8fcfe">
+          <div
+            dragenter.delegate="drag($event)"
+            dragover.delegate="drag($event)"
+            drop.delegate="drop($event)"
+            style="border:4px dashed #aaa;"
+            class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+            <p>Drag your files here or click button to select file</p>
+          </div>
+          <input type="file" change.trigger="dragNdrop($event)"/>
+        </div>
+
+      <div class="w3-theme-l1">
       name: <b>${api.filename} </b><br/>
       export:<b>${api.exportfilename}</b>
-      </span>
+      </div>
       <table show.bind="showgithub">
         <tr>
           <td>github user/org:</td>
@@ -38,7 +53,7 @@
         </tr>
         <tr>
           <td>github repo:</td>
-          <td><input type="text" value.bind="githubrepo" placehorder="Bodylight-Scenarios"/></td>
+          <td><input type="text" value.bind="githubrepo" placeholder="Bodylight-Scenarios"/></td>
         </tr>
         <tr>
           <td>github path:</td>
@@ -63,7 +78,7 @@
       </table>
 
     <div class="w3-clear"></div>
-    <div style="overflow:scroll;overflow-x:hidden;max-height:500px">
+    <div style="overflow:scroll;overflow-x:hidden;max-height: 80vh">
     <table class="project">
       <tbody>
       <tr><td colspan="4" click.delegate="toggledoc()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showdoc">-</span><span show.bind="!showdoc">+</span> DOCUMENTS </td></tr>
@@ -176,23 +191,6 @@
       </tbody>
     </table>
   </div>
-    <div>
-          <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="create()"><i
-            class="fa fa-plus"></i> Create new file</span>
-        <span class="w3-padding-4 w3-theme-l3 w3-border w3-round w3-hover-blue" click.delegate="upload()"><i
-          class="fa fa-plus"></i> Upload file</span>
-    </div>
-    <div show.bind="uploaddialog" style="position:absolute;z-index:5;margin-top:-4px;margin-left:8px;background-color:#f8fcfe">
-      <div
-         dragenter.delegate="drag($event)"
-         dragover.delegate="drag($event)"
-         drop.delegate="drop($event)"
-         style="border:4px dashed #aaa;"
-         class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
-      <p>Drag your files here or click button to select file</p>
-      </div>
-      <input type="file" change.trigger="dragNdrop($event)"/>
-    </div>
     <file-dialog></file-dialog>
   </div>
 </template>

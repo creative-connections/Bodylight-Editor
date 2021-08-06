@@ -1,8 +1,12 @@
 <template>
+  <div class="w3-tiny">
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
-  <table>
+    <div class="w3-center w3-padding">
+      <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>l
+    </div>
+  <table show.bind="istableview">
     <thead>
     <tr>
       <th>obj name</th>
@@ -22,7 +26,11 @@
       <td>${item.fmax}</td>
     </tr>
   </table>
+    <table show.bind="!istableview">
+
+    </table>
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
+  </div>
   </div>
 </template>
