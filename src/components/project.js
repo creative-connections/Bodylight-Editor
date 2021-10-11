@@ -114,7 +114,7 @@ export class Project {
     this.updateadobeentries();
   }
 
-  updatefiletypes(){
+  updatefiletypes() {
     this.mdfiles = this.files.filter(x => x.type.value === FTYPE.MDFILE.value);
     this.modelfiles = this.files.filter(x => x.type.value === FTYPE.MODELFILE.value || x.type.value === FTYPE.DESCRIPTIONFILE.value);
     this.adobefiles = this.files.filter(x => x.type.value === FTYPE.ADOBEANIMATE.value);
@@ -362,7 +362,7 @@ export class Project {
           this.updatelf();
         })
         .catch( err =>{
-          console.warn('newProject() localstorage clear error:',err);
+          console.warn('newProject() localstorage clear error:', err);
         });
     }
   }
@@ -392,13 +392,16 @@ export class Project {
           ? this.api.bs.loadDocContentStr(file.name)
           : this.api.bs.loadDocContent(file.name);
         if (data) {
-          try {
+          if (data instanceof Promise) //zip blob from promise
+          {
+            data.then(obj => {
+              if (obj) zip.file(file.name, obj, {binary: true});
+              else console.warn('file not saved', file.name);
+            });
+          } else { //zip content - string etc.
             zip.file(file.name, data, {binary: true});
-          } catch (err) {
-            console.warn('file not saved', file.name);
           }
-        }
-        else {console.warn('blob for file is not stored,', file.name);}
+        } else {console.warn('blob for file is not stored,', file.name);}
         //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
       }
     }
