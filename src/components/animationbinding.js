@@ -17,6 +17,7 @@ export class Animationbinding {
 
   bind() {
     this.mapping = [{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex:1, fmin: 0, fmax: 1}, {aname:'sipka2'}];
+
   }
 
   identify() {
@@ -32,6 +33,7 @@ export class Animationbinding {
     this.api.updateFMIVariableList();
     //2. animobjs probably identified
     this.mapping = [];
+    this.api.discoverAdobeAnimate(); //discovers all objects
     for (let aobj of this.api.animobjs) {
       this.mapping.push({aname: aobj});
     }
