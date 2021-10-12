@@ -49,7 +49,8 @@ export class Project {
         if (value) {
           //convert array of struct to array of objects
           this.files = [];
-          this.api.projectfiles = this.files;
+
+          this.api.setProjectFiles(this.files);
           for (let fileitem of value) {
             let bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
 
@@ -70,7 +71,7 @@ export class Project {
           this.updatelf();
         } else {
           this.files = [];//DEMOFILES;
-          this.api.projectfiles = this.files;
+          this.api.setProjectFiles(this.files);
           this.api.getFmiEntries();
           this.updatelf();
         }
@@ -79,7 +80,7 @@ export class Project {
         //set demo files
         console.log('error', error);
         this.files = [];//DEMOFILES;
-        this.api.projectfiles = this.files;
+        this.api.setProjectFiles(this.files);
         this.api.getFmiEntries();
       });
     //if the file dialog change some properties of the file - update it

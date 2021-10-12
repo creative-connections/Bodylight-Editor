@@ -5,15 +5,15 @@
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
     <table class="w3-tiny">
-      <tr repeat.for="item of animobjs">
-        <td><b show.bind="item.fmuvar">${item.name}</b><span show.bind="!item.fmuvar">${item.name}</span></td>
+      <tr repeat.for="item of mapping">
+        <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.aname}</b><span show.bind="!item.fmuvarname">${item.aname}</span></td>
 
       </tr>
     </table>
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
   </div>
-  <div class="w3-gray">
+  <div>
     <table>
       <tr>
         <td><label title="fmu variable name">findex</label></td>

@@ -19,6 +19,7 @@ export class Editorapi {
   fmientries = [];
   fmientriessrc = [];
   adobeentries = [];
+  projectfiles= [];
   blinking = false;
   autopreview = true;
   filename='project.zip';
@@ -267,6 +268,10 @@ export class Editorapi {
     this.bs.setFmiListSrcs(this.fmientriessrc);
   }
 
+  setProjectFiles(pf){
+    this.projectfiles = pf;
+  }
+
   getFmiEntries() {
     this.fmientries = this.projectfiles.filter(file => file.type.value === FTYPE.MODELFILE.value);
     //this.currentfmientry = {src: this.fmientries[0].name};
@@ -292,7 +297,8 @@ export class Editorapi {
   updateCurrentFmiEntry(src) {
     //updates structs based on selected src
     console.log('updateCurrentFmiEntry src:', src);
-    this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.src);
+    if (this.fmientries.length === 0) this.getFmiEntries(); //gets fmi entries from project list
+    this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.name);
     this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
     console.log('found currentfmientry:', this.currentfmientry);
     console.log('   from fmientries', this.fmientries);
