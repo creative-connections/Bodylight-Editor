@@ -1,36 +1,46 @@
 <template>
-  <div class="w3-tiny">
+  <require from="./attribute-bind2a-dialog"></require>
+
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
-    <div class="w3-center w3-padding">
-      <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>l
-    </div>
-  <table show.bind="istableview">
-    <thead>
-    <tr>
-      <th>obj name</th>
-      <th>amin</th>
-      <th>amax</th>
-      <th>fmu var</th>
-      <th>fmin</th>
-      <th>fmax</th>
-    </tr>
-    </thead>
-    <tr repeat.for="item of mapping">
-      <td>${item.animobj}</td>
-      <td>${item.amin}</td>
-      <td>${item.amax}</td>
-      <td>${item.fmuvarname}</td>
-      <td>${item.fmin}</td>
-      <td>${item.fmax}</td>
-    </tr>
-  </table>
-    <table show.bind="!istableview">
+    <table class="w3-tiny">
+      <tr repeat.for="item of animobjs">
+        <td><b show.bind="item.fmuvar">${item.name}</b><span show.bind="!item.fmuvar">${item.name}</span></td>
 
+      </tr>
     </table>
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
   </div>
+  <div class="w3-gray">
+    <table>
+      <tr>
+        <td><label title="fmu variable name">findex</label></td>
+        <td show.bind="api.outputreferences.length == 0">
+      <span class="w3-tiny w3-theme-l4">Fill variable index in references from fmi <br />
+        (to get list of available values,<br /> add/identify bdl-fmi component first).</span><br/>
+          <input value.bind="findex" />
+        </td>
+        <td show.bind="api.outputreferences.length>0">
+          <select value.bind="findex">
+            <option repeat.for="i of api.outputreferences.length" value.bind="i">${api.outputreferences[i].name}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>  <td><label>aname</label></td>
+        <td>${adobeobj}</td>
+      </tr>
+      <tr>  <td><label>amin</label></td><td><input value.bind="amin" /></td></tr>
+      <tr>  <td><label>amax</label></td><td><input value.bind="amax" /></td></tr>
+      <tr>  <td><label>fmin</label></td><td><input value.bind="fmin" /></td></tr>
+      <tr>  <td><label>fmax</label></td><td><input value.bind="fmax" /></td></tr>
+      </tr>
+    </table>
+    <p title="move slider to see animation progress">test:<!--span class="w3-tiny">${api.askAttributesItemsArray[2].value}</span><input type="range" min.bind="api.askAttributesItemsArray[2].value" max.bind="api.askAttributesItemsArray[3].value" value.bind="animationvalue" step="1" /><span class="w3-tiny">${api.askAttributesItemsArray[3].value}</span-->
+      <input type="range" min="0" max="160" value.bind="animationvalue" step="1" /><span class="w3-tiny">${animationvalue}</span>
+    </p>
   </div>
+
 </template>
