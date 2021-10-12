@@ -32,8 +32,8 @@ export class Animationbinding {
     this.api.updateFMIVariableList();
     //2. animobjs probably identified
     this.mapping = [];
-    for (let aobj of api.animobj) {
-      this.mapping.push({aname:aobj});
+    for (let aobj of this.api.animobjs) {
+      this.mapping.push({aname: aobj});
     }
     let bdlbind2a = xmldoc.getElementsByTagName('bdl-bind2a');
     for (let binding of bdlbind2a) {
