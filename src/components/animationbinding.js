@@ -16,7 +16,8 @@ export class Animationbinding {
   }
 
   bind() {
-    this.mapping = [{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
+    this.mapping = [];//{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
+    //do identify here?
   }
 
   identify() {
@@ -41,10 +42,12 @@ export class Animationbinding {
     this.mapping = [];
     this.api.discoverAdobeAnimate(); //discovers all objects
     for (let aobj of this.api.animobjs) {
-      this.mapping.push({aname: aobj, text: false});
+      let ashort = aobj.replaceAll('children.', '');
+      this.mapping.push({aname: aobj, ashort: ashort, text: false});
     }
     for (let aobj of this.api.textobjs) {
-      this.mapping.push({aname: aobj, text: true});
+      let ashort = aobj.replaceAll('children.', '');
+      this.mapping.push({aname: aobj, ashort: ashort, text: true});
     }
     let bdlbind2a = xmldoc.getElementsByTagName('bdl-bind2a');
     for (let binding of bdlbind2a) {
@@ -57,7 +60,7 @@ export class Animationbinding {
         bobj.fmin = binding.getAttribute('fmin');
         bobj.fmax = binding.getAttribute('fmax');
         bobj.findex = binding.getAttribute('findex');
-        bobj.fmuvarname = this.api.outputreferences[bobj.findex];
+        bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
       }
     }
     console.log('identify() mapping:', this.mapping);
@@ -65,9 +68,12 @@ export class Animationbinding {
 
   selectMapping(item) {
     this.currentMapping = item;
+    //blink
+    this.api.blink(item.aname);
   }
 
   submit() {
-
+    //remove all bdl-bind2a-dialog
+    //add generated bdl-bind2a-dialog
   }
 }

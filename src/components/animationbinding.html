@@ -6,7 +6,7 @@
   </div>
     <table class="w3-tiny">
       <tr repeat.for="item of mapping"  class="w3-hover-theme" click.delegate="selectMapping(item)">
-        <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.aname}</b><span show.bind="!item.fmuvarname">${item.aname}</span></td>
+        <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.ashort}</b><span show.bind="!item.fmuvarname">${item.ashort}</span></td>
 
       </tr>
     </table>
@@ -23,13 +23,14 @@
         </td>
         <td show.bind="api.outputreferences.length>0">
           <select value.bind="currentMapping.findex">
+            <option value="">-- select variable --</option>
             <option repeat.for="i of api.outputreferences.length" value.bind="i">${api.outputreferences[i].name}
             </option>
           </select>
         </td>
       </tr>
       <tr>  <td><label>aname</label></td>
-        <td>${currentMapping.aname}</td>
+        <td title.bind="currentMapping.aname">${currentMapping.ashort}</td>
       </tr>
       <tr>  <td><label>amin</label></td><td><input value.bind="currentMapping.amin" /></td></tr>
       <tr>  <td><label>amax</label></td><td><input value.bind="currentMapping.amax" /></td></tr>
