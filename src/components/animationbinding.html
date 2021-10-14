@@ -11,7 +11,8 @@
       </tr>
     </table>
   <div class="w3-center w3-padding">
-    <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit</button>
+    <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit all</button>
+    <button class="w3-button w3-theme-l4" click.delegate="undo()">Undo changes</button>
   </div>
   <div>
     <table>
@@ -32,11 +33,12 @@
       <tr>  <td><label>aname</label></td>
         <td title.bind="currentMapping.aname">${currentMapping.ashort}</td>
       </tr>
-      <tr>  <td><label>amin</label></td><td><input value.bind="currentMapping.amin" /></td></tr>
-      <tr>  <td><label>amax</label></td><td><input value.bind="currentMapping.amax" /></td></tr>
-      <tr>  <td><label>fmin</label></td><td><input value.bind="currentMapping.fmin" /></td></tr>
-      <tr>  <td><label>fmax</label></td><td><input value.bind="currentMapping.fmax" /></td></tr>
-      </tr>
+      <tr show.bind="!currentMapping.text">  <td><label>amin</label></td><td><input value.bind="currentMapping.amin" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>amax</label></td><td><input value.bind="currentMapping.amax" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmin</label></td><td><input value.bind="currentMapping.fmin" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmax</label></td><td><input value.bind="currentMapping.fmax" /></td></tr>
+      <tr show.bind="currentMapping.text">  <td><label>convertor</label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
+
     </table>
     <p title="move slider to see animation progress">test:<!--span class="w3-tiny">${api.askAttributesItemsArray[2].value}</span><input type="range" min.bind="api.askAttributesItemsArray[2].value" max.bind="api.askAttributesItemsArray[3].value" value.bind="animationvalue" step="1" /><span class="w3-tiny">${api.askAttributesItemsArray[3].value}</span-->
       <input type="range" min="0" max="160" value.bind="animationvalue" step="1" /><span class="w3-tiny">${animationvalue}</span>

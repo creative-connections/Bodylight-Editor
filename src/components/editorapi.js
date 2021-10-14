@@ -527,8 +527,10 @@ export class Editorapi {
         } else { //do animation
           //if (last) myobj.gotoAndStop(Math.floor(100));
           //for values between 0..1 do 100x
-          if (value < 1) myobj.gotoAndStop(Math.floor(100 * value));
-          else myobj.gotoAndStop(value);
+          if (myobj.hasOwnProperty('gotoAndStop')) { //fix issue - not animatable
+            if (value < 1) myobj.gotoAndStop(Math.floor(100 * value));
+            else myobj.gotoAndStop(value);
+          }
         }
       }
     }
