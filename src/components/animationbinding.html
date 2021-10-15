@@ -33,10 +33,11 @@
       <tr>  <td><label>aname</label></td>
         <td title.bind="currentMapping.aname">${currentMapping.ashort}</td>
       </tr>
-      <tr show.bind="!currentMapping.text">  <td><label>amin</label></td><td><input value.bind="currentMapping.amin" /></td></tr>
-      <tr show.bind="!currentMapping.text">  <td><label>amax</label></td><td><input value.bind="currentMapping.amax" /></td></tr>
-      <tr show.bind="!currentMapping.text">  <td><label>fmin</label></td><td><input value.bind="currentMapping.fmin" /></td></tr>
-      <tr show.bind="!currentMapping.text">  <td><label>fmax</label></td><td><input value.bind="currentMapping.fmax" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <input type="checkbox" checked.bind="currentMapping.playonly"/> play only object</tr>
+      <tr show.bind="!currentMapping.text">  <td><label>amin</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.amin" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>amax</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.amax" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmin</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmin" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmax</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmax" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>convertor</label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
 
     </table>

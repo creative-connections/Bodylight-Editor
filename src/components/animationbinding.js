@@ -68,15 +68,27 @@ export class Animationbinding {
       }
     }
     let bdlbind2atext = xmldoc.getElementsByTagName('bdl-bind2a-text');
-    console.log('found #bdl-bind2atext objects:', bdlbind2a.length);
+    console.log('found #bdl-bind2atext objects:', bdlbind2atext.length);
     for (let binding of bdlbind2atext) {
       //this.mapping.push({})
       //find mapping, update
       let bobj = this.mapping.find(x => x.aname === binding.getAttribute('aname'));
       if (bobj) {
         bobj.findex = binding.getAttribute('findex');
-        let convertor = binding.getAttribute('fmax');
+        let convertor = binding.getAttribute('convertor');
         if (convertor) bobj.convertor = convertor;
+        bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+      }
+    }
+    let bdlbind2aplay = xmldoc.getElementsByTagName('bdl-bind2a-play');
+    console.log('found #bdl-bind2aplay objects:', bdlbind2aplay.length);
+    for (let binding of bdlbind2aplay) {
+      //this.mapping.push({})
+      //find mapping, update
+      let bobj = this.mapping.find(x => x.aname === binding.getAttribute('aname'));
+      if (bobj) {
+        bobj.findex = binding.getAttribute('findex');
+        bobj.playonly = true;
         bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
       }
     }
