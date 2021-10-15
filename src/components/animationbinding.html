@@ -4,12 +4,14 @@
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
-    <table class="w3-tiny">
+  <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 70vh">
+  <table class="w3-tiny" >
       <tr repeat.for="item of mapping"  class="w3-hover-theme" click.delegate="selectMapping(item)">
         <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.ashort}</b><span show.bind="!item.fmuvarname">${item.ashort}</span></td>
 
       </tr>
     </table>
+  </div>
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="submit()">Submit all</button>
     <button class="w3-button w3-theme-l4" click.delegate="undo()">Undo changes</button>

@@ -123,8 +123,12 @@ export class Animationbinding {
     //remove bdl-bind2a-text
     let bdlbind2atext = xmldoc.getElementsByTagName('bdl-bind2a-text');
     for (let bdl of bdlbind2atext) if ((bdl.nextSibling.nodeType === 3) && (bdl.nextSibling.nodeValue === '\n')) newlines.push(bdl.nextSibling);
+    fragment = xmldoc.createDocumentFragment();
+    fragment.textContent = ' ';
     fragment.firstChild.replaceWith(...bdlbind2atext);
     //remove newlines
+    fragment = xmldoc.createDocumentFragment();
+    fragment.textContent = ' ';
     fragment.firstChild.replaceWith(...newlines);
     //remove bdlbind from dom tree
     //for (let el of bdlbind2atext) {
