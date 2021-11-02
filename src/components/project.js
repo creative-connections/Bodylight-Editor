@@ -388,7 +388,24 @@ export class Project {
     }));
     for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
-      if (file.syncstatus !== STATUS.notinlocal) {
+      if (!(file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
+        try {
+          zip.file(
+            file.name,
+            (file.type.value === FTYPE.MDFILE.value)
+              ? this.api.bs.loadDocContentStr(file.name)
+              : this.api.bs.loadDocContent(file.name), {binary: true}
+          );
+        } catch (error) {
+          console.warn('file was not zipped due to error',error);
+        }
+      }
+      //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
+    }
+
+   /*for (let file of this.files) {
+      //'blob' or 'string' content are zipped as entries
+      if (!file.syncstatus || (file.syncstatus !== STATUS.notinlocal)) {
         let data = (file.type.value === FTYPE.MDFILE.value)
           ? this.api.bs.loadDocContentStr(file.name)
           : this.api.bs.loadDocContent(file.name);
@@ -398,14 +415,14 @@ export class Project {
             data.then(obj => {
               if (obj) zip.file(file.name, obj, {binary: true});
               else console.warn('file not saved', file.name);
-            });
+            }, reason => {console.warn('file not saves',reason)});
           } else { //zip content - string etc.
             zip.file(file.name, data, {binary: true});
           }
         } else {console.warn('blob for file is not stored,', file.name);}
         //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
       }
-    }
+    }*/
     zip.generateAsync({type: 'blob'})
       .then(function(blob) {
         saveAs(blob, filename);
