@@ -372,10 +372,10 @@ export class Project {
    * Saves project as ZIP file
    */
   save() {
-    let filename = prompt('Enter file name of web simulator project(*.zip):', this.api.filename);
+    let filename = prompt('Enter file name of web simulator project(*.bj2):', this.api.filename);
     this.showButtons = false;
     if (!filename) return;
-    if (!filename.endsWith('.zip')) filename = filename.concat('.zip');
+    if (!filename.endsWith('.bj2')) filename = filename.concat('.bj2');
     this.api.setProjectName(filename);
     let zip = new JSZip();
     const filesclone = this.files.map(({api, bloburl, ...keepAttrs}) => keepAttrs);
@@ -441,7 +441,7 @@ export class Project {
     let files = event.target.files || event.dataTransfer.files;
     console.log(files);
     let filename = files[0].name;
-    if (filename.endsWith('.zip')) {
+    if (filename.endsWith('.bj2')) {
       //extract zip and save blob of extracted files
       this.extractProjectZipFile(files);
     }
