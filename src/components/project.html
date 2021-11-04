@@ -9,16 +9,16 @@
         <div show.bind="showButtons" class="w3-card au-animate animate-fade-in animate-fade-out w3-bar-block"
              style="position:absolute;margin-top:0px;margin-left:1em">
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="newProject()"><i class="fa fa-plus"></i> New
-            project
+            projectl
           </button>
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="save()"><i class="fa fa-save"></i> Save
-            project as ZIP
+            project as BJ2
           </button>
           <button class="w3-button w3-bar-item w3-theme-l4"><label for="loadfile"><i class="fa fa-upload"></i> Load
-            project from ZIP</label><input id="loadfile" style="visibility: hidden;width:10px" type="file"
+            project from BJ2</label><input id="loadfile" style="visibility: hidden;width:10px" type="file"
                                            change.trigger="load($event)"/></button>
           <button class="w3-button w3-bar-item w3-theme-l4 w3-border-bottom" click.delegate="exportAsHtml()"><i
-            class="fa fa-download"></i> Export project as HTML
+            class="fa fa-download"></i> Export project as HTML in ZIP
           </button>
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="syncGithub1()"><i class="fa fa-refresh"></i>
             Sync with GITHUB
