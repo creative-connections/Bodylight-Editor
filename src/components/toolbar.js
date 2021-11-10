@@ -202,15 +202,11 @@ export class Toolbar extends BodylightEditorItems {
     let res2 = this.api.editor.find(/>/g, { backwards: false, start: selectionRange, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
     let res3 = this.api.editor.find(/<\//g, { backwards: false, start: res2, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
     let res4 = this.api.editor.find(/>/g, { backwards: false, start: res3, wrap: true, caseSensitive: false, wholeWord: false, regExp: true});
-    //console.log('identifyItem res1', selectionRange);
-    //console.log('identifyItem res1', res);
-    //console.log('identifyItem res4', res4);
-    //set Range object from res to res4
+
     res4.start = res.start;
     this.api.editor.selection.setSelectionRange(res4);
     let item = this.api.editor.getSelectedText();
     console.log('identifyItem item:', item);
-    //let itemtag =  var reTagCatcher = /(<.[^(><.)]+>)/g;
 
     try {
       let itemtag = item.match(/<(bdl-[^(<> )]+)/g)[0].substr(1);
@@ -236,8 +232,5 @@ export class Toolbar extends BodylightEditorItems {
     } catch (err) {
       console.log('identifyItem - tag not found', err);
     }
-
-
-    //from cursor find previous '<' tag and then find '>' and '</...>'
   }
 }
