@@ -36,18 +36,35 @@ export class AttributeFmiDialog extends AttributeDialog {
     //console.log('attributefmidialog attached src:', this.src);
     //fill input references
     this.outputreferences = [];
-    let refs = this.attr.valuereferences.split(',');
-    let labels = this.attr.valuelabels.split(',');
-    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
+    if (this.attr.valuereferences) {
+      let refs = this.attr.valuereferences.split(',');
+      let labels = this.attr.valuelabels.split(',');
+      for (let i = 0; i < refs.length; i++) {
+        this.outputreferences.push({
+          reference: refs[i],
+          name: labels.length > i ? labels[i] : ''
+        });
+      }
+    }
     //keep link to outputreferences
     this.api.outputreferences = this.outputreferences;
     //fill output references
     this.inputreferences = [];
-    refs = this.attr.inputs.split(';');
-    labels = this.attr.inputlabels.split(',');
-    for (let i = 0; i < refs.length; i++) {
-      let refitem = refs[i].split(',');
-      this.inputreferences.push({id: refitem[0], reference: refitem[1], name: labels[i], numerator: refitem[2], denominator: refitem[3], addend:refitem[4]?refitem[4]:0, fixed:refitem[5]?refitem[5]:''});
+    if (this.attr.inputs) {
+      let refs = this.attr.inputs.split(';');
+      labels = this.attr.inputlabels.split(',');
+      for (let i = 0; i < refs.length; i++) {
+        let refitem = refs[i].split(',');
+        this.inputreferences.push({
+          id: refitem[0],
+          reference: refitem[1],
+          name: labels[i],
+          numerator: refitem[2],
+          denominator: refitem[3],
+          addend: refitem[4] ? refitem[4] : 0,
+          fixed: refitem[5] ? refitem[5] : ''
+        });
+      }
     }
     //if (this.attrstr.src) this.api.update
     if (!this.api.currentfmientry || (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0)))  this.api.updateFMIVariableList();

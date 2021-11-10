@@ -1,6 +1,13 @@
 <template>
   <require from="./referencearray"></require>
-    <table class="w3-tiny" style="width:100%">
+  <style>
+    table:hover {
+      z-index:5;
+      background:white;
+      border:1px solid black;
+    }
+  </style>
+    <table class="w3-tiny" style="width:100%;word-break:break-all;position:relative">
       <thead>
       <tr>
         <th style="width:6em;white-space: nowrap;">attribute</th>
@@ -9,7 +16,7 @@
       </thead>
       <tr>
         <td colspan="2">
-          <button class="w3-button w3-theme-l4 w3-block w3-left-align" click.delegate="showhidefmicontrol()">FMI control options <i class="fa fa-arrow-down"></i></button>
+          <button class="w3-theme-l4 w3-block w3-left-align" click.delegate="showhidefmicontrol()">FMI control options <i class="fa fa-arrow-down"></i></button>
         </td>
       </tr>
       <tr show.bind="showfmicontrol">
@@ -48,17 +55,17 @@
 
       <tr>
         <td colspan="3">
-          <button class="w3-button w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Input/Output variables <i class="fa fa-arrow-down"></i></button>
+          <button class="w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Input/Output variables <i class="fa fa-arrow-down"></i></button>
         </td>
       </tr>
       <tr show.bind="showfmiinput" class="w3-tiny">
-        <td>outputs</td>
+        <td colspan="2" class="w3-center" title="variables selected from FMU to be outputed"><b>OUTPUT vars</b></td>
       </tr>
       <tr show.bind="showfmiinput" class="w3-tiny">
         <td colspan="3"><referencearray value.two-way="outputreferences"></referencearray></td>
       </tr>
       <tr show.bind="showfmiinput" class="w3-tiny">
-        <td>inputs</td>
+        <td colspan="2" class="w3-center" title="variables selected from FMU to be input, thus listening for values"><b>INPUT vars</b></td>
       </tr>
       <tr show.bind="showfmiinput" class="w3-tiny">
 

@@ -11,6 +11,7 @@ export class Referencearray {
   denominator = 1;
   addend = 0;
   inputid='id1'
+  inputidindex=1;
   constructor(api) {
     this.api = api;
   //  this.references = [];
@@ -67,6 +68,11 @@ export class Referencearray {
     if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, addend: this.addend, fixed: fixed});
     else this.value.push({reference: reference, name: name});
     this.goodautocomplete._value = '';
+    //get the number in id
+    let id = parseInt(this.inputid.slice(2), 10);
+    this.inputidindex = isNaN(id) ? 0 : id;
+    //next id will be with number +1
+    this.inputid = 'id' + (++this.inputidindex);
   }
 
   removeReference(item) {
