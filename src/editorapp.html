@@ -12,12 +12,14 @@
 
   <div class="w3-row">
     <div class="w3-col" style="width:20%;max-width:500px">
-      <tabs idlist="project,dialog,mapping"
-                titlelist="Project,Components,Animation" w3class=""></tabs>
+      <div class="w3-tiny">
+      <tabs idlist="project,components,mapping"
+                titlelist="Project,Components,Animation" w3class="" listen="changetab"></tabs>
+      </div>
       <div id="project">
         <project></project>
       </div>
-      <div id="dialog">
+      <div id="components">
         <a-dialog></a-dialog>
         <help></help>
       </div>

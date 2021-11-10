@@ -116,6 +116,10 @@ export class Editorapi {
     //this.editor.insert(item.def);
     //document.getElementById('editorref').focus();
     //this.editor.focus();
+
+    //change the tabs in project div to components
+    let event = new CustomEvent('changetab', {detail: {id: 'components'}});
+    document.dispatchEvent(event);
   }
 
   convertXmlToAttributesItems(itemdef) {
