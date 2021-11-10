@@ -13,9 +13,22 @@ export class AttributeFmiDialog extends AttributeDialog {
   constructor(api) {
     super(api);
     //this.api=api;
+    this.handleInitDialog = e => {
+      this.initializeDialog();
+    };
   }
 
+  //issue when it is already attached and identify button is pressed.
   attached() {
+    this.initializeDialog();
+    document.addEventListener('fmidialoginit', this.handleInitDialog);
+  }
+
+  detached() {
+    document.removeEventListener('fmidialoginit', this.handleInitDialog);
+  }
+
+  initializeDialog(){
     //convert askattributes to struct
     this.attrstr = {};//this.api.askAttributesItemsArray
     for (let item of this.api.askAttributesItemsArray) this.attrstr[item.title] = item.value;
@@ -52,7 +65,7 @@ export class AttributeFmiDialog extends AttributeDialog {
     this.inputreferences = [];
     if (this.attr.inputs) {
       let refs = this.attr.inputs.split(';');
-      labels = this.attr.inputlabels.split(',');
+      let labels = this.attr.inputlabels.split(',');
       for (let i = 0; i < refs.length; i++) {
         let refitem = refs[i].split(',');
         this.inputreferences.push({
@@ -68,10 +81,10 @@ export class AttributeFmiDialog extends AttributeDialog {
     }
     //if (this.attrstr.src) this.api.update
     if (!this.api.currentfmientry || (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0)))  this.api.updateFMIVariableList();
+
   }
 
   activate() {
-
   }
 
   bind() {

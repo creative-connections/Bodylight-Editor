@@ -20,8 +20,11 @@
   </good-auto-complete>
   <div show.bind="askids">
     <table>
-      <th>id</th><th>numerator</th><th>denominator</th><th>addend</th>
-      <tr><td><input value.bind="inputid" size="5"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td><td><input value.bind="addend" type="number" size="6"/></td></tr>
+      <tr><th colspan="4">convertor</th></tr>
+      <tr>
+      <th title="id of input elements, value changes will be listened to">id</th><th title="numerator, x*n">n.</th><th title="denominator x/d">d.</th><th title="addend, x+add">add</th>
+      </tr>
+      <tr><td><input value.bind="inputid" size="4"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td><td><input value.bind="addend" type="number" size="6"/></td></tr>
     </table>
   </div>
   <button class="w3-button w3-theme-l1 w3-round" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>

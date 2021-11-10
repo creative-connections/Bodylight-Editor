@@ -225,8 +225,14 @@ export class Toolbar extends BodylightEditorItems {
           myitem.name = itemtag; myitem.def = item; myitem.doc = matchitem[0].doc; myitem.dialog = matchitem[0].dialog;
         }
       }
-      if (myitem.name) this.api.addItem(myitem);
-      else console.error('identifyItem - tag not found in basic/advanced items', itemtag);
+      if (myitem.name) {
+        this.api.addItem(myitem);
+        //let dialog know to update
+        if (myitem.name === 'bdl-fmi') {
+          let ev = new CustomEvent('fmidialoginit');
+          document.dispatchEvent(ev);
+        }
+      } else console.error('identifyItem - tag not found in basic/advanced items', itemtag);
     } catch (err) {
       console.log('identifyItem - tag not found', err);
     }
