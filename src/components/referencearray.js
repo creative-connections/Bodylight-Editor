@@ -39,26 +39,14 @@ export class Referencearray {
         return v.reference + '-o-' + v.name; //add -o- signature compatible with askids === input references
       });
     }
-    //console.log('this.api.currentfminetry.modelvariables', this.api.currentfmientry.modelvariables);
-    //console.log('referencesarray suggestion:', suggestion);
     return suggestion;
-    /*
-    return this.api.getSuggestions(value)
-      .then(data =>{
-        return data;
-      })
-      .catch(error =>{
-        return [];
-      });
-
-     */
   }
 
+
   /**
-   * Adds reference into this value
+   * Adds reference into this.value
    */
-  addReference() {
-    let newvalue = this.goodautocomplete.getRawValue();
+  addSingleReference(newvalue) {
     let signatures = newvalue.split('-', 2);
     let reference = signatures[0];
     let fixed = signatures[1]; //f for fixed, t for tunable, o for output
@@ -67,12 +55,35 @@ export class Referencearray {
     if (!this.value) this.value = [];
     if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, addend: this.addend, fixed: fixed});
     else this.value.push({reference: reference, name: name});
+  }
+
+  /**
+   * add either single reference or multiple references if array tag [] is in variable name
+   */
+  addReference() {
+    let newvalue = this.goodautocomplete.getRawValue();
     this.goodautocomplete._value = '';
+    //handle if the reference is array
+    if (!this.askids || newvalue.endsWith(']')) {
+      if (confirm('Variable ' + newvalue + ' is array member. Add all members of this array?')) {
+        //adding all array members
+        //get suggestions begining with the array member
+        let suggestions = this.getSuggestions(newvalue.slice(newvalue.indexOf('-') + 3, newvalue.lastIndexOf('[') + 1)); //name[
+        for (let variable of suggestions) this.addSingleReference(variable);
+        //add reference of all suggestion
+      } else {
+        this.addSingleReference(newvalue);
+      }
+    } else {
+      this.addSingleReference(newvalue);
+    }
     //get the number in id
-    let id = parseInt(this.inputid.slice(2), 10);
-    this.inputidindex = isNaN(id) ? 0 : id;
-    //next id will be with number +1
-    this.inputid = 'id' + (++this.inputidindex);
+    if (this.askids) {
+      let id = parseInt(this.inputid.slice(2), 10);
+      this.inputidindex = isNaN(id) ? 0 : id;
+      //next id will be with number +1
+      this.inputid = 'id' + (++this.inputidindex);
+    }
   }
 
   removeReference(item) {

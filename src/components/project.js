@@ -6,7 +6,7 @@ import JSZip from 'jszip';
 import './project-files/bodylight-struct';
 import {BodylightFileFactory} from './project-files/bodylight-file-factory';
 import {BodylightFile} from './project-files/bodylight-file';
-import {FTYPE, DEMOCONTENT} from './project-files/bodylight-struct';
+import {FTYPE, DEMOCONTENT, utf8Encode} from './project-files/bodylight-struct';
 import {GithubSync, STATUS} from './githubsync/GithubSync';
 //import {LFKEYS} from './project-files/bodylight-storage';
 
@@ -371,7 +371,7 @@ export class Project {
   /**
    * Saves project as ZIP file
    */
-  save() {
+  async save() {
     let filename = prompt('Enter file name of web simulator project(*.bj2):', this.api.filename);
     this.showButtons = false;
     if (!filename) return;
@@ -390,20 +390,27 @@ export class Project {
       //'blob' or 'string' content are zipped as entries
       if (!(file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
         try {
-          zip.file(
-            file.name,
-            (file.type.value === FTYPE.MDFILE.value)
-              ? this.api.bs.loadDocContentStr(file.name)
-              : this.api.bs.loadDocContent(file.name), {binary: true}
-          );
+          let content = await this.api.bs.loadDocContent(file.name);
+          if ( content !== null) {
+            //check if something is stored
+            zip.file(
+              file.name,
+              (file.type.value === FTYPE.MDFILE.value && (typeof content === 'string'))
+                ? utf8Encode(content)
+                : content,
+              {binary: true}
+            );
+          } else {
+            console.warn('file "' + file.name + '" was not zipped as it is not stored locally');
+          }
         } catch (error) {
-          console.warn('file was not zipped due to error',error);
+          console.warn('file was not zipped due to error', error);
         }
       }
       //zip.file(file.name, this.api.bs.loadDocContent(file.name), {binary: true});
     }
 
-   /*for (let file of this.files) {
+    /*for (let file of this.files) {
       //'blob' or 'string' content are zipped as entries
       if (!file.syncstatus || (file.syncstatus !== STATUS.notinlocal)) {
         let data = (file.type.value === FTYPE.MDFILE.value)
