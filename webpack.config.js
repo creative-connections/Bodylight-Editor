@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const project = require('./aurelia_project/aurelia.json');
 const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
@@ -27,7 +27,7 @@ const cssRules = [
 ];
 
 
-module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, host } = {}) => ({
+module.exports = ({ production } = {}, {analyze, tests, hmr, port, host } = {}) => ({
   resolve: {
     extensions: ['.ts', '.js'],
     modules: [srcDir, 'node_modules'],
@@ -141,10 +141,11 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       {
         test: /\.css$/i,
         issuer: [{ not: [{ test: /\.html$/i }] }],
-        use: extractCss ? [{
-          loader: MiniCssExtractPlugin.loader
-        }, ...cssRules
-        ] : ['style-loader', ...cssRules]
+        //use: extractCss ? [{
+        //  loader: MiniCssExtractPlugin.loader
+        //}, ...cssRules
+        //] :
+        use: ['style-loader', ...cssRules]
       },
       {
         test: /\.css$/i,
@@ -187,10 +188,10 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       }
     }),
     // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
-    ...when(extractCss, new MiniCssExtractPlugin({ // updated to match the naming conventions for the js files
-      filename: production ? 'css/[name].[contenthash].bundle.css' : 'css/[name].[hash].bundle.css',
-      chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
-    })),
+    //...when(extractCss, new MiniCssExtractPlugin({ // updated to match the naming conventions for the js files
+    //  filename: production ? 'css/[name].[contenthash].bundle.css' : 'css/[name].[hash].bundle.css',
+    //  chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
+    //})),
     ...when(!tests, new CopyWebpackPlugin({patterns: [
       { from: 'static', to: outDir },
       //add bodylight.bundle - needed when exporting the project as a ZIP file
