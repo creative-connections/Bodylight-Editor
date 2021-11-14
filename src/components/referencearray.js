@@ -64,7 +64,7 @@ export class Referencearray {
     let newvalue = this.goodautocomplete.getRawValue();
     this.goodautocomplete._value = '';
     //handle if the reference is array
-    if (!this.askids && newvalue.endsWith(']') && (newvalue.lastindexOf('[')>0)) {
+    if (!this.askids && newvalue.endsWith(']') && (newvalue.lastIndexOf('[')>0)) {
       if (confirm('Variable ' + newvalue + ' is array member. Add all members of this array?')) {
         //adding all array members
         //get suggestions begining with the array member
