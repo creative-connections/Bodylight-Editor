@@ -3,12 +3,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-fmi',
       doc: 'fmi.md',
-      def: '<bdl-fmi id="idfmi" src="" ' +
-        'fminame="" tolerance="0.000001" starttime="0" ' +
-        'guid=""' +
-        'valuereferences=""' +
-        'valuelabels=""' +
-        'inputs=""></bdl-fmi>',
+      def: '<bdl-fmi id="idfmi" src="" mode="continuous" fminame="" tolerance="0.000001" starttime="0" guid="" valuereferences="" valuelabels="" inputs=""></bdl-fmi>',
       dialog: './attribute-fmi-dialog'
     },
     {
@@ -153,8 +148,8 @@ export class BodylightEditorItems {
         '  fromid="idfmi" \n' +
         '  labels=""\n' +
         '  initialdata="" \n' +
-        '  refindex="2"   \n' +
-        '  refvalues="6"></bdl-chartjs-time>'
+        '  refindex="0"   \n' +
+        '  refvalues="1"></bdl-chartjs-time>'
     }, {
       name: 'bdl-chartjs',
       doc: 'chartjs.md',
@@ -164,16 +159,16 @@ export class BodylightEditorItems {
         '  height="500" \n' +
         '  fromid="idfmi" \n' +
         '  type="doughnut" \n' +
-        '  labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins"\n' +
-        '  initialdata="0,4,2,3" \n' +
-        '  refindex="2" \n' +
-        '  refvalues="6"></bdl-chartjs>\n'
+        '  labels=""\n' +
+        '  initialdata="" \n' +
+        '  refindex="0" \n' +
+        '  refvalues="1"></bdl-chartjs>\n'
     }, {
       name: 'bdl-chartjs-xy',
       doc: 'chartjs.md',
       def: '<bdl-chartjs-xy id="id10" width="400" height="400" fromid="idfmi" \n' +
-        'labels="Pressure in Left Ventricle, Left Ventricle Volume" \n' +
-        'initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" \n' +
+        'labels="" \n' +
+        'initialdata="" \n' +
         'refindex="0" refvalues="2"></bdl-chartjs-xy>\n'
     }, {
       name: 'bdl-ecg',
@@ -188,9 +183,9 @@ export class BodylightEditorItems {
       name: 'bdl-quiz',
       doc: 'quiz.md',
       def: '<bdl-quiz question="Question :"' +
-        '  answers="answer 1 (separated by pipe) | answer 2"' +
+        '  answers="answer 1 | answer 2"' +
         '  correctoptions="false|true"' +
-        '  explanations="explanation why answer 1 is false (separated by pipe)|explanation why answer 2 is true">' +
+        '  explanations="explanation | explanation 2">' +
         '</bdl-quiz>'
     }, {
       name: 'bdl-pdb-pdbe-molstar',
