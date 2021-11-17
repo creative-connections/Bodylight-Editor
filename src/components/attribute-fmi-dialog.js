@@ -35,6 +35,7 @@ export class AttributeFmiDialog extends AttributeDialog {
     console.log('attributefmidialog attached() attrstr:', this.attrstr);
     this.attr = {
       id: this.attrstr.id ? this.attrstr.id : 'idfmi',
+      mode: this.attrstr.mode ? this.attrstr.mode : '',
       src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
       fminame: this.attrstr.fminame ? this.attrstr.fminame : this.api.currentfmientry.fminame,
       tolerance: this.attrstr.tolerance ? this.attrstr.tolerance : '0.000001',
@@ -96,6 +97,41 @@ export class AttributeFmiDialog extends AttributeDialog {
     console.log('attributefmidialog changed src:', this.src);
     if (this.attr) this.attr.src = this.src;
     this.refreshsrc();
+  }
+
+  //check inputs and outputs by name and ref, if referenece number is changed then update, if reference number is missing, then report
+  updatevariables(){
+    console.log('updatevariables() outputs', this.outputreferences);
+    let updated = "";
+    for (let myoutput of this.outputreferences) {
+      let fmivariable = this.api.currentfmientry.modelvariables.find(x => x.name === myoutput.name);
+      if (fmivariable) {
+        if (fmivariable.reference != myoutput.reference) {
+          updated+= "update from "+myoutput.reference+" to "+fmivariable.reference+"\n";
+          myoutput.reference = fmivariable.reference;
+
+        }
+      } else {
+        //not found, probably deleted
+        updated+= " variable not found, probably deleted. "+myoutput.name+"\n";
+      }
+    }
+    //this.api.currentfmientry.modelvariables.
+    console.log('updatevariables() inputs', this.inputreferences);
+    for (let myoutput of this.inputreferences) {
+      let fmivariable = this.api.currentfmientry.modelvariables.find(x => x.name === myoutput.name);
+      if (fmivariable) {
+        if (fmivariable.reference != myoutput.reference) {
+          updated+= "update from "+myoutput.reference+" to "+fmivariable.reference+"\n";
+          myoutput.reference = fmivariable.reference;
+
+        }
+      } else {
+        //not found, probably deleted
+        updated+= " variable not found, probably deleted. "+myoutput.name+"\n";
+      }
+    }
+    alert('FMU variables updated:\n'+updated);
   }
 
   refreshsrc() {

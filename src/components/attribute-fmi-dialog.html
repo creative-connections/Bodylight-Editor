@@ -1,13 +1,13 @@
 <template>
   <require from="./referencearray"></require>
   <style>
-    table:hover {
+    .bdl-hoverable:hover {
       z-index:5;
       background:white;
       border:1px solid black;
     }
   </style>
-    <table class="w3-tiny" style="width:100%;word-break:break-all;position:relative">
+    <table class="w3-tiny bdl-hoverable" style="width:100%;word-break:break-all;position:relative">
       <thead>
       <tr>
         <th style="width:6em;white-space: nowrap;">attribute</th>
@@ -16,12 +16,16 @@
       </thead>
       <tr>
         <td colspan="2">
-          <button class="w3-theme-l4 w3-block w3-left-align" click.delegate="showhidefmicontrol()">FMI control options <i class="fa fa-arrow-down"></i></button>
+          <button class="w3-theme-l4 w3-block w3-left-align" click.delegate="showhidefmicontrol()">FMI control options <i show.bind="showfmicontrol" class="fa fa-arrow-down"></i><i show.bind="!showfmicontrol" class="fa fa-arrow-right"></i></button>
         </td>
       </tr>
       <tr show.bind="showfmicontrol">
         <td><label>id</label></td>
         <td><input value.bind="attr.id" /></td>
+      </tr>
+      <tr show.bind="showfmicontrol">
+        <td><label>mode</label></td>
+        <td><input value.bind="attr.mode" /></td>
       </tr>
       <tr show.bind="showfmicontrol">
         <td><label>src</label></td>
@@ -55,8 +59,11 @@
 
       <tr>
         <td colspan="3">
-          <button class="w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Input/Output variables <i class="fa fa-arrow-down"></i></button>
+          <button class="w3-block w3-theme-l4 w3-left-align" click.delegate="showhidefmiinput()">Variables <i show.bind="showfmiinput" class="fa fa-arrow-down"></i><i show.bind="!showfmiinput" class="fa fa-arrow-right"></i></button>
         </td>
+      </tr>
+      <tr show.bind="showfmiinput" class="w3-tiny">
+        <td colspan="2" class="w3-center" title="check/update reference numbers of variables"><button click.delegate="updatevariables()">update FMU vars</button></td>
       </tr>
       <tr show.bind="showfmiinput" class="w3-tiny">
         <td colspan="2" class="w3-center" title="variables selected from FMU to be outputed"><b>OUTPUT vars</b></td>
