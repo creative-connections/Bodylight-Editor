@@ -10,8 +10,8 @@
   <require from="./w3-theme-bodylight.css"></require>
   <require from="./components/animationbinding"></require>
 
-  <div class="w3-row">
-    <div class="w3-col" style="width:25%;max-width:500px">
+  <div class="w3-row" mousemove.delegate="mouseMove($event)" mouseup.delegate="mouseUp($event)">
+    <div class="w3-col w3-quarter" ref="dialogdiv">
       <div class="w3-tiny">
       <tabs idlist="project,components,mapping"
                 titlelist="Project,Components,Animation" w3class="" listen="changetab"></tabs>
@@ -27,7 +27,10 @@
         <animationbinding></animationbinding>
       </div>
     </div>
-    <div class="w3-rest">
+    <div class="w3-rest" ref="editordiv">
+      <div class="w3-col" style="top: 20px; left: 0px; width: 5px; cursor: col-resize; background-color: #b8e2f3; user-select: none; height: 90vh;"
+           mousedown.delegate="mouseDown($event)"
+      ></div>
       <div class="w3-center"><b>Bodylight Editor v ${version}</b></div>
       <toolbar></toolbar>
       <div class="w3-col" style="width:55%;max-width:700px" show.bind="!api.previewmode">
