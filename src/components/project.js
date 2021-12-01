@@ -299,7 +299,7 @@ export class Project {
             let newfile = new BodylightFile(entryname, (entryname.endsWith('.xml')) ? FTYPE.DESCRIPTIONFILE : FTYPE.MODELFILE, blob);
             if (entryname.endsWith('.xml')) {
               //parse modeldescription.file
-              this.api.setFmiEntryDescription(blob);
+              this.api.readFmiEntryDescription(blob);
             } else {
               //fill src of model
               this.api.setFmiEntrySrc(entryname);
