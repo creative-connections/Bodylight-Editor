@@ -205,15 +205,17 @@ export class Editorapi {
    */
   setFmiEntryDescription(blob) {
     window.editorapi = this;
-    if (typeof blob === 'string') this.handleModelDescriptionText(blob);
-    else {
-      const reader = new FileReader();
-      //sets global variable to this instance
-      //window.editor = this;
-      reader.onload = this.handleModelDescription;
-      //handler do not know 'this', must set global variable
-      reader.readAsText(blob);
-    }
+    if (blob) {
+      if (typeof blob === 'string') this.handleModelDescriptionText(blob);
+      else {
+        const reader = new FileReader();
+        //sets global variable to this instance
+        //window.editor = this;
+        reader.onload = this.handleModelDescription;
+        //handler do not know 'this', must set global variable
+        reader.readAsText(blob);
+      }
+    } else console.warn('empty blob for fmi modeldescription.xml')
   }
 
   handleModelDescription(event) {
@@ -309,11 +311,15 @@ export class Editorapi {
   }
 
   updateFMIVariableList() {
-    //fix #14 read the variables
-    this.bs.getBlob('modelDescription.xml')
-      .then(blob => {
-        this.setFmiEntryDescription(blob);
-      });
+    //console.log('updatefmivariablelist debug this',this);
+    if (this.currentfmientry && this.currentfmientry.name) {
+      let modelname = this.currentfmientry.name.slice(0, -3); //remove '.js' extension
+      //fix #14 read the variables
+      this.bs.getBlob(modelname + '.xml')
+        .then(blob => {
+          this.setFmiEntryDescription(blob);
+        });
+    }
     //TODO fix duplicates - either read from modelDescription each time, or store modeldescription par JS with FMU
   }
 

@@ -612,4 +612,20 @@ export class Project {
   toggleadobe() {this.showadobe = !this.showadobe;}
   toggleimg() {this.showimg = !this.showimg;}
   toggleother() {this.showother = !this.showother;}
+
+  update() {
+    this.ea.publish('file-dialog', this.api.askFileItems);
+    this.api.askFile = false;
+    this.updatefiletypes();
+  }
+  cancel() {
+    this.api.askFile = false;
+  }
+  blink(obj) {
+    this.api.blink(obj);
+  }
+
+  refresh() {
+    this.api.discoverAdobeAnimate();
+  }
 }

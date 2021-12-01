@@ -191,6 +191,32 @@
       </tbody>
     </table>
   </div>
-    <file-dialog></file-dialog>
+    <div show.bind="api.askFile">
+      <table>
+        <tr><th colspan="2">properties of file: ${api.askFileRef.name}</th></tr>
+        <tr repeat.for="item of api.askFileItems">
+          <td><label>${item.title}</label></td>
+          <td><span show.bind="item.options"><select value.bind="item.value">
+          <option repeat.for="option of item.options" value="${option.name}">${option.title}</option>
+        </select></span>
+            <span show.bind="!item.options"><input value.bind="item.value" /></span></td>
+        </tr>
+      </table>
+      <div class="w3-center w3-padding">
+        <button class="w3-button w3-theme-l4" click.delegate="update()">Update</button>
+        <button class="w3-button w3-theme-l4" click.delegate="cancel()">Cancel</button>
+        <button class="w3-button w3-theme-l4" click.delegate="refresh()" title="refresh all objects in file">Refresh</button>
+
+      </div>
+      <div if.bind="api.askFileRef.type.value === 1">
+        <attribute-fmi-dialog src.two-way="api.askFileRef.name"></attribute-fmi-dialog>
+      </div>
+      <div show.bind="api.askFileRef.type.value === 2" style="max-height:300px;overflow:scroll;overflow-x:hidden;">
+        <b class="w3-center">ADOBE Animate objects</b>
+      </div>
+      <div show.bind="api.askFileRef.type.value === 3">
+        Animated GIF
+      </div>
+    </div>
   </div>
 </template>
