@@ -136,20 +136,26 @@ export class AttributeFmiDialog extends AttributeDialog {
 
   refreshsrc() {
     console.log('refreshsrc', this.attr.src);
+    //updates fmi entry based on selected src
     this.api.updateCurrentFmiEntry(this.attr.src);
-    this.api.updateFMIVariableList();
+    //this.api.updateFMIVariableList();
     //this.attr.src: this.attrstr.src ? this.attrstr.src : this.api.currentfmientry.src,
-    this.attr.fminame = this.api.currentfmientry.fminame;
-    this.attr.tolerance = '0.000001';
-    this.attr.starttime = '0';
-    this.attr.fstepsize =  '0.01';
-    this.attr.guid = this.api.currentfmientry.guid;
-    this.attr.valuereferences = '';
+    //this is async so set timeout of it
+    setTimeout(() => {
+      this.attr.fminame = this.api.currentfmientry.fminame;
+      this.attr.tolerance = '0.000001';
+      this.attr.starttime = '0';
+      this.attr.fstepsize =  '0.01';
+      this.attr.guid = this.api.currentfmientry.guid;
+    },2000)
+
+    //TODO do not delete reference list?
+    /*this.attr.valuereferences = '';
     this.attr.valuelabels = '';
     this.attr.inputs = '';
     this.attr.inputlabels = '';
     this.inputreferences = [];
-    this.outputreferences = [];
+    this.outputreferences = [];*/
   }
 
   submit() {

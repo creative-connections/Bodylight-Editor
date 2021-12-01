@@ -203,7 +203,7 @@ export class Editorapi {
    * reads modeldescription.xml from blob
    * @param blob
    */
-  setFmiEntryDescription(blob) {
+  readFmiEntryDescription(blob) {
     window.editorapi = this;
     if (blob) {
       if (typeof blob === 'string') this.handleModelDescriptionText(blob);
@@ -256,8 +256,8 @@ export class Editorapi {
         let srcindex = this.fmientriessrc.indexOf(srcentry);
         this.fmientriessrc.splice(srcindex, 1);
       }
-      this.bs.setFmiListEntries(this.fmientries);
-      this.bs.setFmiListSrcs(this.fmientriessrc);
+      //this.bs.setFmiListEntries(this.fmientries);
+      //this.bs.setFmiListSrcs(this.fmientriessrc);
     }
   }
 
@@ -270,8 +270,8 @@ export class Editorapi {
     //if (! this.fmientriessrc) this.fmientriessrc = [];
     this.fmientriessrc.push({index: this.currentfmientryindex, src: src});
     //store in localstorage
-    this.bs.setFmiListEntries(this.fmientries);
-    this.bs.setFmiListSrcs(this.fmientriessrc);
+    //this.bs.setFmiListEntries(this.fmientries);
+    //this.bs.setFmiListSrcs(this.fmientriessrc);
   }
 
   setProjectFiles(pf){
@@ -300,14 +300,18 @@ export class Editorapi {
     //set to first entry in list
   }
 
-  updateCurrentFmiEntry(src) {
+  async updateCurrentFmiEntry(src) {
     //updates structs based on selected src
     console.log('updateCurrentFmiEntry src:', src);
-    if (this.fmientries.length === 0) this.getFmiEntries(); //gets fmi entries from project list
+    //parse modeldescription
+    this.currentfmientry.name = src;
+    await this.updateFMIVariableList();
+    /*if (this.fmientries.length === 0) this.getFmiEntries(); //gets fmi entries from project list
     this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.name);
     this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
     console.log('found currentfmientry:', this.currentfmientry);
     console.log('   from fmientries', this.fmientries);
+     */
   }
 
   updateFMIVariableList() {
@@ -317,7 +321,7 @@ export class Editorapi {
       //fix #14 read the variables
       this.bs.getBlob(modelname + '.xml')
         .then(blob => {
-          this.setFmiEntryDescription(blob);
+          this.readFmiEntryDescription(blob);
         });
     }
     //TODO fix duplicates - either read from modelDescription each time, or store modeldescription par JS with FMU
