@@ -10,7 +10,7 @@
   <require from="./w3-theme-bodylight.css"></require>
   <require from="./components/animationbinding"></require>
 
-  <div class="w3-row" mousemove.delegate="mouseMove($event)" mouseup.delegate="mouseUp($event)">
+  <div class="w3-row" mousemove.trigger="mouseMove($event)" mouseup.trigger="mouseUp($event)">
     <div class="w3-col w3-quarter" ref="dialogdiv">
       <div class="w3-tiny">
       <tabs idlist="project,components,mapping"

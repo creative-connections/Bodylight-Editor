@@ -22,6 +22,7 @@ export class Editorapp {
     //console.log('editorapp mousedown pagex:'+this.pageX+' dialogwidth:'+this.dialogwidth+' editorwidth:'+this.editorwidth);
     //console.log('dialogdiv',this.dialogdiv);
     //console.log('dialogdiv',this.editordiv);
+    return true;
   }
 
   mouseMove(event) {
@@ -30,11 +31,13 @@ export class Editorapp {
       this.dialogdiv.style.width = (this.dialogwidth + diffX) + 'px';
       this.editordiv.style.width = (this.editorwidth - (diffX)-20) + 'px';
       //console.log('editorapp mousemove diffX:'+diffX+' dialogwidth:'+this.dialogdiv.style.width+' editorwidth:'+this.editordiv.style.width);
+      return true;
     }
   }
 
   mouseUp(event){
     //console.log('editorapp mouseUp')
     this.moving = false;
+    return true;
   }
 }
