@@ -90,4 +90,9 @@ export class Referencearray {
     let i = this.value.indexOf(item);
     this.value.splice(i, 1);
   }
+
+  removeReferenceIndex(i) {
+    //let i = this.value.indexOf(item);
+    this.value.splice(i, 1);
+  }
 }
