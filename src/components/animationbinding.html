@@ -43,8 +43,10 @@
       <tr show.bind="currentMapping.text">  <td><label>convertor</label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
 
     </table>
-    <p title="move slider to see animation progress">test:<!--span class="w3-tiny">${api.askAttributesItemsArray[2].value}</span><input type="range" min.bind="api.askAttributesItemsArray[2].value" max.bind="api.askAttributesItemsArray[3].value" value.bind="animationvalue" step="1" /><span class="w3-tiny">${api.askAttributesItemsArray[3].value}</span-->
-      <input type="range" min="0" max="160" value.bind="animationvalue" step="1" /><span class="w3-tiny">${animationvalue}</span>
+
+    <p title="move slider to see animation progress">
+      test:
+      <button class="w3-button w3-theme-l4" click.delegate="blink()">Blink</button> <input type="range" min="0" max="200" value.bind="animationvalue" step="1" /><span class="w3-tiny">${animationvalue}</span>
     </p>
   </div>
 

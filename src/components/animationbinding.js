@@ -1,5 +1,5 @@
 import {Editorapi} from './editorapi';
-import {inject} from 'aurelia-framework';
+import {inject,observable} from 'aurelia-framework';
 //import localForage from 'localforage';
 //import {BodylightEditorItems} from './bodylightEditorItems';
 
@@ -11,6 +11,7 @@ export class Animationbinding {
   amax; //max of animation
   findex; //index of fmu variable
   backupmd;
+  @observable animationvalue;
 
   constructor(api) {
     this.api = api;
@@ -19,6 +20,12 @@ export class Animationbinding {
   bind() {
     this.mapping = [];//{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
     //do identify here?
+  }
+
+  animationvalueChanged(newvalue,oldvalue) {
+    //console.log('animationvalueChanged to '+newvalue);
+    this.api.startblink();
+    this.api.setAnimationValue(this.currentMapping.aname, newvalue, true, true, false);
   }
 
   identify() {
@@ -197,5 +204,9 @@ export class Animationbinding {
   undo() {
     //use backupmd
     this.api.editor.setValue(this.backupmd);
+  }
+
+  blink() {
+    if (this.currentMapping) this.api.blink(this.currentMapping.aname);
   }
 }

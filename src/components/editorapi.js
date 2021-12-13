@@ -509,7 +509,7 @@ export class Editorapi {
         k++;
         setTimeout(function() {
           that.setAnimationValue(objname, Math.abs(i), (i === -1 && j === 0), (i > 0.99 && j === 1), j === 0);
-        }, 50 * k);
+        }, 25 * k);
       }
     }
   }
@@ -541,9 +541,10 @@ export class Editorapi {
         } else { //do animation
           //if (last) myobj.gotoAndStop(Math.floor(100));
           //for values between 0..1 do 100x
-          if (myobj.hasOwnProperty('gotoAndStop')) { //fix issue - not animatable
-            if (value < 1) myobj.gotoAndStop(Math.floor(100 * value));
-            else myobj.gotoAndStop(value);
+          if (typeof myobj.gotoAndStop === 'function') { //fix issue - not animatable
+            //if (value < 1) myobj.gotoAndStop(Math.floor(100 * value));
+            //else
+            myobj.gotoAndStop(value);
           }
         }
       }
