@@ -32,7 +32,7 @@ export class Editorapp {
       this.editordiv.style.width = (this.editorwidth - (diffX)-20) + 'px';
       //console.log('editorapp mousemove diffX:'+diffX+' dialogwidth:'+this.dialogdiv.style.width+' editorwidth:'+this.editordiv.style.width);
       return true;
-    }
+    } else return true;
   }
 
   mouseUp(event){
