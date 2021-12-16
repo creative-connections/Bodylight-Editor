@@ -60,7 +60,7 @@ export class Editorapi {
   async renderchange(that, content,elementid='editorref') {
     if (!content) content = that.editor.getValue();
     //add shared model content to the content
-    if (this.sharedmodel) content = this.sharedmodelmdcontent+"\n"+content;
+    //if (this.sharedmodel) content = this.sharedmodelmdcontent+"\n"+content;
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
     //all <bdl- will be replaced to < and </bdl- to </ because preview mode uses aurelia-plugin (components without prefix)

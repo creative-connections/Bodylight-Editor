@@ -246,17 +246,18 @@ export class Toolbar extends BodylightEditorItems {
           if (content) {
             //content directly accessible as string
             if (typeof (content) === 'string') {
-              //this.api.renderchange(this.api, content, 'modelmdref');
-              this.api.sharedmodelmdcontent = content;
-              this.generatepreview();
+              this.api.renderchange(this.api, content, 'modelmdref');
+              //this.api.sharedmodelmdcontent = content;
+              //this.generatepreview();
             }
             if (content instanceof Blob) {
               //read content of blob
               const reader = new FileReader();
               reader.addEventListener('loadend', () => {
                 // reader.result contains the contents of blob as a typed array
-                this.api.sharedmodelmdcontent = content;
-                this.generatepreview();
+                this.api.renderchange(this.api, reader.result, 'modelmdref');
+                //this.api.sharedmodelmdcontent = content;
+                //this.generatepreview();
               });
               reader.readAsText(content);
             }
