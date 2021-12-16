@@ -233,4 +233,36 @@ export class Toolbar extends BodylightEditorItems {
       console.log('identifyItem - tag not found', err);
     }
   }
+
+  sharedmodel() {
+    this.api.sharedmodel = !this.api.sharedmodel;
+    let modelmdcontent = 'rendered model.md';
+    //opening md file
+    if (this.api.sharedmodel) {
+      this.api.bs.loadDocContent('model.md')
+        .then(content => {
+          //if (content)
+          //console.log('content of the file ' + file.name, content);
+          if (content) {
+            //content directly accessible as string
+            if (typeof (content) === 'string') {
+              //this.api.renderchange(this.api, content, 'modelmdref');
+              this.api.sharedmodelmdcontent = content;
+              this.generatepreview();
+            }
+            if (content instanceof Blob) {
+              //read content of blob
+              const reader = new FileReader();
+              reader.addEventListener('loadend', () => {
+                // reader.result contains the contents of blob as a typed array
+                this.api.sharedmodelmdcontent = content;
+                this.generatepreview();
+              });
+              reader.readAsText(content);
+            }
+          } else console.warn('model.md no content')
+        })
+        .catch(err => console.warn('model.md cannot open file. Error:', err));
+    }
+  }
 }

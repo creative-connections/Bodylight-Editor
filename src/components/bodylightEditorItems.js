@@ -42,33 +42,14 @@ export class BodylightEditorItems {
     {
       name: 'bdl-chartjs-time',
       doc: 'chartjs.md',
-      def: '<bdl-chartjs-time  \n' +
-        '  id="id10" \n' +
-        '  width="300" \n' +
-        '  height="200" \n' +
-        '  fromid="idfmi" \n' +
-        '  labels=""\n' +
-        '  initialdata="" \n' +
-        '  refindex="0"   \n' +
-        '  refvalues="1"></bdl-chartjs-time>'
-    },
-    {
-      name: 'bdl-plotly',
-      doc: 'plotly.md',
-      def: '<bdl-plotly\n' +
-        '  fromid="fmiid"\n' +
-        '  refindex="0"\n' +
-        '  refvalues="2"\n' +
-        '  maxdata="255"\n' +
-        '  width="600"\n' +
-        '  height="300"\n' +
-        '  convertors="x/133.32;1,60"></bdl-plotly>'
-    }];
+      def: '<bdl-chartjs-time width="300" height="200" fromid="idfmi" labels="" initialdata="" refindex="0" refvalues="1"></bdl-chartjs-time>'
+    }
+    ];
   advanceditems=[
     {
       name: 'bdl-range',
       doc: 'range.md',
-      def: '<bdl-range id="id1" title="" min="0" max="10" default="5" step="1" maxlength="2"></bdl-range>'
+      def: '<bdl-range id="id1" title="" min="0" max="10" default="5" step="1"></bdl-range>'
     },
     {
       name: 'bdl-buttonparams',
@@ -101,7 +82,7 @@ export class BodylightEditorItems {
       def: '<bdl-animate-control id="idanimate" speedfactor="50"></bdl-animate-control>\n'
     },
     {
-      name: 'bdl-animate-control S',
+      name: 'bdl-animate-control segments',
       doc: 'animate.md',
       def: '<bdl-animate-control \n' +
         'id="id4" \n' +
@@ -142,7 +123,6 @@ export class BodylightEditorItems {
       name: 'bdl-chartjs-time',
       doc: 'chartjs.md',
       def: '<bdl-chartjs-time  \n' +
-        '  id="id10" \n' +
         '  width="300" \n' +
         '  height="200" \n' +
         '  fromid="idfmi" \n' +
@@ -154,7 +134,6 @@ export class BodylightEditorItems {
       name: 'bdl-chartjs',
       doc: 'chartjs.md',
       def: '<bdl-chartjs \n' +
-        '  id="id9" \n' +
         '  width="300" \n' +
         '  height="500" \n' +
         '  fromid="idfmi" \n' +
@@ -191,6 +170,17 @@ export class BodylightEditorItems {
       name: 'bdl-pdb-pdbe-molstar',
       doc: 'pdb.md',
       def: '<bdl-pdb-pdbe-molstar id="pdb2h35" molecule-id="2h35" hide-controls="true" hide-polymer="true"></bdl-pdb-pdbe-molstar>'
+    },{
+      name: 'bdl-plotly',
+      doc: 'plotly.md',
+      def: '<bdl-plotly\n' +
+        '  fromid="fmiid"\n' +
+        '  refindex="0"\n' +
+        '  refvalues="2"\n' +
+        '  maxdata="255"\n' +
+        '  width="600"\n' +
+        '  height="300"\n' +
+        '  convertors="x/133.32;1,60"></bdl-plotly>'
     }
   ]
 }

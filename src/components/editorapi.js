@@ -26,6 +26,8 @@ export class Editorapi {
   exportfilename='projectexport.zip';
   outputreferences=[];
   currentfmientry = {};
+  sharedmodel = false;
+  sharedmodelmdcontent = "";
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -55,8 +57,10 @@ export class Editorapi {
     });
   }
 
-  async renderchange(that, content) {
+  async renderchange(that, content,elementid='editorref') {
     if (!content) content = that.editor.getValue();
+    //add shared model content to the content
+    if (this.sharedmodel) content = this.sharedmodelmdcontent+"\n"+content;
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
     //all <bdl- will be replaced to < and </bdl- to </ because preview mode uses aurelia-plugin (components without prefix)
@@ -90,14 +94,14 @@ export class Editorapi {
     console.log('renderchange() transformedcontent:', transformedContent);
     //now replace every (img_name) with (bloburl)
     //create customevent - which component is listening to
-    this.sendContentUpdate(transformedContent);
+    this.sendContentUpdate(transformedContent,elementid);
   }
 
-  sendContentUpdate(content) {
+  sendContentUpdate(content,elementid) {
     //create customevent - which component is listening to
     let event = new CustomEvent('contentupdate', {detail: {content: content}});
     //console.log('sending content update')
-    document.getElementById('editorref').dispatchEvent(event);
+    document.getElementById(elementid).dispatchEvent(event);
   }
 
   addItem(item) {
