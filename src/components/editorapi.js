@@ -61,6 +61,11 @@ export class Editorapi {
     if (!content) content = that.editor.getValue();
     //add shared model content to the content
     //if (this.sharedmodel) content = this.sharedmodelmdcontent+"\n"+content;
+    if (this.sharedmodel) {
+      //check whether second content do not contain fmi / double fmi = double error, co-simulation not yet supported
+      if (elementid === 'editorref' && content.includes('<bdl-fmi'))
+        alert('Warning: Shared "model.md" and document contains <bdl-fmi> component. Errors from duplication may appear.')
+    }
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
     //all <bdl- will be replaced to < and </bdl- to </ because preview mode uses aurelia-plugin (components without prefix)

@@ -464,6 +464,9 @@ export class Project {
     let filename = projectname;
     if (!projectname.endsWith('.zip')) filename = projectname.concat('.zip');
     this.api.setExportProjectName(filename);
+    //if shared model - markdown with attribute with link to model.md
+    let sharedmodelattribute = '';
+    if (this.api.sharedmodel) sharedmodelattribute=' model="model.md"';
     let firstmdfile = this.files.filter(item => item.type.value === FTYPE.MDFILE.value)[0];
     let indexhtmlcontent = `<!DOCTYPE html>
 <html>
@@ -474,7 +477,7 @@ export class Project {
     <script src="bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
 </head>
 <body aurelia-app="webcomponents">
-    <bdl-markdown-book2 index="${firstmdfile.name}" summary="summary.md">
+    <bdl-markdown-book2 index="${firstmdfile.name}" summary="summary.md"${sharedmodelattribute}>
 <img src="Bodylight_loading2_amber.gif" height="140" width="85" style="display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"/>
     </bdl-markdown-book2>
 </body>
