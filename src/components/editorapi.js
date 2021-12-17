@@ -63,8 +63,11 @@ export class Editorapi {
     //if (this.sharedmodel) content = this.sharedmodelmdcontent+"\n"+content;
     if (this.sharedmodel) {
       //check whether second content do not contain fmi / double fmi = double error, co-simulation not yet supported
-      if (elementid === 'editorref' && content.includes('<bdl-fmi'))
-        alert('Warning: Shared "model.md" and document contains <bdl-fmi> component. Errors from duplication may appear.')
+      if (elementid === 'editorref' && content.includes('<bdl-fmi')) {
+        alert('WARNING: Shared "model.md" and document contains <bdl-fmi> component. Rendering bdl-fmi was di.')
+        //comment out bdl fmi component
+        content = content.replace('<bdl-fmi','<!--bdl-fmi').replace('</bdl-fmi>','</bdl-fmi-->');
+      }
     }
     //hack - transform content so bdl-components will be interpreted by aurelia plugin - it needs components without
     //bdl prefix
