@@ -147,6 +147,10 @@ export class Project {
     this.currentfile.activate();//this.strategymap);
   }
 
+  show(file) {
+    //show image in separated dialog
+  }
+
   addlink(file) {
     this.api.askFile = false;
     file.renderlink();

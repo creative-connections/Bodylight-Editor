@@ -126,10 +126,11 @@
       </tr>
       <tr><td colspan="4" click.delegate="toggleadobe()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showadobe">-</span><span show.bind="!showadobe">+</span> ANIMATE </td></tr>
       <tr repeat.for="file of adobefiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'"  show.bind="showadobe">
-        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        <td title="${file.type.title}" click.delegate="show(file)"><i class="${file.type.faclass}"></i> ${file.name}
         </td>
         <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
         <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td title="show file"><i class="fa fa-eye" click.delegate="show(file)"></i></td>
         <td class="w3-text-orange">
           <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
                                                                     title="different choose whether to upload/download"></i> <i
@@ -147,10 +148,11 @@
       </tr>
       <tr><td colspan="4" click.delegate="toggleimg()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showimg">-</span><span show.bind="!showimg">+</span> IMAGES </td></tr>
       <tr repeat.for="file of imgfiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'" show.bind="showimg">
-        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        <td title="${file.type.title}" click.delegate="show(file)"><i class="${file.type.faclass}"></i> ${file.name}
         </td>
         <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
         <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td title="show file"><i class="fa fa-eye" click.delegate="show(file)"></i></td>
         <td title="add file link to edited document"><i class="fa fa-link" click.delegate="addlink(file)"></i></td>
         <td class="w3-text-orange">
           <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"
