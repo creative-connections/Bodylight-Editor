@@ -246,6 +246,7 @@ export class Toolbar extends BodylightEditorItems {
           if (content) {
             //content directly accessible as string
             if (typeof (content) === 'string') {
+              this.api.sharedmodelcontent = content; //store shared model.md content
               this.api.renderchange(this.api, content, 'modelmdref');
               //this.api.sharedmodelmdcontent = content;
               //this.generatepreview();
@@ -254,8 +255,9 @@ export class Toolbar extends BodylightEditorItems {
               //read content of blob
               const reader = new FileReader();
               reader.addEventListener('loadend', () => {
+                this.api.sharedmodelcontent = reader.result; //store shared model.md content
                 // reader.result contains the contents of blob as a typed array
-                this.api.renderchange(this.api, reader.result, 'modelmdref');
+                this.api.renderchange(this.api, this.api.sharedmodelcontent, 'modelmdref');
                 //this.api.sharedmodelmdcontent = content;
                 //this.generatepreview();
               });

@@ -33,7 +33,8 @@ export class Animationbinding {
     //get editor content sorounded into a root element
 
     this.backupmd = this.api.editor.getValue();
-    let md = '<root>' + this.backupmd + '</root>';
+    //encapsulate with roo element
+    let md = '<root>' + (this.api.sharedmodel ? this.api.sharedmodelcontent : '') + this.backupmd + '</root>';
     //parse the xml
     let parser = new DOMParser();
     let xmldoc = parser.parseFromString(md, 'text/xml');
