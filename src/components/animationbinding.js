@@ -85,6 +85,10 @@ export class Animationbinding {
         bobj.findex = binding.getAttribute('findex');
         let convertor = binding.getAttribute('convertor');
         if (convertor) bobj.convertor = convertor;
+        let prefix = binding.getAttribute('prefix');
+        if (prefix) bobj.prefix = prefix;
+        let suffix = binding.getAttribute('suffix');
+        if (suffix) bobj.suffix = suffix;
         bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
       }
     }
@@ -171,6 +175,8 @@ export class Animationbinding {
           node.setAttribute('findex', item.findex);
           node.setAttribute('aname', item.aname);
           if (item.convertor) node.setAttribute('convertor', item.convertor);
+          if (item.prefix) node.setAttribute('prefix', item.prefix);
+          if (item.suffix) node.setAttribute('suffix', item.suffix);
           //node.innerText(' ');
           this.insertAfter(node, bdlanimate);
           let newline = xmldoc.createTextNode('\n');
