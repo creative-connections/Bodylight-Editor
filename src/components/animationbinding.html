@@ -1,11 +1,12 @@
 <template>
   <require from="./attribute-bind2a-dialog"></require>
-
+  <require from="./referencearray"></require>
+<div class="w3-tiny">
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
   <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 70vh">
-  <table class="w3-tiny" >
+  <table style="max-height:30vh">
       <tr repeat.for="item of mapping"  class="w3-hover-theme" click.delegate="selectMapping(item)">
         <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.ashort}</b><span show.bind="!item.fmuvarname">${item.ashort}</span></td>
       </tr>
@@ -31,6 +32,10 @@
           </select>
         </td>
       </tr>
+      <tr>
+        <td><label title="fmu variable name">findex add-variable</label></td>
+        <td><referencearray value.two-way="outputreferences" showreferences="false"></referencearray></td>
+      </tr>
       <tr>  <td><label>aname</label></td>
         <td title.bind="currentMapping.aname">${currentMapping.ashort}</td>
       </tr>
@@ -50,5 +55,5 @@
       <button class="w3-button w3-theme-l4" click.delegate="blink()">Blink</button> <input type="range" min="0" max="200" value.bind="animationvalue" step="1" /><span class="w3-tiny">${animationvalue}</span>
     </p>
   </div>
-
+</div>
 </template>

@@ -12,14 +12,24 @@ export class Animationbinding {
   findex; //index of fmu variable
   backupmd;
   @observable animationvalue;
+  referenceadded = false;
 
   constructor(api) {
     this.api = api;
+    this.handleFmiAddReference = e => {
+      this.referenceadded = true;
+      this.currentMapping.findex = this.api.outputreferences.length-1;
+    }
   }
 
   bind() {
     this.mapping = [];//{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
     //do identify here?
+    document.addEventListener('fmiaddreference',this.handleFmiAddReference);
+  }
+
+  unbind(){
+    document.removeEventListener('fmiaddreference',this.handleFmiAddReference);
   }
 
   animationvalueChanged(newvalue,oldvalue) {
@@ -105,6 +115,9 @@ export class Animationbinding {
       }
     }
     console.log('identify() mapping:', this.mapping);
+
+    //outputreferences
+    this.outputreferences = this.api.outputreferences;
   }
 
   selectMapping(item) {
@@ -116,7 +129,7 @@ export class Animationbinding {
   submit() {
     //remove all bdl-bind2a-dialog
 
-    //get editor content sorounded into a root element
+    //get editor content surounded into a root element
     let md = '<root>' + this.api.editor.getValue() + '</root>';
     //parse the xml
     let parser = new DOMParser();
@@ -186,8 +199,22 @@ export class Animationbinding {
         //newbdlbindnodes.push(xmldoc.createTextNode('\n'));
       }
     }
-    //append after bdl-animate-adobe
-    //xmldoc.getElementsByTagName('bdl-animate-adobe')[0].append(newbdlbindnodes);
+
+    //add fmi if some variable was added
+    if (this.referenceadded) {
+      //reference was added // modify bdl-fmi
+      if (this.api.sharedmodel) {
+        let shareddoc = parser.parseFromString('<root>'+this.api.sharedmodelcontent+'</root>', 'text/xml');
+        shareddoc = this.replacefmi(shareddoc);
+        let s2 = new XMLSerializer();
+        let shareddoccontent = s2.serializeToString(shareddoc);
+        shareddoccontent = shareddoccontent.substring(6,shareddoccontent.length-7).replaceAll(new RegExp('<(bdl-[A-Za-z0-9\-]+)(.+?)/>', 'g'),'<$1$2></$1>');
+        this.api.saveSharedModel(shareddoccontent);
+      } else {
+        xmldoc = this.replacefmi(xmldoc);
+      }
+    }
+
     //serialize to text
     let s = new XMLSerializer();
     md = s.serializeToString(xmldoc);
@@ -202,6 +229,21 @@ export class Animationbinding {
     console.log('md:', md);
     //replace the editor content
     this.api.editor.setValue(md);
+  }
+
+  //replaces fmi with updated outputreferences in DOM xmldoc
+  replacefmi(xmldoc) {
+    let bdlfmi = xmldoc.getElementsByTagName('bdl-fmi');
+    if (bdlfmi.length == 0) {
+      console.warn('bdl-fmi not found to be replaced in xmldoc');
+      return xmldoc;
+    }
+    let mybdlfmi = bdlfmi[0];
+    let valuereferences = this.api.outputreferences.map(ref => ref.reference).join(',');
+    let valuelabels = this.api.outputreferences.map(ref => ref.name).join(','); //name should not contain comma
+    mybdlfmi.setAttribute('valuereferences',valuereferences);
+    mybdlfmi.setAttribute('valuelabels',valuelabels);
+    return xmldoc;
   }
 
   insertAfter(newNode, existingNode) {

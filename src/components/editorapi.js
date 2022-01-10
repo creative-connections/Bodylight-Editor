@@ -562,4 +562,12 @@ export class Editorapi {
       }
     }
   }
+
+  //saves shared model.md
+  saveSharedModel(content){
+    this.sharedmodelmdcontent = content;
+    if (this.sharedmodel) {
+      this.bs.saveDocContent('model.md', this.sharedmodelmdcontent);
+    }
+  }
 }

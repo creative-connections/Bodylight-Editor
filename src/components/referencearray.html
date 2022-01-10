@@ -2,31 +2,31 @@
   <require from="./autocomplete/good-auto-complete"></require>
   <require from="./autocomplete/good-auto-complete.css"></require>
   <require from="./referencearray.css"></require>
-  <div class="w3-theme-l4 w3-margin-top w3-margin-bottom">
-  <table class="referencearray">
-    <tr repeat.for="item of value">
-      <td show.bind="!askids">${$index}</td><td show.bind="askids">${item.id}</td><td>${item.reference}</td><td>${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
+  <div class="w3-theme-l4 w3-margin-top w3-margin-bottom" class.bind="showreferences?'bdl-hoverable-wrapper':''">
+  <good-auto-complete view-model.ref="goodautocomplete"
+                        additional-class-input="form-control"
+                        selected-item.bind="valuereference"
+                        _value.bind="valuereferenceraw"
+                        suggestions-provider.bind="getSuggestions"
+                        suggestions-debounce="1000"
+                        min-search-value-length="1"
+                        placeholder="type first 1-4 letters and select ...">
+  </good-auto-complete>
+    <div show.bind="askids">
+      <table>
+        <tr><th colspan="4">convertor</th></tr>
+        <tr>
+          <th title="id of input elements, value changes will be listened to">id</th><th title="numerator, x*n">n.</th><th title="denominator x/d">d.</th><th title="addend, x+add">add</th>
+        </tr>
+        <tr><td><input value.bind="inputid" size="4"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td><td><input value.bind="addend" type="number" size="6"/></td></tr>
+      </table>
+    </div>
+  <button class="w3-button w3-theme-l1 w3-round" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>
+  <table class="referencearray bdl-hoverable" style="width:100%;word-break:break-all;position:relative; max-height:20vh" show.bind="showreferences">
+    <tr repeat.for="item of value" title.bind="item.name">
+      <td show.bind="!askids">${$index}</td><td show.bind="askids">${item.id}</td><td>${item.reference}</td><td style="max-width:30em">${item.name}</td><td> <span class="w3-hover-blue" click.delegate="removeReference(item)"><i class="fa fa-trash"></i></span></td>
     </tr>
   </table>
   <div></div>
-  <good-auto-complete view-model.ref="goodautocomplete"
-                      additional-class-input="form-control"
-                      selected-item.bind="valuereference"
-                      _value.bind="valuereferenceraw"
-                      suggestions-provider.bind="getSuggestions"
-                      suggestions-debounce="1000"
-                      min-search-value-length="1"
-                      placeholder="type first 1-4 letters and select ...">
-  </good-auto-complete>
-  <div show.bind="askids">
-    <table>
-      <tr><th colspan="4">convertor</th></tr>
-      <tr>
-      <th title="id of input elements, value changes will be listened to">id</th><th title="numerator, x*n">n.</th><th title="denominator x/d">d.</th><th title="addend, x+add">add</th>
-      </tr>
-      <tr><td><input value.bind="inputid" size="4"/></td><td><input value.bind="numerator" type="number" size="6"/></td><td><input value.bind="denominator" type="number" size="6"/></td><td><input value.bind="addend" type="number" size="6"/></td></tr>
-    </table>
-  </div>
-  <button class="w3-button w3-theme-l1 w3-round" click.delegate="addReference()"><i class="fa fa-plus"></i> Add</button>
   </div>
 </template>

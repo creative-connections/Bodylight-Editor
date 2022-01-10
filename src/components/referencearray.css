@@ -3,3 +3,22 @@
   text-overflow:ellipsis;
   overflow: hidden;
 }
+.bdl-hoverable-wrapper {
+   overflow-y:scroll;
+   width: 100%;
+   max-height: 20vh;
+ }
+.bdl-hoverable {
+  direction:ltr;
+  z-index:5;
+  background:white;
+  border:1px solid black;
+  overflow-x:hidden;
+}
+.bdl-hoverable:hover {
+  z-index:5;
+  background:white;
+  border:1px solid black;
+  overflow-x: visible;
+}
+

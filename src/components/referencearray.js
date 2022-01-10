@@ -12,6 +12,7 @@ export class Referencearray {
   addend = 0;
   inputid='id1'
   inputidindex=1;
+  @bindable showreferences = true;
   constructor(api) {
     this.api = api;
   //  this.references = [];
@@ -22,6 +23,7 @@ export class Referencearray {
     //this.value = []; set by parent
     //set askids to boolean
     if (this.askids) this.askids = (this.askids === 'true');
+    if (typeof this.showreferences === 'string') this.showreferences = (this.showreferences === 'true');
   }
 
   /**
@@ -55,6 +57,10 @@ export class Referencearray {
     if (!this.value) this.value = [];
     if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, addend: this.addend, fixed: fixed});
     else this.value.push({reference: reference, name: name});
+
+    //sent event
+    let event = new CustomEvent('fmiaddreference', {detail: {id: 'components'}});
+    document.dispatchEvent(event);
   }
 
   /**
