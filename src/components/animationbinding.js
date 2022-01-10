@@ -121,7 +121,11 @@ export class Animationbinding {
   }
 
   selectMapping(item) {
+    if (this.currenMapping) {
+      this.currentMapping.selected = false;
+    }
     this.currentMapping = item;
+    this.currentMapping.selected = true;
     //blink
     this.api.blink(item.aname);
   }

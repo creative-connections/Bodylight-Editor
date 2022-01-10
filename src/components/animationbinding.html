@@ -5,10 +5,10 @@
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
   </div>
-  <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 70vh">
-  <table style="max-height:30vh">
-      <tr repeat.for="item of mapping"  class="w3-hover-theme" click.delegate="selectMapping(item)">
-        <td><b show.bind="item.fmuvarname" title.bind="item.fmuvarname">${item.ashort}</b><span show.bind="!item.fmuvarname">${item.ashort}</span></td>
+  <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 50vh">
+  <table>
+      <tr repeat.for="item of mapping"  class="w3-hover-theme" class.bind="item.selected? 'w3-theme' :''" click.delegate="selectMapping(item)">
+        <td class.bind="item.findex ? 'w3-theme-l3' : '' ">${item.ashort}</td>
       </tr>
     </table>
   </div>
