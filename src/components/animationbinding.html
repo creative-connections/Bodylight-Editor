@@ -7,8 +7,8 @@
   </div>
   <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 50vh">
   <table>
-      <tr repeat.for="item of mapping"  class="w3-hover-theme" class.bind="item.selected? 'w3-theme' :''" click.delegate="selectMapping(item)">
-        <td class.bind="item.findex ? 'w3-theme-l3' : '' ">${item.ashort}</td>
+      <tr repeat.for="item of mapping"  class="w3-hover-theme" class.bind="item.class" click.delegate="selectMapping(item)">
+        <td>${item.ashort}</td>
       </tr>
     </table>
   </div>
@@ -47,6 +47,8 @@
       <tr show.bind="currentMapping.text">  <td><label>convertor</label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>prefix</label></td><td><input value.bind="currentMapping.prefix" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>suffix</label></td><td><input value.bind="currentMapping.suffix" /></td></tr>
+      <tr show.bind="currentMapping.text">  <td><label>fixed</label></td><td><input value.bind="currentMapping.fixed" /></td></tr>
+      <tr show.bind="currentMapping.text">  <td><label>precision</label></td><td><input value.bind="currentMapping.precision" /></td></tr>
 
     </table>
 

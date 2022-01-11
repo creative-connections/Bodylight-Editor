@@ -83,6 +83,7 @@ export class Animationbinding {
         bobj.fmax = binding.getAttribute('fmax');
         bobj.findex = binding.getAttribute('findex');
         bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        bobj.class = 'w3-theme-l3';
       }
     }
     let bdlbind2atext = xmldoc.getElementsByTagName('bdl-bind2a-text');
@@ -99,7 +100,12 @@ export class Animationbinding {
         if (prefix) bobj.prefix = prefix;
         let suffix = binding.getAttribute('suffix');
         if (suffix) bobj.suffix = suffix;
+        let fixed = binding.getAttribute('fixed');
+        if (fixed) bobj.fixed = fixed;
+        let precision = binding.getAttribute('precision');
+        if (precision) bobj.precision = precision;
         bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        bobj.class = 'w3-theme-l3';
       }
     }
     let bdlbind2aplay = xmldoc.getElementsByTagName('bdl-bind2a-play');
@@ -112,6 +118,7 @@ export class Animationbinding {
         bobj.findex = binding.getAttribute('findex');
         bobj.playonly = true;
         bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        bobj.class = 'w3-theme-l3';
       }
     }
     console.log('identify() mapping:', this.mapping);
@@ -121,11 +128,13 @@ export class Animationbinding {
   }
 
   selectMapping(item) {
-    if (this.currenMapping) {
+    if (this.currentMapping) {
       this.currentMapping.selected = false;
+      this.currentMapping.class = this.currentMapping.findex ? 'w3-theme-l3':'';
     }
     this.currentMapping = item;
     this.currentMapping.selected = true;
+    this.currentMapping.class = 'w3-theme';
     //blink
     this.api.blink(item.aname);
   }
@@ -194,6 +203,8 @@ export class Animationbinding {
           if (item.convertor) node.setAttribute('convertor', item.convertor);
           if (item.prefix) node.setAttribute('prefix', item.prefix);
           if (item.suffix) node.setAttribute('suffix', item.suffix);
+          if (item.fixed && item.fixed.length>0) node.setAttribute('fixed', item.fixed);
+          else if (item.precision && item.precision.length>0) node.setAttribute('precision', item.precision);
           //node.innerText(' ');
           this.insertAfter(node, bdlanimate);
           let newline = xmldoc.createTextNode('\n');

@@ -64,7 +64,7 @@ export class Editorapi {
     if (this.sharedmodel) {
       //check whether second content do not contain fmi / double fmi = double error, co-simulation not yet supported
       if (elementid === 'editorref' && content.includes('<bdl-fmi')) {
-        alert('WARNING: Shared "model.md" and document contains <bdl-fmi> component. Rendering bdl-fmi was di.')
+        alert('WARNING: Duplicate <bdl-fmi> in shared "model.md" and document.')
         //comment out bdl fmi component
         content = content.replace('<bdl-fmi','<!--bdl-fmi').replace('</bdl-fmi>','</bdl-fmi-->');
       }
@@ -107,7 +107,7 @@ export class Editorapi {
 
   sendContentUpdate(content,elementid) {
     //create customevent - which component is listening to
-    let event = new CustomEvent('contentupdate', {detail: {content: content}});
+    let event = new CustomEvent('contentupdate', {detail: {content: content, keepanimation: elementid !== 'editorref'}});
     //console.log('sending content update')
     document.getElementById(elementid).dispatchEvent(event);
   }
