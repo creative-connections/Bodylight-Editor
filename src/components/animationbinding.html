@@ -1,9 +1,12 @@
 <template>
   <require from="./attribute-bind2a-dialog"></require>
   <require from="./referencearray"></require>
+  <require from="./selectsearch.html"></require>
 <div class="w3-tiny">
   <div class="w3-center w3-padding">
-    <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button>
+    <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button><br/>
+    <span show.bind="api.fmidescriptionloading" class="w3-tiny w3-red">${api.fmidescriptionmessage}</span>
+    <span show.bind="!api.fmidescriptionloading" class="w3-tiny w3-light-green">${api.fmidescriptionmessage}</span>
   </div>
   <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 50vh">
   <table>
@@ -17,23 +20,20 @@
     <button class="w3-button w3-theme-l4" click.delegate="undo()">Undo changes</button>
   </div>
   <div>
-    <table>
+    <table style="width:100%">
       <tr>
-        <td><label title="fmu variable name">findex</label></td>
+        <td><label title="fmu variable name">SELECT variable (findex)</label></td>
         <td show.bind="api.outputreferences.length == 0">
       <span class="w3-tiny w3-theme-l4">click Identify button</span><br/>
-          <input value.bind="currentMapping.findex" />
+          <input value.two-way="currentMapping.findex" />
         </td>
         <td show.bind="api.outputreferences.length>0">
-          <select value.bind="currentMapping.findex">
-            <option value="">-- select variable --</option>
-            <option repeat.for="i of api.outputreferences.length" value.bind="i">${api.outputreferences[i].name}
-            </option>
-          </select>
+          <i class="w3-small">${api.outputreferences[currentMapping.findex].name}</i><br/>
+          <selectsearch options.two-way="api.outputreferences" selected.two-way="currentMapping.findex"></selectsearch>
         </td>
       </tr>
       <tr>
-        <td><label title="fmu variable name">findex add-variable</label></td>
+        <td><label title="fmu variable name">OR add-variable</label></td>
         <td><referencearray value.two-way="outputreferences" showreferences="false"></referencearray></td>
       </tr>
       <tr>  <td><label>aname</label></td>

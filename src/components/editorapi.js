@@ -28,6 +28,8 @@ export class Editorapi {
   currentfmientry = {};
   sharedmodel = false;
   sharedmodelmdcontent = "";
+  fmidescriptionloading = false;
+  fmidescriptionmessage = '';
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -217,6 +219,9 @@ export class Editorapi {
    */
   readFmiEntryDescription(blob) {
     window.editorapi = this;
+    const d = new Date();
+    this.fmidescriptionmessage = ' '+ d.toLocaleTimeString()+' loading fmi description ...';
+    this.fmidescriptionloading = true;
     if (blob) {
       if (typeof blob === 'string') this.handleModelDescriptionText(blob);
       else {
@@ -232,6 +237,9 @@ export class Editorapi {
 
   handleModelDescription(event) {
     console.log('handlefileload event:', event);
+    const d = new Date();
+    editorapi.fmidescriptionmessage = ' '+ d.toLocaleTimeString()+' fmi description loaded';
+    this.fmidescriptionloading = false;
     let data = event.target.result;
     editorapi.handleModelDescriptionText(data);
   }

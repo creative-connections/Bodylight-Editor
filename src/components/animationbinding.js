@@ -1,7 +1,8 @@
 import {Editorapi} from './editorapi';
 import {inject,observable} from 'aurelia-framework';
-//import localForage from 'localforage';
-//import {BodylightEditorItems} from './bodylightEditorItems';
+//import {jQuery} from 'jquery';
+//import 'chosen';
+//import 'selectize';
 
 @inject(Editorapi)
 export class Animationbinding {
@@ -17,15 +18,17 @@ export class Animationbinding {
   constructor(api) {
     this.api = api;
     this.handleFmiAddReference = e => {
+      //let that = window.animationbinding
       this.referenceadded = true;
-      this.currentMapping.findex = this.api.outputreferences.length-1;
+      this.currentMapping.findex = e.detail.reference.index;
     }
   }
 
   bind() {
     this.mapping = [];//{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
     //do identify here?
-    document.addEventListener('fmiaddreference',this.handleFmiAddReference);
+    document.addEventListener('fmiaddreference',this.handleFmiAddReference.bind(this));
+    window.animationbinding = this;
   }
 
   unbind(){
@@ -56,7 +59,7 @@ export class Animationbinding {
     this.outputreferences = [];
     let refs = bdlfmi.getAttribute('valuereferences').split(',');
     let labels = bdlfmi.getAttribute('valuelabels').split(',');
-    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
+    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : '',index:i});
     this.api.outputreferences = this.outputreferences;
     //keep link to outputreferences
     //2. animobjs probably identified
@@ -259,6 +262,23 @@ export class Animationbinding {
     mybdlfmi.setAttribute('valuereferences',valuereferences);
     mybdlfmi.setAttribute('valuelabels',valuelabels);
     return xmldoc;
+  }
+
+  attached() {
+    //window.$ = jQuery;
+    //window.jQuery = jQuery;
+    //this.selectoptions.chosen();
+    //jQuery('#selectoptionid').chosen();
+    /*jQuery('#selectoptionid').selectize({
+      create: true,
+      sortField: {
+        field: 'text',
+        direction: 'asc'
+      },
+      dropdownParent: 'body'
+    });*/
+    //console.log('this.selectoptions',this.selectoptions);
+    //console.log('jquery this.selectoptions',jQuery('#selectoptionid'));
   }
 
   insertAfter(newNode, existingNode) {

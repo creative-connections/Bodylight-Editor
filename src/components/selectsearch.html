@@ -1,0 +1,6 @@
+<template bindable="options,selected">
+  <input list="selectlist" value.two-way="selected" style="width:100%"/>
+  <datalist id="selectlist">
+    <option repeat.for="item of options" value="${item.index}">${item.name}</option>
+  </datalist>
+</template>

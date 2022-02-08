@@ -54,12 +54,30 @@ export class Referencearray {
     let fixed = signatures[1]; //f for fixed, t for tunable, o for output
     let name = newvalue.slice(reference.length + 3); //+1 for '-' +1 for 't' or 'f' and +1 for '-'
     console.log('referencearray newvalue:', newvalue);
+    //find existing reference
     if (!this.value) this.value = [];
-    if (this.askids) this.value.push({reference: reference, name: name, id: this.inputid, numerator: this.numerator, denominator: this.denominator, addend: this.addend, fixed: fixed});
-    else this.value.push({reference: reference, name: name});
-
+    let myreference = this.value.find(x=>x.name === name);
+    if (myreference) {
+      //do not push existing reference, return it
+      //console.log('reference exists:',myreference);
+      alert('Reference already exists, returning index:'+myreference.index+' '+myreference.name);
+    } else {
+      if (this.askids) myreference = this.value.push({
+        reference: reference,
+        name: name,
+        id: this.inputid,
+        numerator: this.numerator,
+        denominator: this.denominator,
+        addend: this.addend,
+        fixed: fixed
+      });
+      else {
+        //check if reference already in the array
+        myreference = this.value.push({reference: reference, name: name});
+      }
+    }
     //sent event
-    let event = new CustomEvent('fmiaddreference', {detail: {id: 'components'}});
+    let event = new CustomEvent('fmiaddreference', {detail: {id: 'components',reference:myreference}});
     document.dispatchEvent(event);
   }
 
