@@ -2,11 +2,11 @@
   <require from="./attribute-bind2a-dialog"></require>
   <require from="./referencearray"></require>
   <require from="./selectsearch.html"></require>
+  <require from="./notifybar"></require>
 <div class="w3-tiny">
   <div class="w3-center w3-padding">
     <button class="w3-button w3-theme-l4" click.delegate="identify()">Identify</button><br/>
-    <span show.bind="api.fmidescriptionloading" class="w3-tiny w3-red">${api.fmidescriptionmessage}</span>
-    <span show.bind="!api.fmidescriptionloading" class="w3-tiny w3-light-green">${api.fmidescriptionmessage}</span>
+    <notifybar></notifybar>
   </div>
   <div class="w3-card" style="overflow:scroll;overflow-x:hidden;max-height: 50vh">
   <table>

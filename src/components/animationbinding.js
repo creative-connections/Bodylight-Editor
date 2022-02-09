@@ -1,10 +1,9 @@
 import {Editorapi} from './editorapi';
 import {inject,observable} from 'aurelia-framework';
-//import {jQuery} from 'jquery';
-//import 'chosen';
-//import 'selectize';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {WarnMessage} from './messages';
 
-@inject(Editorapi)
+@inject(Editorapi,EventAggregator)
 export class Animationbinding {
   fmin; //min of fmu variable to be animated interpolated to amin
   fmax; //max of fmu variable to be animated interpolated to amax
@@ -15,8 +14,9 @@ export class Animationbinding {
   @observable animationvalue;
   referenceadded = false;
 
-  constructor(api) {
+  constructor(api,ea) {
     this.api = api;
+    this.ea = ea;
     this.handleFmiAddReference = e => {
       //let that = window.animationbinding
       this.referenceadded = true;
@@ -53,8 +53,13 @@ export class Animationbinding {
     let xmldoc = parser.parseFromString(md, 'text/xml');
     let bdlfmi = xmldoc.getElementsByTagName('bdl-fmi')[0];
     //update fmi internals
+    if (!bdlfmi) {
+      this.ea.publish(new WarnMessage('bdl-fmi component not detected. Try add fmi component or check "shared model".'))
+      return;
+    }
     this.api.updateCurrentFmiEntry(bdlfmi.getAttribute('src'));
-    this.api.updateFMIVariableList();
+    //this.api.updateFMIVariableList(); //duplicate??
+
     //update outputreferences
     this.outputreferences = [];
     let refs = bdlfmi.getAttribute('valuereferences').split(',');
