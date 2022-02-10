@@ -20,7 +20,7 @@ export class Animationbinding {
     this.handleFmiAddReference = e => {
       //let that = window.animationbinding
       this.referenceadded = true;
-      this.currentMapping.findex = e.detail.reference.index;
+      this.currentMapping.findex = e.detail.reference.index ? e.detail.reference.index : e.detail.reference;
     }
   }
 
@@ -90,7 +90,7 @@ export class Animationbinding {
         bobj.fmin = binding.getAttribute('fmin');
         bobj.fmax = binding.getAttribute('fmax');
         bobj.findex = binding.getAttribute('findex');
-        bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        //bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
         bobj.class = 'w3-theme-l3';
       }
     }
@@ -143,6 +143,10 @@ export class Animationbinding {
     this.currentMapping = item;
     this.currentMapping.selected = true;
     this.currentMapping.class = 'w3-theme';
+    if (!this.currentMapping.playonly) {
+      if (!this.currentMapping.amin) this.currentMapping.amin=0;
+      if (!this.currentMapping.amax) this.currentMapping.amax=99;
+    }
     //blink
     this.api.blink(item.aname);
   }
@@ -194,8 +198,8 @@ export class Animationbinding {
           node.setAttribute('aname', item.aname);
           node.setAttribute('amin', item.amin);
           node.setAttribute('amax', item.amax);
-          node.setAttribute('fmin', item.fmin);
-          node.setAttribute('fmax', item.fmax);
+          if (item.fmin) node.setAttribute('fmin', item.fmin);
+          if (item.fmax) node.setAttribute('fmax', item.fmax);
           //node.innerText(' ');
           this.insertAfter(node, bdlanimate);
           let newline = xmldoc.createTextNode('\n');
