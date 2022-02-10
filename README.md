@@ -1,11 +1,16 @@
 
 # Bodylight Editor
  [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
+ [![Maintainability](https://api.codeclimate.com/v1/badges/0a7ac9f1accae9cacd33/maintainability)](https://codeclimate.com/github/creative-connections/Bodylight-Editor/maintainability)
 
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
 
-Web editor to facilitate creation of web simulators. Employs ACE editor using markdown/xml mode and generates preview using markdown-it and bodylight web components.
+Web editor to facilitate creation of web simulators. 
+
+Employs ACE editor using markdown/xml mode and generates preview using markdown-it and bodylight web components.
+
+The editor is in alpha stage - 
  
 
 ## Development
