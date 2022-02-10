@@ -273,4 +273,8 @@ export class Animationbinding {
   blink() {
     if (this.currentMapping) this.api.blink(this.currentMapping.aname);
   }
+
+  enableanimation() {
+    window.ani.enableanimation();
+  }
 }
