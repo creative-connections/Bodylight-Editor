@@ -7,7 +7,7 @@ Web editor to facilitate creation of web simulators.
 
 Employs ACE editor using markdown/xml mode and generates preview using markdown-it and bodylight web components.
 
-The editor is in alpha stage. If feature works, then it works. If error happens, it is usually report to developer's console.
+The editor is in alpha stage. If feature works, then it works. If error happens, it is usually reported to the developer's console.
  
 
 ## Development
