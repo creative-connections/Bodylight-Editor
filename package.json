@@ -1,7 +1,7 @@
 {
   "name": "bodylight-editor",
   "description": "Markdown editor enhanced with bodylight components with live preview",
-  "version": "2.1.12-b",
+  "version": "2.1.12-c",
   "repository": {
     "type": "git",
     "url": "https://github.com/creative-connections/Bodylight-Editor/"

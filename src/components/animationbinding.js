@@ -304,6 +304,7 @@ export class Animationbinding {
   }
 
   enableanimation() {
+    window.ani.startAllAnimation();
     window.ani.enableanimation();
   }
 }
