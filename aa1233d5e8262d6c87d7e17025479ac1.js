@@ -48,20 +48,9 @@ exports.beautify = function(session) {
     };
     
     var trimLine = function() {
-        var end = code.length - 1;
-
-        while (true) {
-            if (end == 0)
-                break;
-            if (code[end] !== " ")
-                break;
-            
-            end = end - 1;
-        }
-
-        code = code.slice(0, end + 1);
+        code = code.replace(/ +$/, "");
     };
-    
+
     var trimCode = function() {
         code = code.trimRight();
         breakBefore = false;
@@ -217,7 +206,7 @@ exports.beautify = function(session) {
                     if (caseBody)
                         unindent = 1;
                 }
-                if (breakBefore && !(token.type.match(/^(comment)$/) && !value.substr(0, 1).match(/^[/#]$/)) && !(token.type.match(/^(string)$/) && !value.substr(0, 1).match(/^['"@]$/))) {
+                if (breakBefore && !(token.type.match(/^(comment)$/) && !value.substr(0, 1).match(/^[/#]$/)) && !(token.type.match(/^(string)$/) && !value.substr(0, 1).match(/^['"]$/))) {
 
                     indent = lastIndent;
 
