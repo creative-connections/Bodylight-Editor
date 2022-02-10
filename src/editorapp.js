@@ -1,14 +1,16 @@
 import {inject} from 'aurelia-framework';
 import {Editorapi} from './components/editorapi';
 import {version} from '../package.json';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Editorapi)
+@inject(Editorapi,EventAggregator)
 export class Editorapp {
   dialogwidth=0;
   editorwidth=0;
   moving=false;
-  constructor(api) {
+  constructor(api,ea) {
     this.api = api;
+    this.api.ea = ea;
     this.version = version;
   }
 
