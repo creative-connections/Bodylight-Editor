@@ -20,7 +20,7 @@ export class Animationbinding {
     this.handleFmiAddReference = e => {
       //let that = window.animationbinding
       this.referenceadded = true;
-      this.currentMapping.findex = e.detail.reference.index ? e.detail.reference.index : e.detail.reference;
+      this.currentMapping.findex = e.detail.reference.index ? e.detail.reference.index : (e.detail.reference-1);
     }
   }
 
@@ -112,7 +112,7 @@ export class Animationbinding {
         if (fixed) bobj.fixed = fixed;
         let precision = binding.getAttribute('precision');
         if (precision) bobj.precision = precision;
-        bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        //bobj.fmuvarname = this.api.outputreferences[bobj.findex].name; //not needed anymore
         bobj.class = 'w3-theme-l3';
       }
     }
