@@ -4,14 +4,3 @@ export class ContentUpdated {
   }
 }
 
-export class InfoMessage {
-  constructor(content) {
-    this.content = content;
-  }
-}
-
-export class WarnMessage {
-  constructor(content) {
-    this.content = content;
-  }
-}

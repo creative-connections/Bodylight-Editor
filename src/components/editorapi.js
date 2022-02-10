@@ -7,8 +7,6 @@ import 'ace-builds/src-noconflict/snippets/text.js';
 import '../acemode/mode-markdown';
 import {BodylightStorage} from './project-files/bodylight-storage';
 import {FTYPE} from './project-files/bodylight-struct';
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {InfoMessage,WarnMessage} from './messages';
 
 export class Editorapi {
   askAttributes=false;
@@ -30,9 +28,6 @@ export class Editorapi {
   currentfmientry = {};
   sharedmodel = false;
   sharedmodelmdcontent = "";
-  //fmidescriptionloading = false;
-  //fmidescriptionmessage = '';
-  ea; //event aggregator - initialized by editorapp.js
 
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
@@ -222,29 +217,23 @@ export class Editorapi {
    */
   readFmiEntryDescription(blob) {
     window.editorapi = this;
-    this.ea.publish(new InfoMessage('loading fmi description ...'))
     if (blob) {
-      if (typeof blob === 'string') this.handleModelDescriptionText(blob)
+      if (typeof blob === 'string') this.handleModelDescriptionText(blob);
       else {
         const reader = new FileReader();
         //sets global variable to this instance
         //window.editor = this;
-        reader.onload = this.handleModelDescription.bind(this);
+        reader.onload = this.handleModelDescription;
         //handler do not know 'this', must set global variable
         reader.readAsText(blob);
       }
-    } else {
-      console.warn('empty blob for fmi modeldescription.xml')
-      this.ea.publish(new WarnMessage('empty blob for fmi modeldescription.xml'))
-    }
+    } else console.warn('empty blob for fmi modeldescription.xml')
   }
 
   handleModelDescription(event) {
     console.log('handlefileload event:', event);
-    this.ea.publish(new InfoMessage('fmi description loaded.'));
     let data = event.target.result;
-    this.handleModelDescriptionText(data);
-    //editorapi.handleModelDescriptionText(data);
+    editorapi.handleModelDescriptionText(data);
   }
 
   handleModelDescriptionText(data) {
@@ -329,6 +318,12 @@ export class Editorapi {
     //parse modeldescription
     this.currentfmientry.name = src;
     await this.updateFMIVariableList();
+    /*if (this.fmientries.length === 0) this.getFmiEntries(); //gets fmi entries from project list
+    this.currentfmientry = this.fmientries.find(entryitem => src === entryitem.name);
+    this.currentfmientryindex = this.fmientries.indexOf(this.currentfmientry);
+    console.log('found currentfmientry:', this.currentfmientry);
+    console.log('   from fmientries', this.fmientries);
+     */
   }
 
   updateFMIVariableList() {

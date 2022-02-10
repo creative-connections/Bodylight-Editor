@@ -1,9 +1,9 @@
 import {Editorapi} from './editorapi';
 import {inject,observable} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {WarnMessage} from './messages';
+//import localForage from 'localforage';
+//import {BodylightEditorItems} from './bodylightEditorItems';
 
-@inject(Editorapi,EventAggregator)
+@inject(Editorapi)
 export class Animationbinding {
   fmin; //min of fmu variable to be animated interpolated to amin
   fmax; //max of fmu variable to be animated interpolated to amax
@@ -14,21 +14,18 @@ export class Animationbinding {
   @observable animationvalue;
   referenceadded = false;
 
-  constructor(api,ea) {
+  constructor(api) {
     this.api = api;
-    this.ea = ea;
     this.handleFmiAddReference = e => {
-      //let that = window.animationbinding
       this.referenceadded = true;
-      this.currentMapping.findex = e.detail.reference.index ? e.detail.reference.index : e.detail.reference;
+      this.currentMapping.findex = this.api.outputreferences.length-1;
     }
   }
 
   bind() {
     this.mapping = [];//{aname: 'sipka', amin: 0, amax: 99, fmuvarname: 'x', findex: 1, fmin: 0, fmax: 1}, {aname: 'sipka2'}];
     //do identify here?
-    document.addEventListener('fmiaddreference',this.handleFmiAddReference.bind(this));
-    window.animationbinding = this;
+    document.addEventListener('fmiaddreference',this.handleFmiAddReference);
   }
 
   unbind(){
@@ -53,18 +50,13 @@ export class Animationbinding {
     let xmldoc = parser.parseFromString(md, 'text/xml');
     let bdlfmi = xmldoc.getElementsByTagName('bdl-fmi')[0];
     //update fmi internals
-    if (!bdlfmi) {
-      this.ea.publish(new WarnMessage('bdl-fmi component not detected. Try add fmi component or check "shared model".'))
-      return;
-    }
     this.api.updateCurrentFmiEntry(bdlfmi.getAttribute('src'));
-    //this.api.updateFMIVariableList(); //duplicate??
-
+    this.api.updateFMIVariableList();
     //update outputreferences
     this.outputreferences = [];
     let refs = bdlfmi.getAttribute('valuereferences').split(',');
     let labels = bdlfmi.getAttribute('valuelabels').split(',');
-    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : '',index:i});
+    for (let i = 0; i < refs.length; i++) this.outputreferences.push({reference: refs[i], name: labels.length > i ? labels[i] : ''});
     this.api.outputreferences = this.outputreferences;
     //keep link to outputreferences
     //2. animobjs probably identified
@@ -90,7 +82,7 @@ export class Animationbinding {
         bobj.fmin = binding.getAttribute('fmin');
         bobj.fmax = binding.getAttribute('fmax');
         bobj.findex = binding.getAttribute('findex');
-        //bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
+        bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
         bobj.class = 'w3-theme-l3';
       }
     }
@@ -143,10 +135,6 @@ export class Animationbinding {
     this.currentMapping = item;
     this.currentMapping.selected = true;
     this.currentMapping.class = 'w3-theme';
-    if (!this.currentMapping.playonly) {
-      if (!this.currentMapping.amin) this.currentMapping.amin=0;
-      if (!this.currentMapping.amax) this.currentMapping.amax=99;
-    }
     //blink
     this.api.blink(item.aname);
   }
@@ -198,8 +186,8 @@ export class Animationbinding {
           node.setAttribute('aname', item.aname);
           node.setAttribute('amin', item.amin);
           node.setAttribute('amax', item.amax);
-          if (item.fmin) node.setAttribute('fmin', item.fmin);
-          if (item.fmax) node.setAttribute('fmax', item.fmax);
+          node.setAttribute('fmin', item.fmin);
+          node.setAttribute('fmax', item.fmax);
           //node.innerText(' ');
           this.insertAfter(node, bdlanimate);
           let newline = xmldoc.createTextNode('\n');
@@ -271,23 +259,6 @@ export class Animationbinding {
     mybdlfmi.setAttribute('valuereferences',valuereferences);
     mybdlfmi.setAttribute('valuelabels',valuelabels);
     return xmldoc;
-  }
-
-  attached() {
-    //window.$ = jQuery;
-    //window.jQuery = jQuery;
-    //this.selectoptions.chosen();
-    //jQuery('#selectoptionid').chosen();
-    /*jQuery('#selectoptionid').selectize({
-      create: true,
-      sortField: {
-        field: 'text',
-        direction: 'asc'
-      },
-      dropdownParent: 'body'
-    });*/
-    //console.log('this.selectoptions',this.selectoptions);
-    //console.log('jquery this.selectoptions',jQuery('#selectoptionid'));
   }
 
   insertAfter(newNode, existingNode) {
