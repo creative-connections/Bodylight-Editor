@@ -204,4 +204,24 @@ export class GithubSync {
       file.syncstatus = STATUS.synced;
     }
   }
+
+  async downloadBigFile(file, org, repo, path, storageapi) {
+    const result = await request('GET /repos/{org}/{repo}/git/blobs/{filesha}', {
+      org: org,
+      repo: repo,
+      filesha: file.sha
+    });
+    const b64toBlob = (base64, type = 'application/octet-stream') =>
+      fetch(`data:${type};base64,${base64}`).then(res => res.blob());
+    //console.log('github2 download file result:', result);
+    let blob = await b64toBlob(result.data.content);
+    let result2 = await storageapi.saveBlobContent(file.name, blob);
+    //console.log('result saving blob', result2);
+    //this.bloburl = this.api.bs.loadDocUrl(name);
+    storageapi.loadDocUrl(file.name).then(bloburl => file.bloburl = bloburl);
+    //this.uploaddialog = false;
+    if (result.status >= 200 && result.status < 300) {
+      file.syncstatus = STATUS.synced;
+    }
+  }
 }

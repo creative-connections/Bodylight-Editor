@@ -593,11 +593,39 @@ export class Project {
     this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
   }
 
-  pullFromGithub() {
-    alert('not yet implemented');
+  async downloadGithub() {
+    //alert('not yet implemented');
+    let a= confirm('all files will be downloaded and replaced from GITHUB.')
+    if (!a) return;
+    for (let file of this.files) {
+      try {
+        if (file.syncstatus !== STATUS.synced)
+          await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+      } catch (e){
+        console.log('error while downloading file' + file.name+'. Trying to get using GIT Data API ...');
+        try {
+          await this.gs.downloadBigFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+        } catch (e2) {
+          console.warn('error while downloading file' + file.name, e2);
+        }
+      }
+    }
+    this.updatelf();
+
   }
-  pushToGithub() {
-    alert('not yet implemented');
+  async uploadGithub() {
+    //alert('not yet implemented');
+    let a = prompt('All files will be uploaded to GITHUB. Confirm commit message or cancel.', 'UPDATE' );
+    if (!a) return;
+    for (let file of this.files) {
+      //await this.gs.downloadFile(file,this.githuborg,this.githubrepo,this.githubpath,this.api.bs);
+      try {
+        await this.gs.uploadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs, a);
+      } catch(e) {
+        console.warn('error while uploading file'+file.name,e);
+      }
+    }
+    this.updatelf();
   }
 
   syncUploadGithub(file) {
