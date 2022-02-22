@@ -149,9 +149,6 @@ export class Project {
     this.currentfile.activate();//this.strategymap);
   }
 
-  show(file) {
-    //show image in separated dialog
-  }
 
   addlink(file) {
     this.api.askFile = false;
@@ -664,5 +661,14 @@ export class Project {
 
   refresh() {
     this.api.discoverAdobeAnimate();
+  }
+
+  show(file) {
+    //show image in separated dialog
+    this.showpreviewimage= true;
+  }
+
+  hidePreviewImage() {
+    this.showpreviewimage= false;
   }
 }

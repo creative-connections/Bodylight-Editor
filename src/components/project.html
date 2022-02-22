@@ -132,7 +132,7 @@
       </tr>
       <tr><td colspan="4" click.delegate="toggleadobe()" class="w3-theme-l5 w3-hover-theme"><span show.bind="showadobe">-</span><span show.bind="!showadobe">+</span> ANIMATE </td></tr>
       <tr repeat.for="file of adobefiles" class.bind="file.active ? 'w3-green w3-hover-grey': 'w3-hover-blue'"  show.bind="showadobe">
-        <td title="${file.type.title}" click.delegate="show(file)"><i class="${file.type.faclass}"></i> ${file.name}
+        <td title="${file.type.title}" click.delegate="open(file)"><i class="${file.type.faclass}"></i> ${file.name}
         </td>
         <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
         <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
@@ -224,6 +224,17 @@
       </div>
       <div show.bind="api.askFileRef.type.value === 3">
         Animated GIF
+      </div>
+    </div>
+  </div>
+  <div class="w3-modal" id="id01" show.bind="showpreviewimage">
+    <div class="w3-modal-content w3-animate-opacity">
+      <header class="w3-container w3-theme-d1">
+        <button click.delegate="hidePreviewImage()">&times;</button>
+        <h2>Image preview</h2>
+      </header>
+      <div class="w3-container">
+        <img ref="previewimage" />
       </div>
     </div>
   </div>
