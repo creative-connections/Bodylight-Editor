@@ -79,13 +79,13 @@ export class GithubSync {
    * @param path
    * @param optdir - used for recursive call only - start with empty string
    */
-  async compareDir(files, org, repo, path, storageapi, optdir = '') {
+  async compareDir(files, org, repo, path, token,storageapi, optdir = '') {
     //const githubcontentreq = `GET /repos/${org}/${repo}/contents/${path}`;
     //1. get content of github repo path - list of files
     const result = await request('GET /repos/{org}/{repo}/contents/{path}/{optdir}', {
-      /*      headers: {
+            headers: {
         authorization: `token ${token}`
-      },*/
+      },
       org: org,
       repo: repo,
       path: path + (optdir ? '/' + optdir : '')
@@ -147,6 +147,7 @@ export class GithubSync {
     for (let notinlocal of notinlocals) {
       let myfile = new BodylightFile(notinlocal.name);
       myfile.syncstatus = STATUS.notinlocal;
+      myfile.sha = notinlocal.sha;
       files.push(myfile);
     }
     //check directories - breath first
@@ -184,8 +185,11 @@ export class GithubSync {
     return result;
   }
 
-  async downloadFile(file, org, repo, path, storageapi) {
+  async downloadFile(file, org, repo, path, token, storageapi) {
     const result = await request('GET /repos/{org}/{repo}/contents/{path}/{filename}', {
+      headers: {
+        authorization: `token ${token}`
+      },
       org: org,
       repo: repo,
       path: path,
@@ -205,8 +209,11 @@ export class GithubSync {
     }
   }
 
-  async downloadBigFile(file, org, repo, path, storageapi) {
+  async downloadBigFile(file, org, repo, path, token, storageapi) {
     const result = await request('GET /repos/{org}/{repo}/git/blobs/{filesha}', {
+      headers: {
+        authorization: `token ${token}`
+      },
       org: org,
       repo: repo,
       filesha: file.sha

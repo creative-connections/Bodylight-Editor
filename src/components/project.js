@@ -361,15 +361,20 @@ export class Project {
   newProject() {
     this.showButtons = false;
     if (confirm('Create new empty project?')) {
-      this.api.bs.clearStorage()
-        .then(()=>{
-          this.files = [];
-          this.updatelf();
-        })
-        .catch( err =>{
-          console.warn('newProject() localstorage clear error:', err);
-        });
+      this.emptyProject();
     }
+  }
+
+  emptyProject() {
+    this.api.bs.clearStorage()
+      .then(()=>{
+        this.files = [];
+        this.updatelf();
+      })
+      .catch( err =>{
+        console.warn('newProject() localstorage clear error:', err);
+      });
+
   }
 
   /**
@@ -454,6 +459,7 @@ export class Project {
     let filename = files[0].name;
     if (filename.endsWith('.bj2')) {
       //extract zip and save blob of extracted files
+      this.emptyProject();
       this.extractProjectZipFile(files);
     }
   }
@@ -586,7 +592,7 @@ export class Project {
       });
   }
   async compareGithub() {
-    await this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+    await this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
     this.updatefiletypes();
     this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
   }
@@ -598,11 +604,11 @@ export class Project {
     for (let file of this.files) {
       try {
         if (file.syncstatus !== STATUS.synced)
-          await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+          await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
       } catch (e){
         console.log('error while downloading file' + file.name+'. Trying to get using GIT Data API ...');
         try {
-          await this.gs.downloadBigFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+          await this.gs.downloadBigFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
         } catch (e2) {
           console.warn('error while downloading file' + file.name, e2);
         }
@@ -635,7 +641,7 @@ export class Project {
   async syncDownloadGithub(file) {
     let a = confirm('The file will be replaced by downloaded copy from GITHUB.');
     if (!a) return;
-    await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.api.bs);
+    await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs);
     //update file list - if the file is new
     this.updatelf(); //update lf
     if (file.type.value === FTYPE.MDFILE.value) this.open(file);

@@ -20,15 +20,16 @@
           <button class="w3-button w3-bar-item w3-theme-l4 w3-border-bottom" click.delegate="exportAsHtml()"><i
             class="fa fa-download"></i> Export project as HTML in ZIP
           </button>
-          <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="syncGithub1()"><i class="fa fa-refresh"></i>
-            Sync with GITHUB
-          </button>
+
         </div>
 
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="create()" title="create new file"><i
             class="fa fa-plus"></i> Create </button>
           <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="upload()" title="upload existing file"><i
             class="fa fa-upload"></i> Upload </button>
+        <button class="w3-button w3-bar-item w3-theme-l4" click.delegate="syncGithub1()"><i class="fa fa-refresh"></i>
+          Sync with GITHUB
+        </button>
         </div>
         <div show.bind="uploaddialog" style="position:absolute;z-index:5;margin-top:-4px;margin-left:8px;background-color:#f8fcfe">
           <div
