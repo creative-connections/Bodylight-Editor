@@ -667,6 +667,7 @@ export class Project {
   show(file) {
     //show image in separated dialog
     this.showpreviewimage= true;
+    if (this.previewimage) this.previewimage.src = file.bloburl;
   }
 
   hidePreviewImage() {

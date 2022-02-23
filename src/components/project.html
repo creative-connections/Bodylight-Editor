@@ -227,11 +227,10 @@
       </div>
     </div>
   </div>
-  <div class="w3-modal" id="id01" show.bind="showpreviewimage">
+  <div class="w3-modal" id="id01" style="z-index:5;display:block;" show.bind="showpreviewimage">
     <div class="w3-modal-content w3-animate-opacity">
       <header class="w3-container w3-theme-d1">
-        <button click.delegate="hidePreviewImage()">&times;</button>
-        <h2>Image preview</h2>
+        <h2>Image preview <button click.delegate="hidePreviewImage()">&times;</button></h2>
       </header>
       <div class="w3-container">
         <img ref="previewimage" />
