@@ -25,6 +25,7 @@ export class Project {
   showother=true;
   githuborg = 'creative-connections';
   githubrepo = 'Bodylight-Scenarios';
+  showpreviewimage = false;
 
   constructor(api, ea, gs) {
     this.api = api;

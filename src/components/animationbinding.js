@@ -44,7 +44,7 @@ export class Animationbinding {
   identify() {
     //1. identifyfmi
     //get editor content sorounded into a root element
-
+    this.testmode=false;
     this.backupmd = this.api.editor.getValue();
     //encapsulate with roo element
     let md = '<root>' + (this.api.sharedmodel ? this.api.sharedmodelcontent : '') + this.backupmd + '</root>';
@@ -306,5 +306,20 @@ export class Animationbinding {
   enableanimation() {
     window.ani.startAllAnimation();
     window.ani.enableanimation();
+  }
+
+  testanim() {
+    this.testmode=true;
+    this.mapping = [];
+    this.api.discoverAdobeAnimate(); //discovers all objects
+    for (let aobj of this.api.animobjs) {
+      let ashort = aobj.replaceAll('children.', '');
+      this.mapping.push({aname: aobj, ashort: ashort, text: false});
+    }
+    for (let aobj of this.api.textobjs) {
+      let ashort = aobj.replaceAll('children.', '');
+      this.mapping.push({aname: aobj, ashort: ashort, text: true});
+    }
+
   }
 }

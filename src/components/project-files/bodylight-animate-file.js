@@ -11,7 +11,7 @@ export class BodylightAnimateFile extends BodylightFileStrategy {
     //set content to be the adobe animate file
     //objectname = file name without extension
     let objectname = file.name.split('.').slice(0, -1).join('.');
-    let content = '<animate-adobe src="' + file.name + '" width="800" height="600" name="' + objectname + '" fromid="idfmi"></animate-adobe>';
+    let content = '<animate-adobe src="' + file.name + '" width="800" height="600" name="' + objectname + '" fromid="idfmi" responsive="true"></animate-adobe>';
     window.editorapi.sendContentUpdate(content);
     //preview mode
     window.editorapi.previewmode = true;

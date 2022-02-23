@@ -110,7 +110,7 @@ export class Editorapi {
     this.sendContentUpdate(transformedContent,elementid);
   }
 
-  sendContentUpdate(content,elementid) {
+  sendContentUpdate(content,elementid='editorref') {
     //create customevent - which component is listening to
     let event = new CustomEvent('contentupdate', {detail: {content: content, keepanimation: elementid !== 'editorref'}});
     //console.log('sending content update')
