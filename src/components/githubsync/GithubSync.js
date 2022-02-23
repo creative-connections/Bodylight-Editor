@@ -102,6 +102,10 @@ export class GithubSync {
     //let notinremote = [];
     // storage for dirs and associated filenames to be checked after
     let dirs = {};
+    let notinlocaldirs = result.data.filter(x => ((x.type === 'dir')));
+    for (let rdir of notinlocaldirs) {
+      dirs[rdir.name] = []; //add associative array item with dirname
+    }
     //3. compare list of files that are local not in remote
     for (let file of files) {
       let filename = (optdir ? stripprefix(file.name, optdir) : file.name);
@@ -148,7 +152,8 @@ export class GithubSync {
     }
     //indicate files that are not among local files
     for (let notinlocal of notinlocals) {
-      let myfile = new BodylightFile(notinlocal.name);
+      let mydir = optdir?optdir+'/':'';
+      let myfile = new BodylightFile(mydir+notinlocal.name);
       myfile.syncstatus = STATUS.notinlocal;
       myfile.sha = notinlocal.sha;
       files.push(myfile);
@@ -159,6 +164,13 @@ export class GithubSync {
       //dirs[key] - array with filenames
       //do comparedir recursively
       await this.compareDir(dirs[key], gh, storageapi, key);
+      for (let newdirfile of dirs[key]) {
+        let mydir = optdir?optdir+'/':'';
+        let myfile = new BodylightFile(mydir+newdirfile.name);
+        myfile.syncstatus = STATUS.notinlocal;
+        myfile.sha = newdirfile.sha;
+        files.push(myfile)
+      }
     }
   }
 
