@@ -97,10 +97,13 @@ export class Editorapi {
           transformedContent = transformedContent.replace(regex, '](' + fileitem.bloburl + ')');
         }*/
         //repleace all image names that begins with quote e.g. in "1.jpg" or with pipe e.g. in list "1.jpg|2.jpg" - not only first - regex with 'g'
-        let regex = new RegExp('([|"\'\\(])' + fileitem.name, 'g');
         if (fileitem.bloburl !== '') {
+          let regex = new RegExp('([|"\'\\(])' + fileitem.name, 'g');
           //keep captured char in group 1 ($1) and replace name with bloburl
           transformedContent = transformedContent.replace(regex, '$1' + fileitem.bloburl );
+          //replace e.g. src="img1.jpg" by blob url
+          let regexsrc = new RegExp('(src=")'+fileitem.name,'g');
+          transformedContent = transformedContent.replace(regexsrc, '$1' + fileitem.bloburl );
         }
       }
     }

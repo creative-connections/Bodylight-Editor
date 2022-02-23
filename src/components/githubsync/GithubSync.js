@@ -77,18 +77,21 @@ export class GithubSync {
    * @param org
    * @param repo
    * @param path
+   * @param token
    * @param optdir - used for recursive call only - start with empty string
    */
-  async compareDir(files, org, repo, path, token,storageapi, optdir = '') {
+  async compareDir(files, gh, storageapi, optdir = '') {
     //const githubcontentreq = `GET /repos/${org}/${repo}/contents/${path}`;
     //1. get content of github repo path - list of files
-    const result = await request('GET /repos/{org}/{repo}/contents/{path}/{optdir}', {
+    console.log('comparedir token1 token2' +gh.token,gh.token);
+    const result = await request('GET /repos/{org}/{repo}/contents/{path}', {
             headers: {
-        authorization: `token ${token}`
+        authorization: `token ${gh.token}`
       },
-      org: org,
-      repo: repo,
-      path: path + (optdir ? '/' + optdir : '')
+      org: gh.org,
+      repo: gh.repo,
+      path: gh.path + (optdir ? '/' + optdir : '')
+
     });
     //console.log('result:', result.data);
     //2. compare with list in $files
@@ -155,11 +158,11 @@ export class GithubSync {
       // key - directory name
       //dirs[key] - array with filenames
       //do comparedir recursively
-      await this.compareDir(dirs[key], org, repo, path, storageapi, key);
+      await this.compareDir(dirs[key], gh, storageapi, key);
     }
   }
 
-  async uploadFile(file, org, repo, path, token, storageapi, message) {
+  async uploadFile(file, gh, storageapi, message) {
     let filename = file.name;
     //console.log('githubsync uploadfile() storagepi',storageapi);
     let content = (file.type.value === FTYPE.MDFILE.value)
@@ -168,11 +171,11 @@ export class GithubSync {
 
     const result = await request('PUT /repos/{org}/{repo}/contents/{path}/{filename}', {
       headers: {
-        authorization: `token ${token}`
+        authorization: `token ${gh.token}`
       },
-      org: org,
-      repo: repo,
-      path: path,
+      org: gh.org,
+      repo: gh.repo,
+      path: gh.path,
       sha: file.sha,
       filename: filename,
       content: content,
@@ -185,14 +188,14 @@ export class GithubSync {
     return result;
   }
 
-  async downloadFile(file, org, repo, path, token, storageapi) {
+  async downloadFile(file, gh, storageapi) {
     const result = await request('GET /repos/{org}/{repo}/contents/{path}/{filename}', {
       headers: {
-        authorization: `token ${token}`
+        authorization: `token ${gh.token}`
       },
-      org: org,
-      repo: repo,
-      path: path,
+      org: gh.org,
+      repo: gh.repo,
+      path: gh.path,
       filename: file.name
     });
     const b64toBlob = (base64, type = 'application/octet-stream') =>
@@ -209,13 +212,13 @@ export class GithubSync {
     }
   }
 
-  async downloadBigFile(file, org, repo, path, token, storageapi) {
+  async downloadBigFile(file, gh, storageapi) {
     const result = await request('GET /repos/{org}/{repo}/git/blobs/{filesha}', {
       headers: {
-        authorization: `token ${token}`
+        authorization: `token ${gh.token}`
       },
-      org: org,
-      repo: repo,
+      org: gh.org,
+      repo: gh.repo,
       filesha: file.sha
     });
     const b64toBlob = (base64, type = 'application/octet-stream') =>

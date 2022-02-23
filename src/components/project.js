@@ -23,8 +23,8 @@ export class Project {
   showadobe=true;
   showimg=true;
   showother=true;
-  githuborg = 'creative-connections';
-  githubrepo = 'Bodylight-Scenarios';
+  //githuborg = 'creative-connections';
+  //githubrepo = 'Bodylight-Scenarios';
   showpreviewimage = false;
 
   constructor(api, ea, gs) {
@@ -34,6 +34,7 @@ export class Project {
       //content update is called by editor - catch this event and save changes
       this.saveChanges();
     };
+    this.github = {org:'creative-connections', repo:'Bodylight-Scenarios'};
     this.gs = gs;
     //this.bs = bs;
   }
@@ -585,16 +586,19 @@ export class Project {
     //TODO restore from bs
     this.api.bs.restoreghparams()
       .then(ghparams =>{
-        this.githuborg = ghparams.org;
+        this.github = ghparams;
+        /*this.githuborg = ghparams.org;
         this.githubrepo = ghparams.repo;
         this.githubpath = ghparams.path;
-        this.githubtoken = ghparams.token;
+        this.githubtoken = ghparams.token;*/
       });
   }
-  async compareGithub() {
-    await this.gs.compareDir(this.files, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
-    this.updatefiletypes();
-    this.api.bs.storeghparams({org: this.githuborg, repo: this.githubrepo, path: this.githubpath, token: this.githubtoken});
+
+  compareGithub() {
+    this.gs.compareDir(this.files, this.github, this.api.bs).then(()=>{
+      this.updatefiletypes();
+      this.api.bs.storeghparams(this.github);
+    });
   }
 
   async downloadGithub() {
@@ -604,11 +608,11 @@ export class Project {
     for (let file of this.files) {
       try {
         if (file.syncstatus !== STATUS.synced)
-          await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
+          await this.gs.downloadFile(file, this.github,this.api.bs);
       } catch (e){
         console.log('error while downloading file' + file.name+'. Trying to get using GIT Data API ...');
         try {
-          await this.gs.downloadBigFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken,this.api.bs);
+          await this.gs.downloadBigFile(file, this.github,this.api.bs);
         } catch (e2) {
           console.warn('error while downloading file' + file.name, e2);
         }
@@ -624,7 +628,7 @@ export class Project {
     for (let file of this.files) {
       //await this.gs.downloadFile(file,this.githuborg,this.githubrepo,this.githubpath,this.api.bs);
       try {
-        await this.gs.uploadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs, a);
+        await this.gs.uploadFile(file, this.github, this.api.bs, a);
       } catch(e) {
         console.warn('error while uploading file'+file.name,e);
       }
@@ -635,13 +639,13 @@ export class Project {
   syncUploadGithub(file) {
     let a = prompt('The file will be uploaded to GITHUB and replaced. Confirm commit message or cancel.', 'UPDATE ' + file.name);
     if (!a) return;
-    this.gs.uploadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs, a);
+    this.gs.uploadFile(file, this.github, this.api.bs, a);
   }
 
   async syncDownloadGithub(file) {
     let a = confirm('The file will be replaced by downloaded copy from GITHUB.');
     if (!a) return;
-    await this.gs.downloadFile(file, this.githuborg, this.githubrepo, this.githubpath, this.githubtoken, this.api.bs);
+    await this.gs.downloadFile(file, this.github, this.api.bs);
     //update file list - if the file is new
     this.updatelf(); //update lf
     if (file.type.value === FTYPE.MDFILE.value) this.open(file);
