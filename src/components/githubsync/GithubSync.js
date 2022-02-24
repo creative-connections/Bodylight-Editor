@@ -110,7 +110,7 @@ export class GithubSync {
     for (let file of files) {
       let filename = (optdir ? stripprefix(file.name, optdir) : file.name);
       const myfile = result.data.find(x => x.name === filename);
-      if (myfile) {
+      if (myfile ) {
         //compare
         if ((!file.syncstatus) || (file.syncstatus !== STATUS.notinlocal)) {
           file.syncstatus = STATUS.different; //by default different
@@ -137,6 +137,7 @@ export class GithubSync {
         //file.syncstatus = STATUS.synced; //if sha are same
       } else {
         //exist in local but not in repo
+        if (file.syncstatus === STATUS.notinlocal) continue;
         file.syncstatus = STATUS.notinremote;
         //check if directory - includes /, only if optdir is not defined
         if (!optdir && file.name.includes('/')) {
@@ -167,9 +168,15 @@ export class GithubSync {
       for (let newdirfile of dirs[key]) {
         let mydir = optdir?optdir+'/':'';
         let myfile = new BodylightFile(mydir+newdirfile.name);
-        myfile.syncstatus = STATUS.notinlocal;
-        myfile.sha = newdirfile.sha;
-        files.push(myfile)
+        let exfile =files.find(x=> x.name === myfile.name);
+        if (exfile) {
+          if (exfile.syncstatus !== STATUS.notinlocal)
+            exfile.syncstatus = (exfile.sha === myfile.sha)? STATUS.synced: STATUS.different;
+        } else {
+          myfile.syncstatus = STATUS.notinlocal;
+          myfile.sha = newdirfile.sha;
+          files.push(myfile)
+        }
       }
     }
   }
