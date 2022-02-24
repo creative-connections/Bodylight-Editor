@@ -628,6 +628,7 @@ export class Project {
     for (let file of this.files) {
       //await this.gs.downloadFile(file,this.githuborg,this.githubrepo,this.githubpath,this.api.bs);
       try {
+        if (file.syncstatus === STATUS.different || file.syncstatus === STATUS.notinremote)
         await this.gs.uploadFile(file, this.github, this.api.bs, a);
       } catch(e) {
         console.warn('error while uploading file'+file.name,e);
