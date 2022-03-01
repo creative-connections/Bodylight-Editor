@@ -367,7 +367,7 @@ export class Project {
   }
 
   emptyProject() {
-    this.api.bs.clearStorage()
+    return this.api.bs.clearStorage()
       .then(()=>{
         this.files = [];
         this.updatelf();
@@ -449,7 +449,8 @@ export class Project {
   /**
    * Uploads ZIP as project file
    */
-  load(event) {
+  async load(event) {
+    await this.emptyProject();
     this.showButtons = false;
     const reader = new FileReader();
     //sets global variable to this instance
@@ -460,7 +461,6 @@ export class Project {
     let filename = files[0].name;
     if (filename.endsWith('.bj2')) {
       //extract zip and save blob of extracted files
-      this.emptyProject();
       this.extractProjectZipFile(files);
     }
   }
