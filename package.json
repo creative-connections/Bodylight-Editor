@@ -28,6 +28,7 @@
     "@babel/plugin-proposal-decorators": "^7.12.13",
     "@babel/preset-env": "^7.12.16",
     "@babel/register": "^7.12.13",
+    "async": "^3.2.3",
     "app-settings-loader": "^1.0.3",
     "aurelia-cli": "^2.0.3",
     "aurelia-loader-nodejs": "^1.1.0",
@@ -46,9 +47,10 @@
     "createjs": "^1.0.1",
     "css-loader": "^3.4.2",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
-    "eslint": "^8.8.0",
+    "eslint": "^4.0.0",
     "expose-loader": "^0.7.5",
     "file-loader": "^5.1.0",
+    "glob-parent": "^5.1.2",
     "gulp": "^4.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
@@ -71,7 +73,7 @@
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.8.1"
   },
   "scripts": {
     "build": "webpack --env.production",
