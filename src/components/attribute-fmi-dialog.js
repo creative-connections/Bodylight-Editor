@@ -82,7 +82,7 @@ export class AttributeFmiDialog extends AttributeDialog {
     }
     //if (this.attrstr.src) this.api.update
     if (!this.api.currentfmientry || (! this.api.currentfmientry.modelvariables || (this.api.currentfmientry.modelvariables.length === 0)))  this.api.updateFMIVariableList();
-
+    this.api.updateCurrentFmiEntry(this.attr.src);
   }
 
   activate() {

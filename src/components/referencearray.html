@@ -2,7 +2,7 @@
   <require from="./autocomplete/good-auto-complete"></require>
   <require from="./autocomplete/good-auto-complete.css"></require>
   <require from="./referencearray.css"></require>
-  <div class="w3-theme-l4 w3-margin-top w3-margin-bottom" class.bind="showreferences?'bdl-hoverable-wrapper':''">
+
   <good-auto-complete view-model.ref="goodautocomplete"
                         additional-class-input="form-control"
                         selected-item.bind="valuereference"
@@ -12,6 +12,7 @@
                         min-search-value-length="1"
                         placeholder="type first 1-4 letters and select ...">
   </good-auto-complete>
+  <div class="w3-theme-l4 w3-margin-top w3-margin-bottom" class.bind="showreferences?'bdl-hoverable-wrapper':''">
     <div show.bind="askids">
       <table>
         <tr><th colspan="4">convertor</th></tr>
