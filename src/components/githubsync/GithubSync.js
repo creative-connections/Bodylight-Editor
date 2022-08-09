@@ -171,11 +171,11 @@ export class GithubSync {
         let exfile =files.find(x=> x.name === myfile.name);
         if (exfile) {
           if (exfile.syncstatus !== STATUS.notinlocal)
-            exfile.syncstatus = (exfile.sha === myfile.sha)? STATUS.synced: STATUS.different;
+          {exfile.syncstatus = (exfile.sha === myfile.sha) ? STATUS.synced: STATUS.different;}
         } else {
           myfile.syncstatus = STATUS.notinlocal;
           myfile.sha = newdirfile.sha;
-          files.push(myfile)
+          files.push(myfile);
         }
       }
     }
@@ -184,9 +184,11 @@ export class GithubSync {
   async uploadFile(file, gh, storageapi, message) {
     let filename = file.name;
     //console.log('githubsync uploadfile() storagepi',storageapi);
-    let content = (file.type.value === FTYPE.MDFILE.value)
-      ? btoa(await storageapi.loadDocContentStr(file.name))
-      : await storageapi.loadBlobContentBase64(file.name);
+
+    let content;
+    if (file.type.value === FTYPE.MDFILE.value) content =  btoa(await storageapi.loadDocContentStr(file.name));
+    //else if (file.name.endsWith('.html')) content = btoa(await storageapi.loadBlobContent(file.name));
+    else content = await storageapi.loadBlobContentBase64(file.name);
 
     const result = await request('PUT /repos/{org}/{repo}/contents/{path}/{filename}', {
       headers: {

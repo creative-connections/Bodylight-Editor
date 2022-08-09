@@ -97,6 +97,10 @@ export class BodylightStorage {
       //console.log('content64', content64);
       return content64;
     }
+    /*if (str instanceof String) {
+      return btoa(str);
+    }*/
+    return btoa(str); //will return base64 of string - assuming string is in str if not blob or file
   }
 
   async loadDocUrl(filename) {
