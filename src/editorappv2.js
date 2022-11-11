@@ -9,6 +9,9 @@ export class Editorappv2 {
   editorwidth=0;
   moving=false;
   editmode=false;
+  projectmode=false;
+  bodylightdialog=false;
+
   constructor(api,ea) {
     this.api = api;
     this.api.ea = ea;
@@ -55,6 +58,25 @@ export class Editorappv2 {
 
   toggleeditor(){
     this.editmode = !this.editmode;
+  }
+
+  toggleproject() {
+    this.projectmode = !this.projectmode;
+  }
+
+  openbodylightdialog() {
+    this.bodylightdialog = true;
+  }
+
+  closebodylightdialog() {
+    this.bodylightdialog = false;
+  }
+  openanimationdialog() {
+    this.animationdialog = true;
+  }
+
+  closeanimationdialog() {
+    this.animationdialog = false;
   }
 
 }

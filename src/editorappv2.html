@@ -10,11 +10,24 @@
   <require from="./w3-theme-bodylight.css"></require>
   <require from="./editorapp.css"></require>
   <require from="./components/animationbinding"></require>
+  <require from="./components/toolbareditor"></require>
+  <require from="./components/a-dialog"></require>
 
-  <div class="w3-center" style="height:30px"><b>Bodylight Editor v ${version}</b></div>
+  <div style="height:30px">
+    <button class="w3-button w3-padding-small" click.delegate="toggleproject()" title="see project files"><i class="fa fa-folder"></i></button>
+    <toolbareditor></toolbareditor>
+    <button class="w3-button w3-padding-small w3-theme-l1" click.delegate="openbodylightdialog()" title="Bodylight Components">
+        <i class="fa fa-file-text-o"></i>
+      </button>
+      <button class="w3-button w3-padding-small w3-theme-l1" click.delegate="openanimationdialog()" title="Animation">
+        <i class="fa fa-file-image-o"></i>
+      </button>
+    
+    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bodylight Editor v${version}</b>
+  </div>
   <div class="w3-row">
 
-    <div class="w3-col w3-quarter" ref="dialogdiv" show.bind="dialogmode">
+    <div class="w3-col" ref="dialogdiv" show.bind="projectmode" style="width:300px">
       <div class="w3-small">
         <project></project>
         <!--div id="components">
@@ -53,4 +66,27 @@
       </div>
     </div>
   </div>
+  <div class="w3-modal" id="id02" style="z-index:7;display:block;" show.bind="bodylightdialog">
+    <div class="w3-modal-content w3-animate-opacity">
+      <header class="w3-container w3-theme-d1">
+        <button class="w3-right w3-button w3-large" click.delegate="closebodylightdialog()">&times;</button>
+        <h2>Bodylight components</h2>
+      </header>
+      <div class="w3-container">
+        <a-dialog></a-dialog>
+      </div>
+    </div>
+  </div>
+  <div class="w3-modal" id="id03" style="z-index:7;display:block;" show.bind="animationdialog">
+    <div class="w3-modal-content w3-animate-opacity">
+      <header class="w3-container w3-theme-d1">
+        <button class="w3-right w3-button w3-large" click.delegate="closeanimationdialog()">&times;</button>
+        <h2>Animation</h2> 
+      </header>
+      <div class="w3-container">
+        <animationbinding></animationbinding>
+      </div>
+    </div>
+  </div>
+
 </template>

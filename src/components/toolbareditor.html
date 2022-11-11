@@ -1,0 +1,44 @@
+<template>
+    <require from="./animations.css"></require>
+        <span class="w3-border w3-theme-l5 ">
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="undo()" title="undo"><i class="fa fa-undo"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="redo()" title="redo"><i class="fa fa-repeat"></i></span>
+          <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="bold()" title="bold"><i class="fa fa-bold"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="italic()" title="italic"><i class="fa fa-italic"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="underline()" title="underline"><i class="fa fa-underline"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="h1()" title="header 1" class="w3-large">H1</span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="h2()" title="header 2" class="w3-medium">H2</span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="h3()" title="header 3" class="w3-small">H3</span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="h4()" title="header 4" class="w3-tiny">H4</span>
+          <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="code()" title="programming code"><i class="fa fa-code"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="equation()" title="equation"><i class="fa fa-superscript"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="division13()" title="columns 1/3 1/3 1/3">&frac13;<i class="fa fa-columns"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="division12()" title="columns 1/2">&frac12;<i class="fa fa-columns"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="division1323()" title="columns 1/3 2/3">&frac13;&frac23;<i class="fa fa-columns"></i></span>
+          <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+          <!--span class="w3-theme-l2" click.delegate="save()" title="save file"><i class="fa fa-save"></i></span-->
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="download()" title="download file"><i class="fa fa-download"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="upload()" title="upload file"><i class="fa fa-upload"></i></span>
+          <div show.bind="uploaddialog"
+               dragenter.delegate="drag($event)"
+               dragover.delegate="drag($event)"
+               drop.delegate="drop($event)"
+               style="position:absolute;z-index:5;border:4px dashed #aaa;;margin-top:-4px;margin-left:8px"
+               class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
+            <p>Drag your files here or click on this area</p>
+            <input type="file" change.trigger="dragNdrop($event)"/>
+          </div>
+          <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+          <span class.bind="api.previewmode? 'w3-padding-4 w3-hover-blue w3-grey' : 'w3-padding-4 w3-hover-blue'"  click.delegate="preview()" title="expand preview"><i class="fa fa-eye"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="autopreview()" title="automatically preview"><i class.bind="api.autopreview? 'fa fa-check-square-o':'fa fa-square-o'"></i><i class="fa fa-eye-slash"></i></span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="generatepreview()" title="generate preview"><i class="fa fa-refresh"></i></span>
+          <span class="w3-border-right" style="margin-left:4px;margin-right:4px"></span>
+          <span class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+            <span class="w3-hover-blue" click.delegate="identifyItem()" title="identify and edit component">identify/edit</span>
+          </span>
+          <span class="w3-padding-4 w3-hover-blue"  click.delegate="sharedmodel()" title="shared model.md"><i class.bind="api.sharedmodel? 'fa fa-check-square-o':'fa fa-square-o'"></i> shared model</span>
+        </span>
+  </template>
+  
