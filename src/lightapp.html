@@ -1,0 +1,22 @@
+<template>
+    Light editor
+    <div class="w3-row">
+      <div class="w3-half" show.bind="!api.previewmode">
+        <span id="modelmdref"></span> <!-- this DOM sends model.md content update -->
+        <editor></editor> <!-- this DOM sends MD content update during editing editorref -->
+      </div>
+
+      <div class="w3-rest">
+        <div class="w3-border w3-padding" style.bind="tablet?'width:768px':''">
+          <div style.bind="api.previewmode?'width:100%':'transform: scale(0.5);transform-origin:top left;width:200%'">
+            <span if.bind="api.sharedmodel">shared model added
+              <viewer id2listen="modelmdref"></viewer>
+            </span>
+            <viewer id2listen="editorref"></viewer>
+          </div>
+        </div>
+       </div> 
+       
+    </div>
+
+</template>

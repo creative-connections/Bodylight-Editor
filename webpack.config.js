@@ -196,6 +196,14 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         title, baseUrl
       }
     }),
+    new HtmlWebpackPlugin({
+      template: 'indexv2.ejs',
+      filename: 'indexv2.html',
+      metadata: {
+        // available in index.ejs //
+        title, baseUrl
+      }
+    }),
     ...when(!tests, new CopyWebpackPlugin({patterns: [
       { from: 'static', to: outDir },
       //add bodylight.bundle - needed when exporting the project as a ZIP file

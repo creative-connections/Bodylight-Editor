@@ -18,12 +18,8 @@ export function configure(aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-testing'));
   }
 
-  
   aurelia.start().then(() => {
     //const registry = aurelia.container.get(CustomElementRegistry);
-    aurelia.setRoot(PLATFORM.moduleName('editorapp'));
+    aurelia.setRoot(PLATFORM.moduleName('editorappv2'));
   });
-
-  PLATFORM.moduleName('editormainv2');
-
 }

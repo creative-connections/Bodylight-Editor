@@ -4,7 +4,7 @@ import {version} from '../package.json';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Editorapi,EventAggregator)
-export class Editorapp {
+export class Editorappv2 {
   dialogwidth=0;
   editorwidth=0;
   moving=false;

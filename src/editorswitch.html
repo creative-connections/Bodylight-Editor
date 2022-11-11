@@ -1,0 +1,7 @@
+<template>
+    <require from="./editorapp"></require>
+    <require from="./lightapp"></require>    
+    <span class="w3-small" style="position:absolute;right:20px"><button class="w3-button w3-grey" click.delegate="switchmode()"><span show.bind="fullmode">full</span><span show.bind="!fullmode">light</span> editor </button></span>
+    <editorapp if.bind="fullmode"></editorapp>
+    <lightapp if.bind="!fullmode"></lightapp>    
+</template>

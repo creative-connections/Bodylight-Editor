@@ -37,8 +37,8 @@ export class Editorapi {
   initAceEditor() {
     window.$ = window.jQuery = jQuery;
     window.editorapi = this;
-    const fontsize = 12;
-    const maxLines = Math.floor((window.innerHeight - 100) / (fontsize+2));
+    const fontsize = 14;
+    const maxLines = Math.floor((window.innerHeight-30) / (fontsize+3));
     ace.require('ace/ext/language_tools');
     this.editor = ace.edit('editorref', {
       mode: 'ace/mode/markdown2',

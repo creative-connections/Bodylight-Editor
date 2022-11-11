@@ -10,8 +10,10 @@
   <require from="./w3-theme-bodylight.css"></require>
   <require from="./components/animationbinding"></require>
 
+  <span class="w3-small" style="position:absolute;right:20px"><button class="w3-button w3-grey" click.delegate="switchmode()"><span show.bind="fullmode">full</span><span show.bind="!fullmode">light</span> editor </button></span>
+
   <div class="w3-row" mousemove.delegate="mouseMove($event)" mouseup.delegate="mouseUp($event)">
-    <div class="w3-col w3-quarter" ref="dialogdiv">
+    <div class="w3-col w3-quarter" ref="dialogdiv" show.bind="fullmode">
       <div class="w3-tiny">
       <tabs idlist="project,components,mapping"
                 titlelist="Project,Components,Animation" w3class="" listen="changetab"></tabs>
@@ -32,7 +34,7 @@
            mousedown.delegate="mouseDown($event)"
       ></div>
       <div class="w3-center"><b>Bodylight Editor v ${version}</b></div>
-      <toolbar></toolbar>
+      <toolbar show.bind="fullmode"></toolbar>
       <div class="w3-col" style="width:55%;max-width:700px" show.bind="!api.previewmode">
         <span id="modelmdref"></span> <!-- this DOM sends model.md content update -->
         <editor></editor> <!-- this DOM sends MD content update during editing editorref -->

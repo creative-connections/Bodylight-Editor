@@ -1,0 +1,55 @@
+<template>
+  <require from="./components/toolbar"></require>
+  <require from="./components/a-dialog"></require>
+  <require from="./components/file-dialog"></require>
+  <require from="./components/help"></require>
+  <require from="./components/editor"></require>
+  <require from="./components/viewer.html"></require>
+  <require from="./components/project"></require>
+  <require from="w3-css/w3.css"></require>
+  <require from="./w3-theme-bodylight.css"></require>
+  <require from="./editorapp.css"></require>
+  <require from="./components/animationbinding"></require>
+
+  <div class="w3-center" style="height:30px"><b>Bodylight Editor v ${version}</b></div>
+  <div class="w3-row">
+
+    <div class="w3-col w3-quarter" ref="dialogdiv" show.bind="dialogmode">
+      <div class="w3-small">
+        <project></project>
+        <!--div id="components">
+          <a-dialog></a-dialog>
+        </div>
+        <div id="mapping">
+          <animationbinding></animationbinding>
+        </div>
+        <help></help-->
+      </div>
+    </div>
+
+    <div class="w3-rest" ref="editordiv">
+      <div class="w3-row" style="height:100%">
+        <div class="w3-half">
+          <span id="modelmdref"></span> <!-- this DOM sends model.md content update -->
+          <editor></editor> <!-- this DOM sends MD content update during editing editorref -->
+        </div>
+        <div class="w3-col w3-theme-l3"  style="width:30px; height:calc(100vh - 30px)">          
+          <button class="w3-button w3-padding-small"><i class="fa fa-columns"></i></button>
+          <button class="w3-button w3-padding-small"><i class="fa fa-eye"></i></button>
+          
+          <div style="bottom:0;position:absolute">
+            <button class="w3-button w3-padding-small"><i class="fa fa-eye"></i></button>
+          </div>
+        
+        </div>
+        <div class="w3-rest" style="height:calc(100vh - 30px); overflow-y:scroll">
+          <span if.bind="api.sharedmodel">shared model added
+            <viewer id2listen="modelmdref"></viewer>
+          </span>
+          <viewer id2listen="editorref"></viewer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
