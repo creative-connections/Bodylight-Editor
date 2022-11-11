@@ -29,26 +29,27 @@
 
     <div class="w3-rest" ref="editordiv">
       <div class="w3-row" style="height:100%">
-        <div class="w3-half">
+        <div class="w3-half" show.bind="!api.previewmode">
           <span id="modelmdref"></span> <!-- this DOM sends model.md content update -->
           <editor></editor> <!-- this DOM sends MD content update during editing editorref -->
         </div>
         <div class="w3-col w3-theme-l3"  style="width:30px; height:calc(100vh - 30px)">          
-          <button class="w3-button w3-padding-small"><i class="fa fa-columns"></i></button>
-          <button class="w3-button w3-padding-small"><i class="fa fa-eye"></i></button>
+          <button class="w3-button w3-padding-small" click.delegate="toggleeditor()" title="edit mode"><i class="fa fa-columns"></i></button>
+          <button class="w3-button w3-padding-small" click.delegate="togglepreview()" title="reader mode"><i class="fa fa-eye"></i></button>
           
           <div style="bottom:0;position:absolute">
-            <button class="w3-button w3-padding-small"><i class="fa fa-eye"></i></button>
+            <button class="w3-button w3-padding-small" click.delegate="togglepreview()"><i class="fa fa-eye"></i></button>
           </div>
         
         </div>
         <div class="w3-rest" style="height:calc(100vh - 30px); overflow-y:scroll">
+          <div style.bind="api.previewmode?'width:100%':'transform: scale(0.5);transform-origin:top left;width:200%'">
           <span if.bind="api.sharedmodel">shared model added
             <viewer id2listen="modelmdref"></viewer>
           </span>
           <viewer id2listen="editorref"></viewer>
         </div>
-
+      </div>
       </div>
     </div>
   </div>

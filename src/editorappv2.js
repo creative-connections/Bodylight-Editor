@@ -8,13 +8,14 @@ export class Editorappv2 {
   dialogwidth=0;
   editorwidth=0;
   moving=false;
+  editmode=false;
   constructor(api,ea) {
     this.api = api;
     this.api.ea = ea;
     this.version = version;
   }
 
-  attached(){}
+  attached(){this.api.previewmode = false;}
 
   mouseDown(event) {
     this.moving = true;
@@ -46,6 +47,14 @@ export class Editorappv2 {
   fullmode = true;
   switchmode() {
       this.fullmode = ! this.fullmode;
+  }
+
+  togglepreview(){    
+    this.api.previewmode = !this.api.previewmode;
+  }
+
+  toggleeditor(){
+    this.editmode = !this.editmode;
   }
 
 }
