@@ -170,6 +170,9 @@ export class Editorapi {
     this.globstr[this.askAttributesItem.name].push({tag: this.askAttributesItem.name, attr: this.askAttributesItemsArray});
     this.idindex++;
     //return xmlStr;
+    //close dialogs if some are opened 
+    this.bodylightdialog = false;
+    this.animationdialog = false;
   }
 
   submitattr(elementname, attributes) {

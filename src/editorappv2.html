@@ -66,18 +66,38 @@
       </div>
     </div>
   </div>
-  <div class="w3-modal" id="id02" style="z-index:7;display:block;" show.bind="bodylightdialog">
-    <div class="w3-modal-content w3-animate-opacity">
+  <div class="w3-modal" id="id02" style="z-index:7;display:block;" show.bind="api.bodylightdialog">
+    <div class="w3-modal-content w3-animate-opacity" style="width:75% !important">
       <header class="w3-container w3-theme-d1">
         <button class="w3-right w3-button w3-large" click.delegate="closebodylightdialog()">&times;</button>
         <h2>Bodylight components</h2>
-      </header>
+      </header>      
       <div class="w3-container">
+        <div class="w3-row">
+          <div class="w3-half">
+        <div class="w3-card">
+          <span class="w3-small"><pre style="display:inline" title="basic bodylight components">basic :</pre></span>
+          <span repeat.for="item of basicitems" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+            <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
+            <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
+          </span><br/>
+          <span class="w3-small"><pre style="display:inline" title="advanced bodylight components">advan.:</pre></span>
+          <span repeat.for="item of advanceditems" class="w3-padding-4 w3-theme-l1" style="margin-right:4px">
+            <span class="w3-hover-blue" click.delegate="addItem(item)" title="add item into edited text">${item.name}</span>
+            <span class="w3-hover-blue" click.delegate="showHelp(item)" title="show help"><i class="fa fa-question-circle"></i></span>
+          </span><br/>  
+        </div>
+
         <a-dialog></a-dialog>
+      </div>
+      <div class="w3-half">
+        <help></help>
+      </div>
+      </div>
       </div>
     </div>
   </div>
-  <div class="w3-modal" id="id03" style="z-index:7;display:block;" show.bind="animationdialog">
+  <div class="w3-modal" id="id03" style="z-index:7;display:block;" show.bind="api.animationdialog">
     <div class="w3-modal-content w3-animate-opacity">
       <header class="w3-container w3-theme-d1">
         <button class="w3-right w3-button w3-large" click.delegate="closeanimationdialog()">&times;</button>
