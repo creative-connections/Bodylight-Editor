@@ -15,6 +15,7 @@ export class Editorappv2 {
   constructor(api,ea,bei) {
     this.api = api;
     this.api.ea = ea;
+    this.ea = ea;
     this.basicitems = bei.basicitems;
     this.advanceditems = bei.advanceditems;
     this.version = version;
@@ -24,6 +25,13 @@ export class Editorappv2 {
   attached(){this.api.previewmode = false;
     this.api.bodylightdialog=false;
     this.api.animationdialog=false;
+    this.ea.subscribe('bodylight-dialog', bodylightitem =>{      
+      this.openbodylightdialog();
+    });
+
+}
+
+detached() {
 
 }
   

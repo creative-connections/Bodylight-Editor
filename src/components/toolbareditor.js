@@ -2,17 +2,19 @@ import {Editorapi} from './editorapi';
 import {inject} from 'aurelia-framework';
 import localForage from 'localforage';
 import {BodylightEditorItems} from './bodylightEditorItems';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Editorapi)
+@inject(Editorapi, EventAggregator)
 export class Toolbareditor extends BodylightEditorItems {
   showButtons =false;
   uploaddialog = false;
   filename='webapplication.md'
   isDragging=false;
 
-  constructor(api) {
+  constructor(api,ea) {
     super();
     this.api = api;
+    this.ea = ea;
   }
 
   attached() {
@@ -228,7 +230,8 @@ export class Toolbareditor extends BodylightEditorItems {
           let ev = new CustomEvent('fmidialoginit');
           document.dispatchEvent(ev);
         }
-      } else console.error('identifyItem - tag not found in basic/advanced items', itemtag);
+        this.ea.publish('bodylight-dialog', myitem);
+      } else alert('tag not found in basic/advanced items: '+ itemtag);
     } catch (err) {
       console.log('identifyItem - tag not found', err);
     }
