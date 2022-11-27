@@ -34,10 +34,18 @@ export class Editorappv2 {
 
   togglepreview(){    
     this.api.previewmode = !this.api.previewmode;
+    if (this.api.previewmode) this.api.editmode = false;
   }
 
   toggleeditor(){
-    this.editmode = !this.editmode;
+    this.api.editmode = !this.api.editmode;
+    if (this.api.editmode) { 
+      this.api.previewmode = false;
+      this.storeautopreview = this.api.autopreview; //stores mode
+      this.api.autopreview = false;
+    } else {
+      this.api.autopreview = this.storeautopreview; // recovers mode
+    }
   }
 
   toggleproject() {

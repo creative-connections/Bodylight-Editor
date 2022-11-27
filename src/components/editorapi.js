@@ -13,6 +13,7 @@ import {InfoMessage,WarnMessage} from './messages';
 export class Editorapi {
   askAttributes=false;
   previewmode=false;
+  editmode=false;
   attrDialog=null;
   dialogclass='./attribute-dialog';
   idindex=1;
