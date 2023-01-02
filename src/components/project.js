@@ -92,6 +92,10 @@ export class Project {
       //assign type in fileitems[0].value will be name of the FTYPE in string
       this.currentfile.type = FTYPE[fileitems[0].value];
     });
+    //load bj2 project file 
+    this.ea.subscribe('file-load-project', fileitem => {
+      this.extractProjectZipFile(fileitem);
+    })
     document.getElementById('editorref').addEventListener('contentupdate', this.handleContentUpdate);
     //this.api = api;
     //this.strategymap = createStrategyMap(this.api);
@@ -457,7 +461,7 @@ export class Project {
     //window.editor = this;
     reader.onload = this.handleFileLoad;
     let files = event.target.files || event.dataTransfer.files;
-    console.log(files);
+    console.log('project load:', files);
     let filename = files[0].name;
     if (filename.endsWith('.bj2')) {
       //extract zip and save blob of extracted files
