@@ -72,11 +72,15 @@ export class Animationbinding {
     this.api.discoverAdobeAnimate(); //discovers all objects
     for (let aobj of this.api.animobjs) {
       let ashort = aobj.replaceAll('children.', '');
-      this.mapping.push({aname: aobj, ashort: ashort, text: false});
+      this.mapping.push({aname: aobj, ashort: ashort, text: false,range:false});
     }
     for (let aobj of this.api.textobjs) {
       let ashort = aobj.replaceAll('children.', '');
-      this.mapping.push({aname: aobj, ashort: ashort, text: true});
+      this.mapping.push({aname: aobj, ashort: ashort, text: true,range:false});
+    }
+    for (let aobj of this.api.rangeobjs) {
+      let ashort = aobj.replaceAll('children.', '');
+      this.mapping.push({aname: aobj, ashort: ashort, text: false,range:true});
     }
     let bdlbind2a = xmldoc.getElementsByTagName('bdl-bind2a');
     console.log('found #bdl-bind2a objects:', bdlbind2a.length);

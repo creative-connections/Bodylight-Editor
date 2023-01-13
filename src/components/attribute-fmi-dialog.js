@@ -41,6 +41,7 @@ export class AttributeFmiDialog extends AttributeDialog {
       tolerance: this.attrstr.tolerance ? this.attrstr.tolerance : '0.000001',
       starttime: this.attrstr.starttime ? this.attrstr.starttime : '0',
       fstepsize: this.attrstr.fstepsize ? this.attrstr.fstepsize : '0.01',
+      fpslimit: this.attrstr.fpslimit ? this.attrstr.fpslimit : '60',
       guid: this.attrstr.guid ? this.attrstr.guid : this.api.currentfmientry.guid,
       valuereferences: this.attrstr.valuereferences ? this.attrstr.valuereferences : '',
       valuelabels: this.attrstr.valuelabels ? this.attrstr.valuelabels : '',

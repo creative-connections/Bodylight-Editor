@@ -28,6 +28,10 @@ export class Editorappv2 {
     this.ea.subscribe('bodylight-dialog', bodylightitem =>{      
       this.openbodylightdialog();
     });
+    this.ea.subscribe('submit', content => {
+      this.closeanimationdialog();
+      this.closebodylightdialog();
+    })
 
 }
 

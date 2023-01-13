@@ -172,8 +172,7 @@ export class Editorapi {
     this.idindex++;
     //return xmlStr;
     //close dialogs if some are opened 
-    this.bodylightdialog = false;
-    this.animationdialog = false;
+    this.ea.publish('submit',xmlStr);
   }
 
   submitattr(elementname, attributes) {
@@ -196,6 +195,8 @@ export class Editorapi {
     if (! this.globstr[elementname]) this.globstr[elementname] = [];
     this.globstr[this.askAttributesItem.name].push({tag: elementname, attr: this.askAttributesItemsArray});
     this.idindex++;
+    //close dialogs
+    this.ea.publish('submit',xmlStr);
     //return xmlStr;
   }
 
@@ -444,6 +445,7 @@ export class Editorapi {
       //console.log('discoverAdobeAnimate() animobjs:', this.animobjs);
       this.textobjs = this.discoverChildren(window.ani.exportRoot, '', '_text');
       this.playobjs = this.discoverChildren(window.ani.exportRoot, '', '_play');
+      this.rangeobjs = this.discoverChildren(window.ani.exportRoot, '', '_range');
     } else {
       console.log('error, Animate object is not yet accessible. Try to refresh after while');
     }
@@ -536,6 +538,19 @@ export class Editorapi {
         }, 25 * k);
       }
     }
+  }
+
+  getAnimateObj(objname) {
+    if (window.ani.exportRoot) {
+      const resolvePath = (object, path, defaultValue) => path
+      .split('.')
+      .reduce((o, p) => o ? o[p] : defaultValue, object);
+      let myobj = resolvePath(window.ani.exportRoot, objname, undefined);
+      //some animation are in unnamed children root, backward compatibility with already done anim
+      if (!myobj) myobj = resolvePath(window.ani.exportRoot.children[0], objname, undefined);
+      return myobj;
+    }
+    else return null;
   }
 
   //

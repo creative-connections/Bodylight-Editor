@@ -197,8 +197,8 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       }
     }),
     new HtmlWebpackPlugin({
-      template: 'indexv2.ejs',
-      filename: 'indexv2.html',
+      template: 'indexv1.ejs',
+      filename: 'indexv1.html',
       metadata: {
         // available in index.ejs //
         title, baseUrl
