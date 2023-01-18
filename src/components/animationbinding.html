@@ -44,9 +44,9 @@
       <tr show.bind="!currentMapping.text">  <input type="checkbox" checked.bind="currentMapping.playonly"/> play only object</tr>
       <tr show.bind="!currentMapping.text">  <td><label>amin</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.amin" /></td></tr>
       <tr show.bind="!currentMapping.text">  <td><label>amax</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.amax" /></td></tr>
-      <tr show.bind="!currentMapping.text">  <td><label>fmin</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmin" /></td></tr>
-      <tr show.bind="!currentMapping.text">  <td><label>fmax</label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmax" /></td></tr>
-      <tr show.bind="currentMapping.text">  <td><label>convertor</label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmin<sub title="optional">?</sub></label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmin" /></td></tr>
+      <tr show.bind="!currentMapping.text">  <td><label>fmax<sub title="optional">?</sub></label></td><td show.bind="!currentMapping.playonly"><input value.bind="currentMapping.fmax" /></td></tr>
+      <tr>  <td><label>convertor <sub title="optional">?</sub></label></td><td><input value.bind="currentMapping.convertor" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>prefix</label></td><td><input value.bind="currentMapping.prefix" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>suffix</label></td><td><input value.bind="currentMapping.suffix" /></td></tr>
       <tr show.bind="currentMapping.text">  <td><label>fixed</label></td><td><input value.bind="currentMapping.fixed" /></td></tr>

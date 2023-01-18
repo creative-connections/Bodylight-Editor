@@ -94,6 +94,7 @@ export class Animationbinding {
         bobj.fmin = binding.getAttribute('fmin');
         bobj.fmax = binding.getAttribute('fmax');
         bobj.findex = binding.getAttribute('findex');
+        bobj.convertor = binding.getAttribute('convertor');
         //bobj.fmuvarname = this.api.outputreferences[bobj.findex].name;
         bobj.class = 'w3-theme-l3';
       }
@@ -204,6 +205,7 @@ export class Animationbinding {
           node.setAttribute('amax', item.amax);
           if (item.fmin) node.setAttribute('fmin', item.fmin);
           if (item.fmax) node.setAttribute('fmax', item.fmax);
+          if (item.convertor) node.setAttribute('convertor', item.convertor);
           //node.innerText(' ');
           this.insertAfter(node, bdlanimate);
           let newline = xmldoc.createTextNode('\n');
