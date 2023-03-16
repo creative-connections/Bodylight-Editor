@@ -15,9 +15,8 @@ module.exports = api => {
         "@babel/preset-env", {
           "targets": process.env.BABEL_TARGET === 'node' ? {
             "node": process.env.IN_PROTRACTOR ? '6' : 'current'
-          } : {
-            "browsers": [ "last 2 versions" ]
-          },
+          } :  "supports es6-module and defaults",
+  
           "loose": true,
           "modules": process.env.BABEL_TARGET === 'node' ? 'commonjs' : false
         }

@@ -185,7 +185,7 @@ export class Project {
     //get file name - unique
     let filename = prompt('Web simulator document file name (*.md):', 'index.md');
     if (filename) {
-      if (!filename.endsWith('.md')) filename = filename.concat('.md');
+      if (!filename.endsWith('.md') && !filename.endsWith('.json')) filename = filename.concat('.md');
       //solve name clash
       let nameclash = this.files.find(element => element.name === filename);
       while (nameclash) {
@@ -573,7 +573,7 @@ export class Project {
     if (!filename) return;
     //add md extension if ommited for mdfile
     if (file.type.value === FTYPE.MDFILE.value) {
-      if (!filename.endsWith('.md')) filename = filename.concat('.md');
+      if (!filename.endsWith('.md') && !filename.endsWith('.json')) filename = filename.concat('.md');
     }
     //store in local structure
     file.name = filename;
