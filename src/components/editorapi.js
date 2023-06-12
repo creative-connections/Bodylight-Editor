@@ -496,6 +496,7 @@ export class Editorapi {
   startblink() {
     if (!this.blinking) {
       this.blinking = true;
+      //window.ani.enableAnimation();
       //stopall animation
       window.ani.stage.stop();
       //enable ticker
@@ -507,6 +508,7 @@ export class Editorapi {
   blink(objname) {
     //this.blinking = true;
     this.startblink();
+    window.ani.enableAnimation();
     console.log('blink "' + objname + '"');
     let that2 = this;
     //do blink now

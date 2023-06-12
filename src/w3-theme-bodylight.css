@@ -20,3 +20,4 @@
 .w3-hover-theme:hover {color:#000 !important; background-color:#87ceeb !important}
 .w3-hover-text-theme:hover {color:#87ceeb !important}
 .w3-hover-border-theme:hover {border-color:#87ceeb !important}
+.w3-modal{z-index:3;display:none;padding-top:100px;position:fixed;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.2)}

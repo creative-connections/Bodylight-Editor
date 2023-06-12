@@ -22,6 +22,7 @@ export class Animationbinding {
       this.referenceadded = true;
       this.currentMapping.findex = e.detail.reference.index ? e.detail.reference.index : (e.detail.reference-1);
     }
+
   }
 
   bind() {
@@ -29,6 +30,7 @@ export class Animationbinding {
     //do identify here?
     document.addEventListener('fmiaddreference',this.handleFmiAddReference.bind(this));
     window.animationbinding = this;
+    //this.ea.subscribe('',)
   }
 
   unbind(){
