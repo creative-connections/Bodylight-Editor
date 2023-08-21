@@ -94,6 +94,8 @@
         </td>
         <td title="delete file"><i class="fa fa-times" click.delegate="delete(file)"></i></td>
         <td title="rename file"><i class="fa fa-edit" click.delegate="rename(file)"></i></td>
+        <td title="move up"><i class.bind="moving ? 'fa fa-location-arrow':'fa fa-arrows-v'" click.delegate="move(file)"></i></td>        
+        <td title="duplicate"><i class="fa fa-copy" click.delegate="duplicate(file)"></i></td>
         <td title="add file link to edited document"><i class="fa fa-link" click.delegate="addlink(file)"></i></td>
         <td class="w3-text-orange">
           <span show.bind="file.syncstatus === STATUS.different"><i class="fa fa-exchange"

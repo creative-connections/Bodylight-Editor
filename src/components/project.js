@@ -10,6 +10,10 @@ import {FTYPE, DEMOCONTENT, utf8Encode} from './project-files/bodylight-struct';
 import {GithubSync, STATUS} from './githubsync/GithubSync';
 //import {LFKEYS} from './project-files/bodylight-storage';
 
+const swapElements = (array, index1, index2) => {
+  myArray[index1] = myArray.splice(index2, 1, myArray[index1])[0];
+};
+
 @inject(Editorapi, EventAggregator, GithubSync)
 export class Project {
   showButtons = false;
@@ -26,6 +30,7 @@ export class Project {
   //githuborg = 'creative-connections';
   //githubrepo = 'Bodylight-Scenarios';
   showpreviewimage = false;
+  moving=false;
 
   constructor(api, ea, gs) {
     this.api = api;
@@ -56,7 +61,13 @@ export class Project {
 
           this.api.setProjectFiles(this.files);
           for (let fileitem of value) {
-            let bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
+            let bodylightfile;
+            if (!fileitem.name) {
+             console.log('project fileitem bug in item:',fileitem);
+             bodylightfile = new BodylightFile('bad.name', 0);
+            }
+            else  
+             bodylightfile = new BodylightFile(fileitem.name, fileitem.type);
 
             this.files.push(bodylightfile);
             //first MD file - read content and put it into editor
@@ -65,9 +76,6 @@ export class Project {
               console.log('opening first md file', fileitem);
               this.firstmdfile = true;
               this.open(bodylightfile);
-            } else if ( fileitem.type.value === FTYPE.MODELFILE.value || fileitem.type.value === FTYPE.ADOBEANIMATE.value )  {
-              console.log('opening model/adobe JS file');
-              //this.api.insertScriptFile(bodylightfile); //MOVED to plugin fallback
             }
           }
           this.updateadobeentries();
@@ -176,6 +184,61 @@ export class Project {
         this.api.deleteFmiEntry(file);
       });
   }
+
+  swapfiles(index,index2) {
+    swapElements(this.files,index,index2);//
+    //[this.files[index],this.files[index2]] = [this.files[index2],this.files[index]];    
+  }
+
+  move(file) {
+    if (!this.moving) {
+      //select from
+      this.movefrom = this.files.indexOf(file);
+      this.moving = true;
+    } else {
+      this.moveto = this.files.indexOf(file);
+      this.moving = false;
+      if (this.movefrom == this.moveto) return;
+      //1.remove
+      let item = this.files.splice(this.movefrom,1)
+      //2.splice
+      this.files.splice(this.moveto,0,item[0]);
+      this.updatelf();
+    }
+  }
+
+  async duplicate(file) {
+    let index = this.files.indexOf(file);
+//    let dupfile = { ...file};
+//duplicate file name and struct
+    //let content = DEMOCONTENT;
+    let name = file.name.slice(0,-3).concat('-',(+new Date).toString(36),'.md'); //remove md, add date suffix, add md
+    let dupfile = new BodylightFile(name, FTYPE.MDFILE);    
+    
+    this.files.splice(index+1,0,dupfile); //insert after
+    this.updatelf();
+    //duplicate content
+          //if currentfile is some other file - then save content an deactivate
+          if (this.currentfile) {
+            if (!this.currentfile.api) this.currentfile.api = this.api;
+            this.currentfile.deactivate();//this.strategymap);
+          }
+          //activate new file
+          this.currentfile = dupfile;
+          if (!this.currentfile.api) this.currentfile.api = this.api;
+          let content = await this.api.bs.loadDocContent(file.name);
+          this.currentfile.activate(content);    
+  }
+  
+  movedown(file) {
+    const index = this.files.indexOf(file);    
+    const index2 = index+1;
+    if (index2>=this.files.length) return;
+    this.swapfiles(index,index2);
+    this.updatelf();
+  }
+
+  expandcolapse(file){}
 
   /**
    * Creates new empty document file
