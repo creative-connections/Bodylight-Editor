@@ -40,6 +40,7 @@ export class AttributeFmiDialog extends AttributeDialog {
       fminame: this.attrstr.fminame ? this.attrstr.fminame : this.api.currentfmientry.fminame,
       tolerance: this.attrstr.tolerance ? this.attrstr.tolerance : '0.000001',
       starttime: this.attrstr.starttime ? this.attrstr.starttime : '0',
+      starttime: this.attrstr.stoptime ? this.attrstr.stoptime : '',
       fstepsize: this.attrstr.fstepsize ? this.attrstr.fstepsize : '0.01',
       fpslimit: this.attrstr.fpslimit ? this.attrstr.fpslimit : '60',
       guid: this.attrstr.guid ? this.attrstr.guid : this.api.currentfmientry.guid,

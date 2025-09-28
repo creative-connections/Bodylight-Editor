@@ -396,7 +396,7 @@ export class Project {
   extractFmuFile(files) {
     JSZip.loadAsync(files[0])
       .then(zip => {
-        this.api.newFmiEntry();
+        this.api.newFmiEntry(); //create new fmi entry
         this.status = 'JS with FMI not found!';
         this.okstatus = '';
         zip.forEach((relativePath, zipEntry) => {

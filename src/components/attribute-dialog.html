@@ -1,7 +1,7 @@
 <template>
     <table>
     <tr repeat.for="item of api.askAttributesItemsArray">
-      <td><label>${item.title}</label></td>
+      <td><label>${item.title}:</label></td>
       <td show.bind="item.title !== 'refindex'"><input value.bind="item.value" /></td>
       <td show.bind="item.title === 'refindex'">
       <span show.bind="api.outputreferences.length === 0">

@@ -8,11 +8,12 @@ export class AttributeDialog {
   }
 
   attached(){
-    //console.log('attributedialog attached() api, api.outputreferences', this.api, this.api.outputreferences);
+    console.log('attributedialog attached() api item [0]', this.api.askAttributesItemsArray[0].title,this.api.askAttributesItemsArray[0].value);
+    
   }
 
   activate(){
-    //console.log('attributedialog activated() api, api.outputreferences', this.api, this.api.outputreferences);
+    //console.log('attributedialog activated() api items', this.api.askAttributesItemsArray);
   }
 
   submit() {

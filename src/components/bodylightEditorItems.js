@@ -3,7 +3,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-fmi',
       doc: 'fmi.md',
-      def: '<bdl-fmi id="idfmi" src="" mode="continuous" fminame="" tolerance="0.000001" starttime="0" guid="" valuereferences="" valuelabels="" inputs=""></bdl-fmi>',
+      def: '<bdl-fmi id="idfmi" src="" mode="continuous" fminame="" tolerance="0.000001" starttime="0" stoptime="" guid="" valuereferences="" valuelabels="" inputs=""></bdl-fmi>',
       dialog: './attribute-fmi-dialog'
     },
     {
@@ -42,7 +42,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-chartjs-time',
       doc: 'chartjs.md',
-      def: '<bdl-chartjs-time width="300" height="200" fromid="idfmi" labels="" initialdata="" refindex="0" refvalues="1"></bdl-chartjs-time>'
+      def: '<bdl-chartjs-time width="300" height="200" fromid="idfmi" labels="" initialdata="" refindex="" refvalues="1"></bdl-chartjs-time>'
     }
     ];
   advanceditems=[
@@ -59,7 +59,7 @@ export class BodylightEditorItems {
     {
       name: 'bdl-value',
       doc: 'value.md',
-      def: '<bdl-value fromid="idfmi" refindex="8"></bdl-value>'
+      def: '<bdl-value fromid="idfmi" refindex=""></bdl-value>'
     },
     {
       name: 'bdl-bind2previous',

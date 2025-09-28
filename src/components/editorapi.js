@@ -125,13 +125,17 @@ export class Editorapi {
     //shows atribute dialog
     this.askAttributes = true;
     this.askAttributesItem = item;
-    this.dialogclass = item.dialog ? item.dialog : './attribute-dialog';
-    console.log('additem dialogclass:', this.dialogclass);
     //TODO do xml parsing
-    this.askAttributesItemsArray = this.convertXmlToAttributesItems(item.def);
+    setTimeout(() => {
+      this.askAttributesItemsArray = this.convertXmlToAttributesItems(item.def);
+  }, 200);
+    //this.askAttributesItemsArray = this.convertXmlToAttributesItems(item.def);
+    
     //[{title: 'min', value: 10}, {title: 'max', value: 100}, {title: 'default', value: 10}, {title: 'step', value: 1}];
     //from reference
     //focus on first input in attr dialog
+    this.dialogclass = item.dialog ? item.dialog : './attribute-dialog';
+    console.log('additem dialogclass changed:', this.dialogclass);
     if (this.attrDialog) this.attrDialog.getElementsByTagName('input')[0].focus();
     //inserts default definition
     //this.editor.insert(item.def);
@@ -139,17 +143,20 @@ export class Editorapi {
     //this.editor.focus();
 
     //change the tabs in project div to components
-    let event = new CustomEvent('changetab', {detail: {id: 'components'}});
-    document.dispatchEvent(event);
+    //TODO check if needed
+    //let event = new CustomEvent('changetab', {detail: {id: 'components'}});
+    //document.dispatchEvent(event);
   }
 
   convertXmlToAttributesItems(itemdef) {
+    console.log('convertXmlToAttributesItems itemdef:',itemdef);
     let parser = new DOMParser();
     let xmlDoc = parser.parseFromString(itemdef, 'text/xml');
     let itemsarray = [];
     let firstelement = xmlDoc.documentElement;
     for (let child of firstelement.attributes) {
       itemsarray.push({title: child.nodeName, value: child.nodeValue});
+      console.log('convertXmlToAttributes() title:'+child.nodeName+' value:'+child.nodeValue)
     }
     return itemsarray;
   }
@@ -221,6 +228,7 @@ export class Editorapi {
     if (! this.fmientriessrc) this.fmientriessrc = [];
     this.currentfmientry = {src: 'FILL src of JS file', fminame: 'FILL fminame from modeldescription.xml', guid: '', valuereferences: '', valuelabels: '', inputs: ''};
     this.currentfmientryindex = this.fmientries.push(this.currentfmientry);
+    //this.fmientriessrc.push(this.currentfmientry);
     console.log('editorapi newfmientry() fmientryindex', this.currentfmientryindex);
   }
 
@@ -263,6 +271,7 @@ export class Editorapi {
     editorapi.currentfmientry.fminame = xmlDoc.documentElement.getElementsByTagName('CoSimulation')[0].getAttribute('modelIdentifier');
     editorapi.currentfmientry.guid = xmlDoc.documentElement.getAttribute('guid');
     editorapi.currentfmientry.modelvariables = [];
+    console.log('fmi entry set fminame'+ editorapi.currentfmientry.fminame+' guid:'+editorapi.currentfmientry.guid);
     for (let varnode of xmlDoc.documentElement.getElementsByTagName('ModelVariables')[0].children) {
       //console.log('parsing varnode:', varnode);
       editorapi.currentfmientry.modelvariables.push({
@@ -303,6 +312,7 @@ export class Editorapi {
     //store in localstorage
     //this.bs.setFmiListEntries(this.fmientries);
     //this.bs.setFmiListSrcs(this.fmientriessrc);
+    console.log('fmi entry src:',src)
   }
 
   setProjectFiles(pf){
