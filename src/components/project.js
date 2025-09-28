@@ -142,7 +142,7 @@ export class Project {
   updateadobeentries() {
     //console.log('project update adobe entries:',this.files);
     this.api.adobeentries = this.files.filter(x => x.type.value === FTYPE.ADOBEANIMATE.value);
-    console.log('project update adobe entries:', this.api.adobeentries);
+    //console.log('project update adobe entries:', this.api.adobeentries);
   }
 
   /**
@@ -348,6 +348,9 @@ export class Project {
     if (filename.endsWith('.zip')) {
       //extract zip and save blob of extracted files
       this.extractZipFile(files);
+    } else if (filename.endsWith('.fmu')) {
+      //extract FMU and save blob of extracted files
+      this.extractFmuFile(files);         
     } else {// add other file type into project - save blob into localstorage, etc.
       let newfile = BodylightFileFactory.createBodylightFile(filename, files[0], this.api, true, false);
       this.files.push(newfile);
@@ -386,6 +389,51 @@ export class Project {
         });
       });
   }
+  /**
+   * extracts ZIP file produced by FMU compiler - contains JS with webassembly and fmu, and modeldescription.xml
+   * @param files array of files - files[0] should contain the zip file
+   */
+  extractFmuFile(files) {
+    JSZip.loadAsync(files[0])
+      .then(zip => {
+        this.api.newFmiEntry();
+        this.status = 'JS with FMI not found!';
+        this.okstatus = '';
+        zip.forEach((relativePath, zipEntry) => {
+          let entryname = zipEntry.name;
+          zipEntry.async('blob').then(blob => {
+                        
+            if (entryname.endsWith('.xml')) {
+              //parse modeldescription.file
+              if (entryname == 'modelDescription.xml') entryname = files[0].name
+              // Remove directory structure
+              const base = entryname.split('/').pop(); // 'myModel.fmu'
+
+              // Remove extension
+              const nameWithoutExt = base.replace(/\.fmu$/, ''); // 'myModel'
+
+              let newfile = new BodylightFile(nameWithoutExt+'.xml', FTYPE.DESCRIPTIONFILE, blob);
+              this.api.readFmiEntryDescription(blob);
+              this.files.push(newfile);
+            } if (entryname.endsWith('.js')) {
+              // Remove directory structure
+              const base = entryname.split('/').pop(); // 'myModel.js'              
+              let newfile = new BodylightFile(base, FTYPE.MODELFILE, blob);
+              this.status = '';
+              this.okstatus= 'JS with FMI ok';
+              //fill src of model
+              this.api.setFmiEntrySrc(base);
+              this.files.push(newfile);
+              //inserts script into DOM - for previewing
+              //this.api.insertScriptFile(newfile, blob); //MOVED to plugin fallback
+            }            
+            this.updatelf();
+            this.uploaddialog = false;
+          });
+        });
+      });
+  }
+
 
   extractProjectZipFile(files) {
     JSZip.loadAsync(files[0])

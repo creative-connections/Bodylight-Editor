@@ -38,14 +38,15 @@
             drop.delegate="drop($event)"
             style="border:4px dashed #aaa;"
             class.bind="isDragging ? 'w3-padding w3-round-large w3-blue w3-card-24':'w3-padding w3-round-large w3-white w3-card-24'">
-            <p>Drag your files here or click button to select file</p>
+            <p>Drag your files here or click button to select file<br/>FMI inside ZIP (Bodylight.js-FMU-Compiler) or <br/>animation of Create JS (export from Adobe Animate)<br/> or common image files (PNG,JPG) will be recognized</p>
           </div>
           <input type="file" change.trigger="dragNdrop($event)"/>
         </div>
 
       <div class="w3-theme-l1">
       name: <b>${api.filename} </b><br/>
-      export:<b>${api.exportfilename}</b>
+      export:<b>${api.exportfilename}</b><br/>
+      status:<b class="w3-pale-red">${status}</b><span>${okstatus}</span>
       </div>
       <table show.bind="showgithub">
         <tr>
